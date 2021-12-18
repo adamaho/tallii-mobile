@@ -10,10 +10,11 @@ import {
   View,
 } from 'react-native';
 
-import { Login } from './screen/login';
-import { Scoreboards } from './screen/scoreboards';
-import { CreateScoreboard } from './screen/create-scoreboard';
-import { ViewScoreboard } from './screen/view-scoreboard';
+import { Login } from './screens/login';
+import { Scoreboards } from './screens/scoreboards';
+import { CreateScoreboard } from './screens/create-scoreboard';
+import { CreateTeam } from './screens/CreateTeam';
+import { ViewScoreboard } from './screens/view-scoreboard';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,7 @@ const App = () => {
             </Stack.Group>
             <Stack.Group screenOptions={{ presentation: "modal", headerShown: false }}>
               <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
+              <Stack.Screen name="CreateTeam" component={CreateTeam} />
             </Stack.Group>
           </>
         )}
