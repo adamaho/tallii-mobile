@@ -10,11 +10,11 @@ import {
   View,
 } from 'react-native';
 
-import { Login } from './screens/login';
-import { Scoreboards } from './screens/scoreboards';
-import { CreateScoreboard } from './screens/create-scoreboard';
+import { Login } from './screens/Login';
+import { Scoreboards } from './screens/Scoreboards';
+import { CreateScoreboard } from './screens/CreateScoreboard';
 import { CreateTeam } from './screens/CreateTeam';
-import { ViewScoreboard } from './screens/view-scoreboard';
+import { ViewScoreboard } from './screens/ViewScoreboard';
 
 const Stack = createNativeStackNavigator();
 
