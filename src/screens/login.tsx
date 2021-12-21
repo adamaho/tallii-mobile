@@ -15,8 +15,8 @@ interface LoginProps extends NativeStackScreenProps<RootStackParamList> {
 export const Login: React.FunctionComponent<LoginProps> = ({ navigation, handleLogin }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 16 }}>
-      <Primitive asChild color="secondary">
-        <Text>Hello World</Text>
+      <Primitive asChild>
+        <Text style={{ fontFamily: "Nunito-Bold", color: "red", fontSize: 48 }}>Hello World</Text>
       </Primitive>
     </View>
   );
