@@ -56,10 +56,12 @@ export const baseStyles = {
 }
 
 export type Atoms = {
+    margin: keyof typeof baseStyles.properties.margin,
     marginTop: keyof typeof baseStyles.properties.marginTop,
     marginBottom: keyof typeof baseStyles.properties.marginBottom,
     marginLeft: keyof typeof baseStyles.properties.marginLeft,
     marginRight: keyof typeof baseStyles.properties.marginRight,
+    padding: keyof typeof baseStyles.properties.padding,
     paddingTop: keyof typeof baseStyles.properties.paddingTop,
     paddingBottom: keyof typeof baseStyles.properties.paddingBottom,
     paddingLeft: keyof typeof baseStyles.properties.paddingLeft,

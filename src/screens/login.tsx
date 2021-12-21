@@ -6,7 +6,7 @@ import { View, Text } from "react-native";
 
 import type { RootStackParamList } from "../types/screens";
 
-import { Primitive } from "../design-system/components";
+import { Box } from "../design-system/components";
 
 interface LoginProps extends NativeStackScreenProps<RootStackParamList> {
   handleLogin: () => void;
@@ -15,9 +15,9 @@ interface LoginProps extends NativeStackScreenProps<RootStackParamList> {
 export const Login: React.FunctionComponent<LoginProps> = ({ navigation, handleLogin }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 16 }}>
-      <Primitive asChild>
+      <Box backgroundColor="brandDefault" borderRadius="large" padding="large">
         <Text style={{ fontFamily: "Nunito-Bold", color: "red", fontSize: 48 }}>Hello World</Text>
-      </Primitive>
+      </Box>
     </View>
   );
 };

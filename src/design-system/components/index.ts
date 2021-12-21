@@ -1,3 +1,3 @@
-export * from "./Primitive";
+export * from "./Box";
 export * from "./TextInput";
  

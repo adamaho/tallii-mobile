@@ -35,28 +35,35 @@ const getAtomsProps = <T extends {[key: string ]: any}>(props: T) => {
 }
 
 /** ----------------------------------------------------------
- * Primitive
+ * Box
  * -----------------------------------------------------------*/
 type AtomsAndViewProps = Partial<Atoms> & ViewProps;
 
-interface PrimitiveProps extends AtomsAndViewProps {
-    asChild?: boolean;
-}
+interface BoxProps extends AtomsAndViewProps {}
 
-export const Primitive = React.forwardRef(({ asChild, style, ...props}: PrimitiveProps, forwardedRef: any) => {
+export const Box = React.forwardRef(({style, ...props}: BoxProps, forwardedRef: any) => {
+
+    // separate the native props from the atom props
     const { nativeProps, atomStyles } = React.useMemo(() => {
         return getAtomsProps(props);
     }, [props]);
 
+    // compute the styles
     const styles = React.useMemo(() => {
-        const stylesArray = [atomStyles, style];
+        let stylesArray = [];
+
+        if (atomStyles) {
+            stylesArray.push(atomStyles);
+        }
+
+        if (style) {
+            stylesArray.push(style);
+        }
 
         return stylesArray
     }, [atomStyles, style]);
 
-    const Comp: any = asChild ? Slot : View;
-
     return (
-        <Comp {...nativeProps} style={styles} ref={forwardedRef} />
+        <View {...nativeProps} style={styles} ref={forwardedRef} />
     );
 });
