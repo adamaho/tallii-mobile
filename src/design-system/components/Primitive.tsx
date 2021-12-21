@@ -1,8 +1,7 @@
 import React from "react";
 
 import { View, ViewProps } from "react-native";
-
-import type { StyleProp } from "react-native";
+import { Slot } from "@radix-ui/react-slot";
 
 import { baseStyles, atoms } from "../atoms";
 import type { Atoms } from "../atoms";
@@ -40,10 +39,11 @@ const getAtomsProps = <T extends {[key: string ]: any}>(props: T) => {
  * -----------------------------------------------------------*/
 type AtomsAndViewProps = Partial<Atoms> & ViewProps;
 
-interface PrimitiveProps extends AtomsAndViewProps {}
+interface PrimitiveProps extends AtomsAndViewProps {
+    asChild?: boolean;
+}
 
-export const Primitive = React.forwardRef(({ style, ...props}: PrimitiveProps, forwardedRef: any) => {
-
+export const Primitive = React.forwardRef(({ asChild, style, ...props}: PrimitiveProps, forwardedRef: any) => {
     const { nativeProps, atomStyles } = React.useMemo(() => {
         return getAtomsProps(props);
     }, [props]);
@@ -54,7 +54,9 @@ export const Primitive = React.forwardRef(({ style, ...props}: PrimitiveProps, f
         return stylesArray
     }, [atomStyles, style]);
 
+    const Comp: any = asChild ? Slot : View;
+
     return (
-        <View {...nativeProps} style={styles} ref={forwardedRef} />
+        <Comp {...nativeProps} style={styles} ref={forwardedRef} />
     );
 });

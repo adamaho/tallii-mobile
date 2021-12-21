@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -9,6 +9,8 @@ import {
   Text,
   View,
 } from 'react-native';
+
+import { theme } from "./design-system/theme";
 
 import { Login } from './screens/Login';
 import { Scoreboards } from './screens/Scoreboards';
@@ -40,8 +42,8 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+    <NavigationContainer theme={{ ...DefaultTheme, colors: {...DefaultTheme.colors, background: theme.colors.background.widget.default, card: theme.colors.background.widget.default, text: theme.colors.text.default, border: theme.colors.border.default }}}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!isLoggedIn ? (
           <Stack.Screen name="Login">
             {(props) => <Login {...props} handleLogin={handleLogin} />}
@@ -49,7 +51,7 @@ const App = () => {
         ) : (
           <>
             <Stack.Group>
-              <Stack.Screen name="Scoreboards" component={Scoreboards} />
+              <Stack.Screen name="scoreboards" component={Scoreboards} />
               <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
             </Stack.Group>
             <Stack.Group screenOptions={{ presentation: "modal", headerShown: false }}>
