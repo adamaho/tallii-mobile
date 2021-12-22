@@ -6,7 +6,8 @@ import { View, Text } from "react-native";
 
 import type { RootStackParamList } from "../types/screens";
 
-import { Box } from "../design-system/components";
+import { Box, Column } from "../design-system/components";
+import { HeaderTitle } from "../components/HeaderTitle";
 
 interface LoginProps extends NativeStackScreenProps<RootStackParamList> {
   handleLogin: () => void;
@@ -14,10 +15,9 @@ interface LoginProps extends NativeStackScreenProps<RootStackParamList> {
 
 export const Login: React.FunctionComponent<LoginProps> = ({ navigation, handleLogin }) => {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 16 }}>
-      <Box backgroundColor="brandDefault" borderRadius="large" padding="large">
-        <Text style={{ fontFamily: "Nunito-Bold", color: "red", fontSize: 48 }}>Hello World</Text>
-      </Box>
-    </View>
+    <Column horizontalAlign="center" verticalAlign="center" flex={1}>
+      <HeaderTitle>scoreboards</HeaderTitle>
+      <Text>asdasdasd</Text>
+    </Column>
   );
 };

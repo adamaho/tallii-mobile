@@ -1,7 +1,6 @@
 import React from "react";
 
 import { View, ViewProps } from "react-native";
-import { Slot } from "@radix-ui/react-slot";
 
 import { baseStyles, atoms } from "../atoms";
 import type { Atoms } from "../atoms";
@@ -41,7 +40,7 @@ type AtomsAndViewProps = Partial<Atoms> & ViewProps;
 
 interface BoxProps extends AtomsAndViewProps {}
 
-export const Box = React.forwardRef(({style, ...props}: BoxProps, forwardedRef: any) => {
+const Box = React.forwardRef(({style, ...props}: BoxProps, forwardedRef: any) => {
 
     // separate the native props from the atom props
     const { nativeProps, atomStyles } = React.useMemo(() => {
@@ -67,3 +66,9 @@ export const Box = React.forwardRef(({style, ...props}: BoxProps, forwardedRef: 
         <View {...nativeProps} style={styles} ref={forwardedRef} />
     );
 });
+
+export {
+    Box
+};
+
+export type {BoxProps};

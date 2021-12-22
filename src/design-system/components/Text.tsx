@@ -2,8 +2,12 @@ import React from "react";
 
 import { Text as NativeText, TextProps } from "react-native";
 
-export const Text = React.forwardRef<TextProps>((props, forwardedRef) => {
+import { theme } from "../theme";
+
+export const Text = React.forwardRef<TextProps, any>(({children, ...props}, forwardedRef) => {
     return (
-        <Text {...props} ref={forwardedRef} />
+        <NativeText {...props} style={{ fontSize: 16, color: theme.colors.text.default, fontFamily: "Nunito-Bold" }} ref={forwardedRef}>
+            {children}
+        </NativeText>
     );
 });
