@@ -6,8 +6,11 @@ import type {TextInputProps} from 'react-native';
 
 import {theme} from '../theme';
 import {atoms} from '../atoms';
+import {useFieldContext} from '../components/Field';
 
 export const TextInput: React.FunctionComponent<TextInputProps> = props => {
+  const context = useFieldContext();
+
   return (
     <NativeTextInput
       {...props}
@@ -16,7 +19,7 @@ export const TextInput: React.FunctionComponent<TextInputProps> = props => {
         atoms({
           backgroundColor: 'widgetDefault',
           borderWidth: 'default',
-          borderColor: 'default',
+          borderColor: context.appearance === 'danger' ? 'danger' : 'default',
           borderRadius: 'default',
           color: 'default',
           fontFamily: 'default',

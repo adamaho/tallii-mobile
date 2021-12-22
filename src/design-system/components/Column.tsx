@@ -68,7 +68,7 @@ const verticalAlignToStyle = (
   }
 };
 
-interface ColumnProps
+export interface ColumnProps
   extends Omit<
     BoxProps,
     'display' | 'flexDirection' | 'alignItems' | 'justifyContent'
@@ -78,33 +78,33 @@ interface ColumnProps
   gap?: Atoms['paddingTop'];
 }
 
-export const Column: React.FunctionComponent<ColumnProps> = ({
-  horizontalAlign,
-  verticalAlign,
-  gap = 'default',
-  children,
-  ...props
-}) => {
-  // vertical alignment
-  const justifyContent = React.useMemo(() => {
-    return verticalAlignToStyle(verticalAlign);
-  }, [verticalAlign]);
+const Column = React.forwardRef(
+  (
+    {horizontalAlign, verticalAlign, gap = 'default', children, ...props},
+    forwardedRef,
+  ) => {
+    // vertical alignment
+    const justifyContent = React.useMemo(() => {
+      return verticalAlignToStyle(verticalAlign);
+    }, [verticalAlign]);
 
-  // horizontal alignment
-  const alignItems = React.useMemo(() => {
-    return horizontalAlignToStyle(horizontalAlign);
-  }, [horizontalAlign]);
+    // horizontal alignment
+    const alignItems = React.useMemo(() => {
+      return horizontalAlignToStyle(horizontalAlign);
+    }, [horizontalAlign]);
 
-  return (
-    <Box
-      {...props}
-      flexDirection="column"
-      alignItems={alignItems}
-      justifyContent={justifyContent}
-    >
-      {Children.map(flattenChildren(children), (child, index) => {
-        return gap && index > 0 ? <Box paddingTop={gap}>{child}</Box> : child;
-      })}
-    </Box>
-  );
-};
+    return (
+      <Box
+        {...props}
+        flexDirection="column"
+        alignItems={alignItems}
+        justifyContent={justifyContent}
+        ref={forwardedRef}
+      >
+        {Children.map(flattenChildren(children), (child, index) => {
+          return gap && index > 0 ? <Box paddingTop={gap}>{child}</Box> : child;
+        })}
+      </Box>
+    );
+  },
+);

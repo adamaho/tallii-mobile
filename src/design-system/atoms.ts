@@ -78,6 +78,7 @@ export const baseStyles = {
     borderColor: {
       default: theme.colors.border.default,
       secondary: theme.colors.border.secondary,
+      danger: theme.colors.border.danger,
     },
     borderWidth: {
       ...theme.border.width,
@@ -85,6 +86,7 @@ export const baseStyles = {
     color: {
       default: theme.colors.text.default,
       secondary: theme.colors.text.secondary,
+      danger: theme.colors.text.danger,
       onAction: theme.colors.text.onAction,
     },
     fontFamily: {
@@ -98,6 +100,7 @@ export const baseStyles = {
       medium: 18,
       large: 20,
       xlarge: 24,
+      xxlarge: 44,
     },
     width: {
       full: '100%',

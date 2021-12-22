@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Text as NativeText, TextProps} from 'react-native';
 
+import {atoms} from '../atoms';
 import {theme} from '../theme';
 
 interface HeadingProps extends TextProps {
@@ -9,10 +10,13 @@ interface HeadingProps extends TextProps {
 }
 
 export const Heading = React.forwardRef<HeadingProps, any>(
-  ({children, level, ...props}, forwardedRef) => {
+  ({children, level = '1', ...props}, forwardedRef) => {
     // compute the font size based on the level
     const fontSize = React.useMemo(() => {
       switch (level) {
+        case '0': {
+          return 48;
+        }
         case '1': {
           return 24;
         }
@@ -31,11 +35,15 @@ export const Heading = React.forwardRef<HeadingProps, any>(
     return (
       <NativeText
         {...props}
-        style={{
-          fontSize,
-          color: theme.colors.text.default,
-          fontFamily: 'Nunito-Black',
-        }}
+        style={[
+          atoms({
+            color: 'default',
+            fontFamily: 'black',
+          }),
+          {
+            fontSize,
+          },
+        ]}
         ref={forwardedRef}
       >
         {children}

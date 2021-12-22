@@ -6,6 +6,7 @@ const spacing = {
   large: 32,
   xlarge: 40,
   xxlarge: 48,
+  xxxlarge: 64,
 };
 
 export const theme = {
@@ -24,10 +25,12 @@ export const theme = {
     border: {
       default: '#9D9D9D',
       secondary: '#3E3E3E',
+      danger: '#FF8D8D',
     },
     text: {
       default: '#FFFFFF',
       secondary: '#AEAEAE',
+      danger: '#FF8D8D',
       onAction: '#000000',
     },
   },
@@ -36,6 +39,7 @@ export const theme = {
       small: 4,
       default: 8,
       large: 12,
+      round: 100,
     },
     width: {
       default: 1,
