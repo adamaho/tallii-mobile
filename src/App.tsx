@@ -1,23 +1,19 @@
 import React from 'react';
 
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
-import { theme } from "./design-system/theme";
+import {theme} from './design-system/theme';
 
-import { Login } from './screens/Login';
-import { Scoreboards } from './screens/Scoreboards';
-import { CreateScoreboard } from './screens/CreateScoreboard';
-import { CreateTeam } from './screens/CreateTeam';
-import { ViewScoreboard } from './screens/ViewScoreboard';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {Login} from './screens/Login';
+import {Scoreboards} from './screens/Scoreboards';
+import {CreateScoreboard} from './screens/CreateScoreboard';
+import {CreateTeam} from './screens/CreateTeam';
+import {ViewScoreboard} from './screens/ViewScoreboard';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,18 +32,29 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Text>Hello Im Logging in</Text>
       </View>
     );
   }
 
   return (
-    <NavigationContainer theme={{ ...DefaultTheme, colors: {...DefaultTheme.colors, background: theme.colors.background.widget.default, card: theme.colors.background.widget.default, text: theme.colors.text.default, border: theme.colors.border.default }}}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <NavigationContainer
+      theme={{
+        ...DefaultTheme,
+        colors: {
+          ...DefaultTheme.colors,
+          background: theme.colors.background.widget.default,
+          card: theme.colors.background.widget.default,
+          text: theme.colors.text.default,
+          border: theme.colors.border.default,
+        },
+      }}
+    >
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         {!isLoggedIn ? (
           <Stack.Screen name="Login">
-            {(props) => <Login {...props} handleLogin={handleLogin} />}
+            {props => <Login {...props} handleLogin={handleLogin} />}
           </Stack.Screen>
         ) : (
           <>
@@ -55,8 +62,13 @@ const App = () => {
               <Stack.Screen name="scoreboards" component={Scoreboards} />
               <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
             </Stack.Group>
-            <Stack.Group screenOptions={{ presentation: "modal", headerShown: false }}>
-              <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
+            <Stack.Group
+              screenOptions={{presentation: 'modal', headerShown: false}}
+            >
+              <Stack.Screen
+                name="CreateScoreboard"
+                component={CreateScoreboard}
+              />
               <Stack.Screen name="CreateTeam" component={CreateTeam} />
             </Stack.Group>
           </>

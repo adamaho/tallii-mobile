@@ -1,37 +1,37 @@
-import React from "react";
+import React from 'react';
 
-import { View, ViewProps } from "react-native";
+import {View, ViewProps} from 'react-native';
 
-import { baseStyles, atoms } from "../atoms";
-import type { Atoms } from "../atoms";
+import {baseStyles, atoms} from '../atoms';
+import type {Atoms} from '../atoms';
 
 /** ----------------------------------------------------------
  * Determines if a prop is an atoms prop
  * -----------------------------------------------------------*/
-const isAtomsProp = (key: string): key is keyof Atoms  => {
-    return baseStyles.properties.hasOwnProperty(key as keyof Atoms);
-}
+const isAtomsProp = (key: string): key is keyof Atoms => {
+  return baseStyles.properties.hasOwnProperty(key as keyof Atoms);
+};
 
 /** ----------------------------------------------------------
  * Gets all of the atoms props and native props
  * -----------------------------------------------------------*/
-const getAtomsProps = <T extends {[key: string ]: any}>(props: T) => {
-    const atomStyles: { [key: string]: unknown } = {};
-    const nativeProps: { [key: string]: unknown } = {};
+const getAtomsProps = <T extends {[key: string]: any}>(props: T) => {
+  const atomStyles: {[key: string]: unknown} = {};
+  const nativeProps: {[key: string]: unknown} = {};
 
-    for (const key in props) {
-        if (isAtomsProp(key)) {
-            atomStyles[key] = props[key];
-        } else {
-            nativeProps[key] = props[key];
-        }
+  for (const key in props) {
+    if (isAtomsProp(key)) {
+      atomStyles[key] = props[key];
+    } else {
+      nativeProps[key] = props[key];
     }
+  }
 
-    return {
-        atomStyles: atoms(atomStyles),
-        nativeProps
-    }
-}
+  return {
+    atomStyles: atoms(atomStyles),
+    nativeProps,
+  };
+};
 
 /** ----------------------------------------------------------
  * Box
@@ -40,35 +40,32 @@ type AtomsAndViewProps = Partial<Atoms> & ViewProps;
 
 interface BoxProps extends AtomsAndViewProps {}
 
-const Box = React.forwardRef(({style, ...props}: BoxProps, forwardedRef: any) => {
-
+const Box = React.forwardRef(
+  ({style, ...props}: BoxProps, forwardedRef: any) => {
     // separate the native props from the atom props
-    const { nativeProps, atomStyles } = React.useMemo(() => {
-        return getAtomsProps(props);
+    const {nativeProps, atomStyles} = React.useMemo(() => {
+      return getAtomsProps(props);
     }, [props]);
 
     // compute the styles
     const styles = React.useMemo(() => {
-        let stylesArray = [];
+      let stylesArray = [];
 
-        if (atomStyles) {
-            stylesArray.push(atomStyles);
-        }
+      if (atomStyles) {
+        stylesArray.push(atomStyles);
+      }
 
-        if (style) {
-            stylesArray.push(style);
-        }
+      if (style) {
+        stylesArray.push(style);
+      }
 
-        return stylesArray
+      return stylesArray;
     }, [atomStyles, style]);
 
-    return (
-        <View {...nativeProps} style={styles} ref={forwardedRef} />
-    );
-});
+    return <View {...nativeProps} style={styles} ref={forwardedRef} />;
+  },
+);
 
-export {
-    Box
-};
+export {Box};
 
 export type {BoxProps};

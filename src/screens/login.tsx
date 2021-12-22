@@ -1,19 +1,22 @@
-import React from "react";
+import React from 'react';
 
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import { View, Text } from "react-native";
+import {View, Text} from 'react-native';
 
-import type { RootStackParamList } from "../types/screens";
+import type {RootStackParamList} from '../types/screens';
 
-import { Box, Column } from "../design-system/components";
-import { HeaderTitle } from "../components/HeaderTitle";
+import {Box, Column} from '../design-system/components';
+import {HeaderTitle} from '../components/HeaderTitle';
 
 interface LoginProps extends NativeStackScreenProps<RootStackParamList> {
   handleLogin: () => void;
 }
 
-export const Login: React.FunctionComponent<LoginProps> = ({ navigation, handleLogin }) => {
+export const Login: React.FunctionComponent<LoginProps> = ({
+  navigation,
+  handleLogin,
+}) => {
   return (
     <Column horizontalAlign="center" verticalAlign="center" flex={1}>
       <HeaderTitle>scoreboards</HeaderTitle>
