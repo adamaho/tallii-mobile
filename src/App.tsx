@@ -13,7 +13,6 @@ import {Scoreboards} from './screens/Scoreboards';
 import {CreateScoreboard} from './screens/CreateScoreboard';
 import {CreateTeam} from './screens/CreateTeam';
 import {ViewScoreboard} from './screens/ViewScoreboard';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -77,7 +76,5 @@ const App = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default App;

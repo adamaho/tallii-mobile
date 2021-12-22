@@ -1,18 +1,17 @@
 import React from 'react';
 
-import {Button} from 'react-native';
-
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import type {RootStackParamList} from '../types/screens';
 
 import {
   Field,
-  Heading,
   Row,
   Column,
   TextInput,
   Text,
+  Button,
 } from '../design-system/components';
+
 import {Logo} from '../components';
 
 interface LoginProps extends NativeStackScreenProps<RootStackParamList> {
@@ -23,8 +22,6 @@ export const Login: React.FunctionComponent<LoginProps> = ({
   navigation,
   handleLogin,
 }) => {
-  const [toggle, setToggle] = React.useState(false);
-
   return (
     <Column
       flex={1}
@@ -35,14 +32,22 @@ export const Login: React.FunctionComponent<LoginProps> = ({
       <Row horizontalAlign="center" width="full">
         <Logo />
       </Row>
-      <Column>
-        <Button title="toggle" onPress={() => setToggle(current => !current)} />
-        <Field.Root appearance={toggle ? 'danger' : undefined}>
+      <Text align="center">welcome back. let's get you logged in.</Text>
+      <Column gap="small">
+        <Field.Root>
           <Field.Label>email</Field.Label>
           <TextInput />
-          <Field.Message>please provide an email</Field.Message>
+          <Field.Message>
+            sorry demmy, you forgot to add your email.
+          </Field.Message>
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>password</Field.Label>
+          <TextInput secureTextEntry />
+          <Field.Message>yeah we need your password bud.</Field.Message>
         </Field.Root>
       </Column>
+      <Button>login</Button>
     </Column>
   );
 };

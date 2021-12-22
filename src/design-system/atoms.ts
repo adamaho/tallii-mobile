@@ -71,6 +71,7 @@ export const baseStyles = {
       brandDefault: theme.colors.background.brand.default,
       widgetDefault: theme.colors.background.widget.default,
       widgetSecondary: theme.colors.background.widget.secondary,
+      widgetAction: theme.colors.background.widget.action,
     },
     borderRadius: {
       ...theme.border.radius,

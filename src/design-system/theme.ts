@@ -20,6 +20,7 @@ export const theme = {
       widget: {
         default: '#000000',
         secondary: '#0E0E0E',
+        action: '#FFFFFF',
       },
     },
     border: {

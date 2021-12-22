@@ -6,11 +6,12 @@ import {atoms} from '../atoms';
 import {theme} from '../theme';
 
 interface HeadingProps extends TextProps {
-  level: '1' | '2' | '3' | '4';
+  level?: '1' | '2' | '3' | '4';
+  align?: 'left' | 'center' | 'right';
 }
 
 export const Heading = React.forwardRef<HeadingProps, any>(
-  ({children, level = '1', ...props}, forwardedRef) => {
+  ({children, align = 'left', level = '1', ...props}, forwardedRef) => {
     // compute the font size based on the level
     const fontSize = React.useMemo(() => {
       switch (level) {
@@ -42,6 +43,7 @@ export const Heading = React.forwardRef<HeadingProps, any>(
           }),
           {
             fontSize,
+            textAlign: align,
           },
         ]}
         ref={forwardedRef}

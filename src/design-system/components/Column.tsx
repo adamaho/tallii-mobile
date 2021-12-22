@@ -78,7 +78,7 @@ export interface ColumnProps
   gap?: Atoms['paddingTop'];
 }
 
-const Column = React.forwardRef(
+export const Column = React.forwardRef<any, ColumnProps>(
   (
     {horizontalAlign, verticalAlign, gap = 'default', children, ...props},
     forwardedRef,

@@ -1,6 +1,6 @@
 import React, {forwardRef} from 'react';
 
-import {Animated, Appearance, Text as NativeText} from 'react-native';
+import {Animated} from 'react-native';
 import type {TextProps} from 'react-native';
 
 import {Text} from './Text';
@@ -42,10 +42,10 @@ interface FieldRootProps extends ColumnProps {
 }
 
 const FieldRoot = React.forwardRef<FieldRootProps, any>(
-  ({appearance, children, ...props}, ref) => {
+  ({appearance, children, ...props}, forwardedRef) => {
     return (
       <FieldContextProvider appearance={appearance}>
-        <Column {...props} gap="small" ref={forwardRef}>
+        <Column {...props} gap="small" ref={forwardedRef}>
           {children}
         </Column>
       </FieldContextProvider>
@@ -104,13 +104,27 @@ const FieldMessage = React.forwardRef<FieldMessageProps, any>(
     React.useEffect(() => {
       if (context.appearance) {
         Animated.parallel([
-          Animated.timing(slide, {
+          Animated.spring(slide, {
             toValue: 0,
-            duration: 200,
+            speed: 20,
+            bounciness: 12,
             useNativeDriver: true,
           }),
           Animated.timing(fade, {
             toValue: 1,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+        ]).start();
+      } else {
+        Animated.parallel([
+          Animated.timing(slide, {
+            toValue: -20,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fade, {
+            toValue: 0,
             duration: 200,
             useNativeDriver: true,
           }),
