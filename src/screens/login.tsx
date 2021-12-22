@@ -6,7 +6,7 @@ import {View, Text} from 'react-native';
 
 import type {RootStackParamList} from '../types/screens';
 
-import {Box, Column} from '../design-system/components';
+import {Column, TextInput} from '../design-system/components';
 import {HeaderTitle} from '../components/HeaderTitle';
 
 interface LoginProps extends NativeStackScreenProps<RootStackParamList> {
@@ -19,8 +19,7 @@ export const Login: React.FunctionComponent<LoginProps> = ({
 }) => {
   return (
     <Column horizontalAlign="center" verticalAlign="center" flex={1}>
-      <HeaderTitle>scoreboards</HeaderTitle>
-      <Text>asdasdasd</Text>
+      <TextInput />
     </Column>
   );
 };

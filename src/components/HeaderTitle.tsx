@@ -5,7 +5,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Heading, Column} from '../design-system';
 import {theme} from '../design-system/theme';
 
-export const HeaderTitle: React.FunctionComponent = ({children}) => {
+interface HeaderTitleProps {
+  children: string;
+}
+
+export const HeaderTitle: React.FunctionComponent<HeaderTitleProps> = ({
+  children,
+}) => {
   return (
     <Column gap="xsmall">
       <Heading level="3">{children}</Heading>

@@ -32,6 +32,12 @@ export const baseStyles = {
     paddingRight: {
       ...theme.padding,
     },
+    paddingHorizontal: {
+      ...theme.padding,
+    },
+    paddingVertical: {
+      ...theme.padding,
+    },
     flex: {
       1: 1,
     },
@@ -81,6 +87,18 @@ export const baseStyles = {
       secondary: theme.colors.text.secondary,
       onAction: theme.colors.text.onAction,
     },
+    fontFamily: {
+      black: 'Nunito-Black',
+      default: 'Nunito-Bold',
+      thin: 'Nunito-Regular',
+    },
+    fontSize: {
+      small: 12,
+      default: 16,
+      medium: 18,
+      large: 20,
+      xlarge: 24,
+    },
     width: {
       full: '100%',
     },
@@ -95,6 +113,8 @@ export type Atoms = {
   borderWidth: keyof typeof baseStyles.properties.borderWidth;
   color: keyof typeof baseStyles.properties.color;
   display: keyof typeof baseStyles.properties.display;
+  fontFamily: keyof typeof baseStyles.properties.fontFamily;
+  fontSize: keyof typeof baseStyles.properties.fontSize;
   flex: keyof typeof baseStyles.properties.flex;
   flexDirection: keyof typeof baseStyles.properties.flexDirection;
   height: keyof typeof baseStyles.properties.height;
@@ -105,6 +125,8 @@ export type Atoms = {
   marginLeft: keyof typeof baseStyles.properties.marginLeft;
   marginRight: keyof typeof baseStyles.properties.marginRight;
   padding: keyof typeof baseStyles.properties.padding;
+  paddingHorizontal: keyof typeof baseStyles.properties.paddingHorizontal;
+  paddingVertical: keyof typeof baseStyles.properties.paddingVertical;
   paddingTop: keyof typeof baseStyles.properties.paddingTop;
   paddingBottom: keyof typeof baseStyles.properties.paddingBottom;
   paddingLeft: keyof typeof baseStyles.properties.paddingLeft;
