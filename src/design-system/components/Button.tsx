@@ -2,9 +2,9 @@ import React from 'react';
 
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
-import {Pressable} from 'react-native';
 import type {PressableProps} from 'react-native';
 
+import {Pressable} from './Pressable';
 import {Row} from './Row';
 import {Text} from './Text';
 import {atoms} from '../atoms';
@@ -12,22 +12,11 @@ import {atoms} from '../atoms';
 interface ButtonProps extends PressableProps {}
 
 export const Button = React.forwardRef<any, ButtonProps>(
-  ({children, style, onPress, ...props}, forwardedRef) => {
-    const handlePress = React.useCallback(
-      e => {
-        ReactNativeHapticFeedback.trigger('impactLight', {
-          enableVibrateFallback: true,
-        });
-        onPress?.(e);
-      },
-      [onPress],
-    );
-
+  ({children, style, ...props}, forwardedRef) => {
     return (
       <Pressable
         {...props}
         ref={forwardedRef}
-        onPress={handlePress}
         style={[
           atoms({
             backgroundColor: 'widgetAction',

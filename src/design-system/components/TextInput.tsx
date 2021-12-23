@@ -2,11 +2,13 @@ import React from 'react';
 
 import {TextInput as NativeTextInput} from 'react-native';
 
-import type {TextInputProps} from 'react-native';
+import type {TextInputProps as NativeTextInputProps} from 'react-native';
 
 import {theme} from '../theme';
 import {atoms} from '../atoms';
 import {useFieldContext} from '../components/Field';
+
+export interface TextInputProps extends NativeTextInputProps {}
 
 export const TextInput: React.FunctionComponent<TextInputProps> = props => {
   const context = useFieldContext();

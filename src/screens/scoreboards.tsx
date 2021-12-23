@@ -1,19 +1,20 @@
 import React from 'react';
 
-import {View, Text, Button} from 'react-native';
+import {SafeAreaView, ScrollView} from 'react-native';
+import {HeaderTitle} from '../components';
 
-export const Scoreboards: React.FunctionComponent = ({navigation}) => {
+import {Column, Row} from '../design-system';
+
+export const Scoreboards: React.FunctionComponent = () => {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text style={{fontSize: 30}}>Scoreboards</Text>
-      <Button
-        title="Create Scoreboard"
-        onPress={() => navigation.navigate('CreateScoreboard')}
-      />
-      <Button
-        title="View Scoreboard"
-        onPress={() => navigation.navigate('ViewScoreboard')}
-      />
-    </View>
+    <SafeAreaView>
+      <ScrollView>
+        <Column>
+          <Row horizontalAlign="center">
+            <HeaderTitle>scoreboards</HeaderTitle>
+          </Row>
+        </Column>
+      </ScrollView>
+    </SafeAreaView>
   );
 };

@@ -11,6 +11,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {theme} from './design-system/theme';
 
 import {Login} from './screens/Login';
+import {Signup} from './screens/Signup';
 import {Scoreboards} from './screens/Scoreboards';
 import {CreateScoreboard} from './screens/CreateScoreboard';
 import {CreateTeam} from './screens/CreateTeam';
@@ -21,7 +22,7 @@ const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleLogin = React.useCallback(() => {
@@ -57,9 +58,14 @@ const App = () => {
       >
         <Stack.Navigator screenOptions={{headerShown: false}}>
           {!isLoggedIn ? (
-            <Stack.Screen name="Login">
-              {props => <Login {...props} handleLogin={handleLogin} />}
-            </Stack.Screen>
+            <Stack.Group>
+              <Stack.Screen name="Login">
+                {props => <Login {...props} handleLogin={handleLogin} />}
+              </Stack.Screen>
+              <Stack.Screen name="Signup">
+                {props => <Signup {...props} handleLogin={handleLogin} />}
+              </Stack.Screen>
+            </Stack.Group>
           ) : (
             <>
               <Stack.Group>
