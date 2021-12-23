@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {QueryClient, QueryClientProvider} from 'react-query';
+
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -15,6 +17,8 @@ import {CreateTeam} from './screens/CreateTeam';
 import {ViewScoreboard} from './screens/ViewScoreboard';
 
 const Stack = createNativeStackNavigator();
+
+const queryClient = new QueryClient();
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -38,42 +42,47 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer
-      theme={{
-        ...DefaultTheme,
-        colors: {
-          ...DefaultTheme.colors,
-          background: theme.colors.background.widget.default,
-          card: theme.colors.background.widget.default,
-          text: theme.colors.text.default,
-          border: theme.colors.border.default,
-        },
-      }}
-    >
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        {!isLoggedIn ? (
-          <Stack.Screen name="Login">
-            {props => <Login {...props} handleLogin={handleLogin} />}
-          </Stack.Screen>
-        ) : (
-          <>
-            <Stack.Group>
-              <Stack.Screen name="scoreboards" component={Scoreboards} />
-              <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
-            </Stack.Group>
-            <Stack.Group
-              screenOptions={{presentation: 'modal', headerShown: false}}
-            >
-              <Stack.Screen
-                name="CreateScoreboard"
-                component={CreateScoreboard}
-              />
-              <Stack.Screen name="CreateTeam" component={CreateTeam} />
-            </Stack.Group>
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer
+        theme={{
+          ...DefaultTheme,
+          colors: {
+            ...DefaultTheme.colors,
+            background: theme.colors.background.widget.default,
+            card: theme.colors.background.widget.default,
+            text: theme.colors.text.default,
+            border: theme.colors.border.default,
+          },
+        }}
+      >
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          {!isLoggedIn ? (
+            <Stack.Screen name="Login">
+              {props => <Login {...props} handleLogin={handleLogin} />}
+            </Stack.Screen>
+          ) : (
+            <>
+              <Stack.Group>
+                <Stack.Screen name="scoreboards" component={Scoreboards} />
+                <Stack.Screen
+                  name="ViewScoreboard"
+                  component={ViewScoreboard}
+                />
+              </Stack.Group>
+              <Stack.Group
+                screenOptions={{presentation: 'modal', headerShown: false}}
+              >
+                <Stack.Screen
+                  name="CreateScoreboard"
+                  component={CreateScoreboard}
+                />
+                <Stack.Screen name="CreateTeam" component={CreateTeam} />
+              </Stack.Group>
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 };
 
