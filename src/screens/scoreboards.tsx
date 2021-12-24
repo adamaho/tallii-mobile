@@ -8,16 +8,8 @@ import {SafeAreaView, ScrollView} from 'react-native';
 import {RootStackParamList} from '../types/screens';
 
 import {DismissKeyboard, HeaderTitle, Scoreboard} from '../components';
-import {
-  Box,
-  Heading,
-  Text,
-  IconButton,
-  Column,
-  Row,
-  Icon,
-  TextInput,
-} from '../design-system';
+
+import {Text, IconButton, Column, Row, Icon} from '../design-system';
 
 import {theme} from '../design-system/theme';
 
@@ -47,61 +39,17 @@ export const Scoreboards: React.FunctionComponent = () => {
               />
             </IconButton>
           </Row>
-          <Box
+          {/* TODO: Add support for this at a later date */}
+          {/* <Box
             paddingHorizontal="default"
             backgroundColor="widgetDefault"
             paddingVertical="default"
           >
             <TextInput placeholder="search" />
-          </Box>
+          </Box> */}
         </Column>
-        <ScrollView style={{paddingHorizontal: theme.padding.default}}>
-          <Column>
-            <Scoreboard
-              name="christmas 2021"
-              game="euchure"
-              createdAt=""
-              teams={[
-                {
-                  name: 'hill beavers',
-                  score: 12,
-                },
-                {
-                  name: 'arctic lions',
-                  score: 10,
-                },
-              ]}
-            />
-            <Scoreboard
-              name="christmas 2021"
-              game="euchure"
-              createdAt=""
-              teams={[
-                {
-                  name: 'hill beavers',
-                  score: 12,
-                },
-                {
-                  name: 'arctic lions',
-                  score: 10,
-                },
-              ]}
-            />
-            <Scoreboard
-              name="christmas 2021"
-              game="euchure"
-              createdAt=""
-              teams={[
-                {
-                  name: 'hill beavers',
-                  score: 12,
-                },
-                {
-                  name: 'arctic lions',
-                  score: 10,
-                },
-              ]}
-            />
+        <ScrollView>
+          <Column paddingHorizontal="default" paddingTop="default">
             <Scoreboard
               name="christmas 2021"
               game="euchure"

@@ -1,6 +1,11 @@
 import React from 'react';
 
-import {Pressable, Box, Row, Column, Text, Heading} from '../design-system';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+import {Pressable, Row, Column, Text, Heading} from '../design-system';
+
+import {RootStackParamList} from '../types/screens';
 
 interface Team {
   name: string;
@@ -20,8 +25,18 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
   createdAt,
   teams,
 }) => {
+  // init navigation
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
-    <Pressable>
+    <Pressable
+      onPress={() =>
+        navigation.navigate('ViewScoreboard', {
+          scoreboardId: 1,
+        })
+      }
+    >
       <Column
         backgroundColor="widgetSecondary"
         padding="default"
@@ -33,8 +48,8 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
             <Text styledAs="label">{game}</Text>
           </Column>
           <Column gap="none" horizontalAlign="center">
-            <Text styledAs="label">12</Text>
-            <Text styledAs="label">nov</Text>
+            <Heading>12</Heading>
+            <Text styledAs="caption">nov</Text>
           </Column>
         </Row>
         <Column gap="small">

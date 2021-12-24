@@ -3,5 +3,6 @@ export type RootStackParamList = {
   Signup: undefined;
   Scoreboards: undefined;
   CreateScoreboard: undefined;
+  ViewScoreboard: {scoreboardId: number};
   CreateTeam: undefined;
 };

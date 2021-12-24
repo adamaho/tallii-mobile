@@ -23,7 +23,7 @@ export const Text = React.forwardRef<TextProps, any>(
         case 'caption': {
           return atoms({
             fontSize: 'small',
-            color: 'secondary',
+            color: 'default',
             fontFamily: 'default',
           });
         }
