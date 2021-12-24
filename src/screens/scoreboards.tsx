@@ -1,20 +1,125 @@
 import React from 'react';
 
-import {SafeAreaView, ScrollView} from 'react-native';
-import {HeaderTitle} from '../components';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {Column, Row} from '../design-system';
+import {SafeAreaView, ScrollView} from 'react-native';
+
+import {RootStackParamList} from '../types/screens';
+
+import {DismissKeyboard, HeaderTitle, Scoreboard} from '../components';
+import {
+  Box,
+  Heading,
+  Text,
+  IconButton,
+  Column,
+  Row,
+  Icon,
+  TextInput,
+} from '../design-system';
+
+import {theme} from '../design-system/theme';
 
 export const Scoreboards: React.FunctionComponent = () => {
+  // init navigation
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <DismissKeyboard>
+      <SafeAreaView style={{flex: 1}}>
         <Column>
-          <Row horizontalAlign="center">
+          <Row
+            horizontalAlign="between"
+            paddingHorizontal="default"
+            verticalAlign="center"
+            paddingVertical="default"
+          >
+            <IconButton backgroundColor="accentOrangeDefault" disabled>
+              <Text>🐺</Text>
+            </IconButton>
             <HeaderTitle>scoreboards</HeaderTitle>
+            <IconButton onPress={() => navigation.navigate('CreateScoreboard')}>
+              <Icon.Plus
+                color={theme.colors.background.widget.default}
+                width={20}
+                height={20}
+              />
+            </IconButton>
           </Row>
+          <Box
+            paddingHorizontal="default"
+            backgroundColor="widgetDefault"
+            paddingVertical="default"
+          >
+            <TextInput placeholder="search" />
+          </Box>
         </Column>
-      </ScrollView>
-    </SafeAreaView>
+        <ScrollView style={{paddingHorizontal: theme.padding.default}}>
+          <Column>
+            <Scoreboard
+              name="christmas 2021"
+              game="euchure"
+              createdAt=""
+              teams={[
+                {
+                  name: 'hill beavers',
+                  score: 12,
+                },
+                {
+                  name: 'arctic lions',
+                  score: 10,
+                },
+              ]}
+            />
+            <Scoreboard
+              name="christmas 2021"
+              game="euchure"
+              createdAt=""
+              teams={[
+                {
+                  name: 'hill beavers',
+                  score: 12,
+                },
+                {
+                  name: 'arctic lions',
+                  score: 10,
+                },
+              ]}
+            />
+            <Scoreboard
+              name="christmas 2021"
+              game="euchure"
+              createdAt=""
+              teams={[
+                {
+                  name: 'hill beavers',
+                  score: 12,
+                },
+                {
+                  name: 'arctic lions',
+                  score: 10,
+                },
+              ]}
+            />
+            <Scoreboard
+              name="christmas 2021"
+              game="euchure"
+              createdAt=""
+              teams={[
+                {
+                  name: 'hill beavers',
+                  score: 12,
+                },
+                {
+                  name: 'arctic lions',
+                  score: 10,
+                },
+              ]}
+            />
+          </Column>
+        </ScrollView>
+      </SafeAreaView>
+    </DismissKeyboard>
   );
 };

@@ -5,7 +5,7 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {Animated, Pressable as NativePressable} from 'react-native';
 import type {PressableProps as NativePressableProps} from 'react-native';
 
-interface PressableProps extends NativePressableProps {}
+export interface PressableProps extends NativePressableProps {}
 
 export const Pressable = React.forwardRef<any, PressableProps>(
   ({children, ...props}, forwardedRef) => {

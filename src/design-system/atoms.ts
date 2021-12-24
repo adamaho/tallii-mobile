@@ -72,6 +72,8 @@ export const baseStyles = {
       widgetDefault: theme.colors.background.widget.default,
       widgetSecondary: theme.colors.background.widget.secondary,
       widgetAction: theme.colors.background.widget.action,
+      accentRedDefault: theme.colors.background.accent.red.default,
+      accentOrangeDefault: theme.colors.background.accent.orange.default,
     },
     borderRadius: {
       ...theme.border.radius,
@@ -96,7 +98,7 @@ export const baseStyles = {
       thin: 'Nunito-Regular',
     },
     fontSize: {
-      small: 12,
+      small: 14,
       default: 16,
       medium: 18,
       large: 20,

@@ -17,6 +17,7 @@ export const TextInput: React.FunctionComponent<TextInputProps> = props => {
     <NativeTextInput
       {...props}
       selectionColor={theme.colors.text.default}
+      placeholderTextColor={theme.colors.text.secondary}
       style={[
         atoms({
           backgroundColor: 'widgetDefault',

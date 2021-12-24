@@ -1,4 +1,5 @@
 const spacing = {
+  none: 0,
   xsmall: 4,
   small: 8,
   default: 16,
@@ -19,8 +20,16 @@ export const theme = {
       },
       widget: {
         default: '#000000',
-        secondary: '#0E0E0E',
+        secondary: '#242424',
         action: '#FFFFFF',
+      },
+      accent: {
+        red: {
+          default: 'red',
+        },
+        orange: {
+          default: '#F6B67A',
+        },
       },
     },
     border: {
