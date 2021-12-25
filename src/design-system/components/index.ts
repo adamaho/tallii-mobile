@@ -8,4 +8,5 @@ export * from './IconButton';
 export * from './Pressable';
 export * from './Row';
 export * from './Text';
+export * from './TextButton';
 export * from './TextInput';

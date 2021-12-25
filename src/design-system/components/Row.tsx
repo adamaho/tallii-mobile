@@ -7,20 +7,12 @@ import type {BoxProps} from './Box';
 import type {Atoms} from '../atoms';
 
 type VerticalAlign = 'top' | 'center' | 'bottom';
-type HorizontalAlign =
-  | 'left'
-  | 'center'
-  | 'right'
-  | 'between'
-  | 'around'
-  | 'evenly';
+type HorizontalAlign = 'left' | 'center' | 'right' | 'between' | 'around' | 'evenly';
 
 /**
  * Converts a human readable vertical alignment style to flex
  */
-const verticalAlignToStyle = (
-  value?: VerticalAlign,
-): Atoms['alignItems'] | undefined => {
+const verticalAlignToStyle = (value?: VerticalAlign): Atoms['alignItems'] | undefined => {
   switch (value) {
     case 'top': {
       return 'flex-start';
@@ -40,9 +32,7 @@ const verticalAlignToStyle = (
 /**
  * Converts a human readable horizontal alignment style to flex
  */
-const horizontalAlignToStyle = (
-  value?: HorizontalAlign,
-): Atoms['justifyContent'] | undefined => {
+const horizontalAlignToStyle = (value?: HorizontalAlign): Atoms['justifyContent'] | undefined => {
   switch (value) {
     case 'left': {
       return 'flex-start';
@@ -68,11 +58,8 @@ const horizontalAlignToStyle = (
   }
 };
 
-interface RowProps
-  extends Omit<
-    BoxProps,
-    'display' | 'flexDirection' | 'alignItems' | 'justifyContent'
-  > {
+export interface RowProps
+  extends Omit<BoxProps, 'display' | 'flexDirection' | 'alignItems' | 'justifyContent'> {
   horizontalAlign?: HorizontalAlign;
   verticalAlign?: VerticalAlign;
   gap?: Atoms['paddingTop'];
@@ -96,12 +83,7 @@ export const Row: React.FunctionComponent<RowProps> = ({
   }, [verticalAlign]);
 
   return (
-    <Box
-      {...props}
-      flexDirection="row"
-      alignItems={alignItems}
-      justifyContent={justifyContent}
-    >
+    <Box {...props} flexDirection="row" alignItems={alignItems} justifyContent={justifyContent}>
       {Children.map(flattenChildren(children), (child, index) => {
         return gap && index > 0 ? <Box paddingLeft={gap}>{child}</Box> : child;
       })}

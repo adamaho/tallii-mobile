@@ -91,6 +91,8 @@ export const baseStyles = {
       secondary: theme.colors.text.secondary,
       danger: theme.colors.text.danger,
       onAction: theme.colors.text.onAction,
+      accentRedDefault: theme.colors.background.accent.red.default,
+      accentOrangeDefault: theme.colors.background.accent.orange.default,
     },
     fontFamily: {
       black: 'Nunito-Black',

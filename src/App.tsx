@@ -15,7 +15,8 @@ import {Signup} from './screens/Signup';
 import {Scoreboards} from './screens/Scoreboards';
 import {CreateScoreboard} from './screens/CreateScoreboard';
 import {CreateTeam} from './screens/CreateTeam';
-import {ViewScoreboard} from './screens/ViewScoreboard';
+import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
+import {ViewTeam} from './screens/ViewTeam/ViewTeam';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,9 +57,9 @@ const App = () => {
           },
         }}
       >
-        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Navigator>
           {!isLoggedIn ? (
-            <Stack.Group>
+            <Stack.Group screenOptions={{headerShown: false}}>
               <Stack.Screen name="Login">
                 {props => <Login {...props} handleLogin={handleLogin} />}
               </Stack.Screen>
@@ -68,21 +69,14 @@ const App = () => {
             </Stack.Group>
           ) : (
             <>
-              <Stack.Group>
+              <Stack.Group screenOptions={{headerShown: false}}>
                 <Stack.Screen name="scoreboards" component={Scoreboards} />
-                <Stack.Screen
-                  name="ViewScoreboard"
-                  component={ViewScoreboard}
-                />
+                <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
               </Stack.Group>
-              <Stack.Group
-                screenOptions={{presentation: 'modal', headerShown: false}}
-              >
-                <Stack.Screen
-                  name="CreateScoreboard"
-                  component={CreateScoreboard}
-                />
+              <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
+                <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
                 <Stack.Screen name="CreateTeam" component={CreateTeam} />
+                <Stack.Screen name="ViewTeam" component={ViewTeam} />
               </Stack.Group>
             </>
           )}

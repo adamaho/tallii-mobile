@@ -1,7 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 
-import {View, Text, Button} from 'react-native';
+import {View, Button} from 'react-native';
+
+import {Text} from '../design-system';
 
 export const CreateScoreboard: React.FunctionComponent = () => {
   const {navigate} = useNavigation();
