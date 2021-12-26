@@ -25,29 +25,24 @@ export const ViewScoreboard: React.FunctionComponent = () => {
     navigation.goBack();
   }, []);
 
-  // handle editing the scoreboard
-  const handleEditPress = React.useCallback(() => {
-    navigation.navigate('CreateScoreboard');
-  }, []);
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <Column>
-        <Row horizontalAlign="between" paddingHorizontal="default">
+        <Row horizontalAlign="between" padding="default">
           <TextButton.Root onPress={handleBackPress}>
             <TextButton.Icon>
               <Icon.Back color={theme.colors.text.default} height={20} width={20} />
             </TextButton.Icon>
             <TextButton.Text>back</TextButton.Text>
           </TextButton.Root>
-          <TextButton.Root onPress={handleEditPress}>
-            <TextButton.Text>edit</TextButton.Text>
-          </TextButton.Root>
         </Row>
-        <Column gap="none" padding="default">
-          <Heading>christmas 2021</Heading>
-          <Text>euchure</Text>
-        </Column>
+        <Row padding="default" horizontalAlign="between" verticalAlign="top">
+          <Column gap="none">
+            <Heading>christmas 2021</Heading>
+            <Text>euchure</Text>
+          </Column>
+          <Text styledAs="label">nov. 12</Text>
+        </Row>
       </Column>
       <ScrollView style={{flex: 1}}>
         <Column padding="default">
