@@ -1,5 +1,7 @@
 import React from 'react';
 
+import * as Keychain from 'react-native-keychain';
+
 import {SafeAreaView} from 'react-native';
 
 import {useForm} from 'react-hook-form';
@@ -19,6 +21,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {usePlatformApi} from '../hooks/usePlatformApi';
 import {PostLoginRequest} from '../apiClient';
+import {useAuthContext} from '../contexts';
 
 const loginSchema = yup
   .object({
@@ -32,6 +35,9 @@ interface LoginProps {
 }
 
 export const Login: React.FunctionComponent<LoginProps> = () => {
+  // init auth context
+  const auth = useAuthContext();
+
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -45,10 +51,12 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
 
   // init mutation
   const {mutate} = useMutation((data: PostLoginRequest) => api.postLogin(data), {
-    onSuccess: response => {
+    onSuccess: async response => {
+      // save the access token in secure storage
+      await Keychain.setGenericPassword('accessToken', response.accessToken);
+
       // save the access token to context
-      // navigate to home screen
-      console.log(response);
+      auth.setToken?.(response.accessToken);
     },
     onError: error => {
       // TODO throw toast notification when an error occurs

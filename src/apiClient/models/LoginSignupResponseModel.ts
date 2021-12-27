@@ -31,13 +31,13 @@ export interface LoginSignupResponseModel {
    * @type {string}
    * @memberof LoginSignupResponseModel
    */
-  accessToken?: string;
+  accessToken: string;
   /**
    *
    * @type {LoginSignupResponseModelUser}
    * @memberof LoginSignupResponseModel
    */
-  user?: LoginSignupResponseModelUser;
+  user: LoginSignupResponseModelUser;
 }
 
 export function LoginSignupResponseModelFromJSON(json: any): LoginSignupResponseModel {
@@ -52,8 +52,8 @@ export function LoginSignupResponseModelFromJSONTyped(
     return json;
   }
   return {
-    accessToken: !exists(json, 'access_token') ? undefined : json['access_token'],
-    user: !exists(json, 'user') ? undefined : LoginSignupResponseModelUserFromJSON(json['user']),
+    accessToken: json['access_token'],
+    user: LoginSignupResponseModelUserFromJSON(json['user']),
   };
 }
 
