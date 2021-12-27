@@ -6,6 +6,11 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+import {RootStackParamList} from './types/screens';
+
 import {theme} from './design-system/theme';
 import {Login} from './screens/Login';
 import {Signup} from './screens/Signup';
@@ -19,7 +24,7 @@ import {Column, Text} from './design-system';
 
 const Stack = createNativeStackNavigator();
 
-const AppNavigation: React.FunctionComponent = ({children}) => {
+const AppNavigation: React.FunctionComponent = () => {
   // init loading state for getting token from keychain
   const [isLoadingToken, setIsLoadingToken] = React.useState(false);
 
@@ -33,10 +38,11 @@ const AppNavigation: React.FunctionComponent = ({children}) => {
         setIsLoadingToken(true);
         const creds = await Keychain.getGenericPassword();
         if (creds) {
-          auth.setToken?.(creds.password);
+          // check if the token is still valid and set it in state
+          await auth.authorize?.(creds.password);
         }
       } catch (error) {
-        // TODO navigate to login
+        console.warn(error);
       } finally {
         setIsLoadingToken(false);
       }
@@ -45,7 +51,7 @@ const AppNavigation: React.FunctionComponent = ({children}) => {
     getAccessTokenFromSecureStore();
   }, []);
 
-  if (isLoadingToken) {
+  if (isLoadingToken || auth.isAuthenticating) {
     <Column verticalAlign="center">
       <Text>Loading...</Text>
     </Column>;
@@ -53,7 +59,7 @@ const AppNavigation: React.FunctionComponent = ({children}) => {
 
   return (
     <Stack.Navigator>
-      {auth.token == null ? (
+      {!auth.isAuthenticated ? (
         <Stack.Group screenOptions={{headerShown: false}}>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Signup" component={Signup} />

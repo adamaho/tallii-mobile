@@ -41,6 +41,42 @@ export interface PostSignupRequest {
  */
 export class DefaultApi extends runtime.BaseAPI {
   /**
+   * authorizes the jwt token to make sure it hasnt expired
+   */
+  async getAuthorizeRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/authorize`,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   * authorizes the jwt token to make sure it hasnt expired
+   */
+  async getAuthorize(initOverrides?: RequestInit): Promise<void> {
+    await this.getAuthorizeRaw(initOverrides);
+  }
+
+  /**
    * accepts an email and password and returns an access token and the user info.
    */
   async postLoginRaw(

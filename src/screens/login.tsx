@@ -56,7 +56,7 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
       await Keychain.setGenericPassword('accessToken', response.accessToken);
 
       // save the access token to context
-      auth.setToken?.(response.accessToken);
+      auth.authorize?.(response.accessToken);
     },
     onError: error => {
       // TODO throw toast notification when an error occurs
