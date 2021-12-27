@@ -20,12 +20,12 @@ import {
   LoginRequestModel,
   LoginRequestModelFromJSON,
   LoginRequestModelToJSON,
+  LoginSignupResponseModel,
+  LoginSignupResponseModelFromJSON,
+  LoginSignupResponseModelToJSON,
   SignupRequestModel,
   SignupRequestModelFromJSON,
   SignupRequestModelToJSON,
-  UserInfoModel,
-  UserInfoModelFromJSON,
-  UserInfoModelToJSON,
 } from '../models';
 
 export interface PostLoginRequest {
@@ -46,7 +46,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async postLoginRaw(
     requestParameters: PostLoginRequest,
     initOverrides?: RequestInit,
-  ): Promise<runtime.ApiResponse<UserInfoModel>> {
+  ): Promise<runtime.ApiResponse<LoginSignupResponseModel>> {
     if (
       requestParameters.loginRequestModel === null ||
       requestParameters.loginRequestModel === undefined
@@ -74,7 +74,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, jsonValue => UserInfoModelFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      LoginSignupResponseModelFromJSON(jsonValue),
+    );
   }
 
   /**
@@ -83,7 +85,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async postLogin(
     requestParameters: PostLoginRequest,
     initOverrides?: RequestInit,
-  ): Promise<UserInfoModel> {
+  ): Promise<LoginSignupResponseModel> {
     const response = await this.postLoginRaw(requestParameters, initOverrides);
     return await response.value();
   }
@@ -94,7 +96,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async postSignupRaw(
     requestParameters: PostSignupRequest,
     initOverrides?: RequestInit,
-  ): Promise<runtime.ApiResponse<UserInfoModel>> {
+  ): Promise<runtime.ApiResponse<LoginSignupResponseModel>> {
     if (
       requestParameters.signupRequestModel === null ||
       requestParameters.signupRequestModel === undefined
@@ -111,14 +113,6 @@ export class DefaultApi extends runtime.BaseAPI {
 
     headerParameters['Content-Type'] = 'application/json';
 
-    if (this.configuration && this.configuration.accessToken) {
-      const token = this.configuration.accessToken;
-      const tokenString = await token('bearerAuth', []);
-
-      if (tokenString) {
-        headerParameters['Authorization'] = `Bearer ${tokenString}`;
-      }
-    }
     const response = await this.request(
       {
         path: `/v1/signup`,
@@ -130,7 +124,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, jsonValue => UserInfoModelFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      LoginSignupResponseModelFromJSON(jsonValue),
+    );
   }
 
   /**
@@ -139,7 +135,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async postSignup(
     requestParameters: PostSignupRequest,
     initOverrides?: RequestInit,
-  ): Promise<UserInfoModel> {
+  ): Promise<LoginSignupResponseModel> {
     const response = await this.postSignupRaw(requestParameters, initOverrides);
     return await response.value();
   }

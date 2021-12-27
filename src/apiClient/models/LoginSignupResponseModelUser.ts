@@ -13,13 +13,6 @@
  */
 
 import {exists, mapValues} from '../runtime';
-import {
-  UserInfoModel,
-  UserInfoModelFromJSON,
-  UserInfoModelFromJSONTyped,
-  UserInfoModelToJSON,
-} from './UserInfoModel';
-
 /**
  *
  * @export
@@ -28,10 +21,28 @@ import {
 export interface LoginSignupResponseModelUser {
   /**
    *
-   * @type {UserInfoModel}
+   * @type {number}
    * @memberof LoginSignupResponseModelUser
    */
-  schema?: UserInfoModel;
+  userId?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof LoginSignupResponseModelUser
+   */
+  username?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof LoginSignupResponseModelUser
+   */
+  email?: string;
+  /**
+   *
+   * @type {Date}
+   * @memberof LoginSignupResponseModelUser
+   */
+  createdAt?: Date;
 }
 
 export function LoginSignupResponseModelUserFromJSON(json: any): LoginSignupResponseModelUser {
@@ -46,7 +57,10 @@ export function LoginSignupResponseModelUserFromJSONTyped(
     return json;
   }
   return {
-    schema: !exists(json, 'schema') ? undefined : UserInfoModelFromJSON(json['schema']),
+    userId: !exists(json, 'user_id') ? undefined : json['user_id'],
+    username: !exists(json, 'username') ? undefined : json['username'],
+    email: !exists(json, 'email') ? undefined : json['email'],
+    createdAt: !exists(json, 'created_at') ? undefined : new Date(json['created_at']),
   };
 }
 
@@ -60,6 +74,9 @@ export function LoginSignupResponseModelUserToJSON(
     return null;
   }
   return {
-    schema: UserInfoModelToJSON(value.schema),
+    user_id: value.userId,
+    username: value.username,
+    email: value.email,
+    created_at: value.createdAt === undefined ? undefined : value.createdAt.toISOString(),
   };
 }

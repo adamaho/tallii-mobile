@@ -5,4 +5,3 @@ export * from './LoginRequestModel';
 export * from './LoginSignupResponseModel';
 export * from './LoginSignupResponseModelUser';
 export * from './SignupRequestModel';
-export * from './UserInfoModel';

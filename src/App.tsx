@@ -23,7 +23,7 @@ const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleLogin = React.useCallback(() => {
