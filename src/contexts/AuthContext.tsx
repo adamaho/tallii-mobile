@@ -1,10 +1,8 @@
 import React from 'react';
 
-import {useQuery} from 'react-query';
+import * as Keychain from 'react-native-keychain';
 
-import {usePlatformApi} from '../hooks';
 import {getPlatformApi} from '../apiClient/api';
-import {authorize} from '../constants';
 
 interface AuthContextProps {
   token?: string;
@@ -12,6 +10,7 @@ interface AuthContextProps {
   isAuthenticating: boolean;
   isAuthenticated: boolean;
   authorize?: (token: string) => Promise<any>;
+  logout?: () => void;
 }
 
 const AuthContext = React.createContext<AuthContextProps>({
@@ -31,8 +30,7 @@ export const AuthContextProvider: React.FunctionComponent = ({children}) => {
 
     try {
       setIsAuthenticating(true);
-      const response = await api.getAuthorize();
-      console.log(response);
+      await api.getAuthorize();
       setToken(token);
       setIsAuthenticated(true);
     } catch (error) {
@@ -42,8 +40,22 @@ export const AuthContextProvider: React.FunctionComponent = ({children}) => {
     }
   }, []);
 
+  // logs the user out of the
+  const logout = React.useCallback(async () => {
+    try {
+      await Keychain.resetGenericPassword();
+    } catch (error) {
+      console.warn(error);
+    } finally {
+      setIsAuthenticated(false);
+      setToken(undefined);
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{token, setToken, authorize, isAuthenticating, isAuthenticated}}>
+    <AuthContext.Provider
+      value={{token, setToken, authorize, isAuthenticating, isAuthenticated, logout}}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -6,11 +6,6 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
-import {RootStackParamList} from './types/screens';
-
 import {theme} from './design-system/theme';
 import {Login} from './screens/Login';
 import {Signup} from './screens/Signup';
@@ -19,8 +14,10 @@ import {CreateScoreboard} from './screens/CreateScoreboard';
 import {CreateTeam} from './screens/CreateTeam';
 import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
 import {ViewTeam} from './screens/ViewTeam/ViewTeam';
+import {ViewProfile} from './screens/ViewProfile';
 import {AuthContextProvider, useAuthContext} from './contexts';
-import {Column, Text} from './design-system';
+import {Column} from './design-system';
+import {Logo} from './components';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,9 +49,11 @@ const AppNavigation: React.FunctionComponent = () => {
   }, []);
 
   if (isLoadingToken || auth.isAuthenticating) {
-    <Column verticalAlign="center">
-      <Text>Loading...</Text>
-    </Column>;
+    return (
+      <Column flex={1} verticalAlign="center" horizontalAlign="center">
+        <Logo />
+      </Column>
+    );
   }
 
   return (
@@ -74,6 +73,7 @@ const AppNavigation: React.FunctionComponent = () => {
             <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
             <Stack.Screen name="CreateTeam" component={CreateTeam} />
             <Stack.Screen name="ViewTeam" component={ViewTeam} />
+            <Stack.Screen name="ViewProfile" component={ViewProfile} />
           </Stack.Group>
         </>
       )}

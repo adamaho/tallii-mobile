@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as Keychain from 'react-native-keychain';
 
-import {SafeAreaView} from 'react-native';
+import {ActivityIndicator, Keyboard, SafeAreaView} from 'react-native';
 
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -22,6 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import {usePlatformApi} from '../hooks/usePlatformApi';
 import {PostLoginRequest} from '../apiClient';
 import {useAuthContext} from '../contexts';
+import {theme} from '../design-system/theme';
 
 const loginSchema = yup
   .object({
@@ -50,7 +51,7 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
   const api = usePlatformApi();
 
   // init mutation
-  const {mutate} = useMutation((data: PostLoginRequest) => api.postLogin(data), {
+  const {mutate, isLoading} = useMutation((data: PostLoginRequest) => api.postLogin(data), {
     onSuccess: async response => {
       // save the access token in secure storage
       await Keychain.setGenericPassword('accessToken', response.accessToken);
@@ -67,6 +68,10 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
   // TODO: handle the login
   const handleLogin = React.useCallback(
     data => {
+      // dismiss the keyboard
+      Keyboard.dismiss();
+
+      // log the user in
       const request: PostLoginRequest = {
         loginRequestModel: data,
       };
@@ -85,10 +90,24 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
             </Row>
             <Text align="center">welcome back. lets's get you logged in bud.</Text>
             <Column gap="small">
-              <TextInputField name="email" label="email" control={control} />
+              <TextInputField
+                name="email"
+                label="email"
+                control={control}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
               <TextInputField name="password" label="password" control={control} secureTextEntry />
             </Column>
-            <Button onPress={handleSubmit(handleLogin)}>login</Button>
+            <Button.Root onPress={handleSubmit(handleLogin)}>
+              {isLoading ? (
+                <Button.Icon>
+                  <ActivityIndicator color={theme.colors.text.onAction} />
+                </Button.Icon>
+              ) : (
+                <Button.Text>login</Button.Text>
+              )}
+            </Button.Root>
           </Column>
           <Column horizontalAlign="center" paddingBottom="xxlarge" gap="small">
             <Text styledAs="label">don't have an account yet?</Text>

@@ -50,7 +50,9 @@ export const ViewTeam: React.FunctionComponent = () => {
                 keyboardType="number-pad"
               />
             </Box>
-            <Button>save</Button>
+            <Button.Root>
+              <Button.Text>save</Button.Text>
+            </Button.Root>
           </Column>
         </Column>
       </SafeAreaView>

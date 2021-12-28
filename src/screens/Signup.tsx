@@ -1,32 +1,27 @@
 import React from 'react';
 
-import {SafeAreaView, ScrollView} from 'react-native';
-
-import {useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-
+import * as Keychain from 'react-native-keychain';
 import * as yup from 'yup';
 
+import {ActivityIndicator, SafeAreaView, ScrollView} from 'react-native';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import type {RootStackParamList} from '../types/screens';
-
-import {
-  Row,
-  Column,
-  Text,
-  Button,
-  Pressable,
-} from '../design-system/components';
-
-import {DismissKeyboard, Logo, TextInputField} from '../components';
 import {useNavigation} from '@react-navigation/native';
+import {useMutation} from 'react-query';
+
+import {Row, Column, Text, Button, Pressable} from '../design-system/components';
+
+import type {RootStackParamList} from '../types/screens';
+import {DismissKeyboard, Logo, TextInputField} from '../components';
+import {usePlatformApi} from '../hooks';
+import {PostSignupRequest} from '../apiClient';
+import {useAuthContext} from '../contexts';
+import {theme} from '../design-system/theme';
 
 const signupSchema = yup
   .object({
-    email: yup
-      .string()
-      .email('thats not an email bud')
-      .required('enter your email bud'),
+    email: yup.string().email('thats not an email bud').required('enter your email bud'),
     username: yup
       .string()
       .length(3, 'your username must be at least 3 characters long')
@@ -41,17 +36,41 @@ interface SignupProps {
 
 export const Signup: React.FunctionComponent<SignupProps> = () => {
   // init navigation
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   // init the form
   const {control, handleSubmit} = useForm({
     resolver: yupResolver(signupSchema),
   });
 
-  // TODO: handle the signup
+  // init auth context
+  const auth = useAuthContext();
+
+  // init api
+  const api = usePlatformApi();
+
+  // init mutation to sign the user up
+  const {mutate, isLoading} = useMutation((data: PostSignupRequest) => api.postSignup(data), {
+    onSuccess: async response => {
+      // save the access token in secure storage
+      await Keychain.setGenericPassword('accessToken', response.accessToken);
+
+      // save the access token to context
+      auth.authorize?.(response.accessToken);
+    },
+    onError: error => {
+      // show error in toast notification here
+      console.log('handle error', error);
+    },
+  });
+
+  // handle signup
   const handleSignup = React.useCallback(data => {
-    console.log(data);
+    const request: PostSignupRequest = {
+      signupRequestModel: data,
+    };
+
+    mutate(request);
   }, []);
 
   return (
@@ -70,12 +89,9 @@ export const Signup: React.FunctionComponent<SignupProps> = () => {
                   label="email"
                   control={control}
                   autoCapitalize="none"
+                  keyboardType="email-address"
                 />
-                <TextInputField
-                  name="username"
-                  label="username"
-                  control={control}
-                />
+                <TextInputField name="username" label="username" control={control} />
                 <TextInputField
                   name="password"
                   label="password"
@@ -83,13 +99,17 @@ export const Signup: React.FunctionComponent<SignupProps> = () => {
                   secureTextEntry
                 />
               </Column>
-              <Button onPress={handleSubmit(handleSignup)}>sign up</Button>
+              <Button.Root onPress={handleSubmit(handleSignup)}>
+                {isLoading ? (
+                  <Button.Icon>
+                    <ActivityIndicator color={theme.colors.text.onAction} />
+                  </Button.Icon>
+                ) : (
+                  <Button.Text>sign up</Button.Text>
+                )}
+              </Button.Root>
             </Column>
-            <Column
-              horizontalAlign="center"
-              paddingBottom="xxlarge"
-              gap="small"
-            >
+            <Column horizontalAlign="center" paddingBottom="xxlarge" gap="small">
               <Text styledAs="label">already have an account?</Text>
               <Pressable onPress={() => navigation.navigate('Login')}>
                 <Text>log in</Text>

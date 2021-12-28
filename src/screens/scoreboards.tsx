@@ -16,6 +16,7 @@ import {theme} from '../design-system/theme';
 export const Scoreboards: React.FunctionComponent = () => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1}}>
@@ -26,7 +27,10 @@ export const Scoreboards: React.FunctionComponent = () => {
             verticalAlign="center"
             paddingVertical="default"
           >
-            <IconButton backgroundColor="accentOrangeDefault" disabled>
+            <IconButton
+              backgroundColor="accentOrangeDefault"
+              onPress={() => navigation.navigate('ViewProfile')}
+            >
               <Text>🐺</Text>
             </IconButton>
             <HeaderTitle>scoreboards</HeaderTitle>
