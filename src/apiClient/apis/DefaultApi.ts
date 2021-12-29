@@ -14,6 +14,9 @@
 
 import * as runtime from '../runtime';
 import {
+  CreateScoreboardRequestModel,
+  CreateScoreboardRequestModelFromJSON,
+  CreateScoreboardRequestModelToJSON,
   ErrorModel,
   ErrorModelFromJSON,
   ErrorModelToJSON,
@@ -29,10 +32,17 @@ import {
   SignupRequestModel,
   SignupRequestModelFromJSON,
   SignupRequestModelToJSON,
+  TeamModel,
+  TeamModelFromJSON,
+  TeamModelToJSON,
   UpdateTeamRequestModel,
   UpdateTeamRequestModelFromJSON,
   UpdateTeamRequestModelToJSON,
 } from '../models';
+
+export interface CreateScoreboardRequest {
+  createScoreboardRequestModel: CreateScoreboardRequestModel;
+}
 
 export interface DeleteScoreboardRequest {
   scoreboardId: number;
@@ -59,6 +69,62 @@ export interface UpdateTeamRequest {
  *
  */
 export class DefaultApi extends runtime.BaseAPI {
+  /**
+   * creates a scoreboard
+   */
+  async createScoreboardRaw(
+    requestParameters: CreateScoreboardRequest,
+    initOverrides?: RequestInit,
+  ): Promise<runtime.ApiResponse<ScoreboardModel>> {
+    if (
+      requestParameters.createScoreboardRequestModel === null ||
+      requestParameters.createScoreboardRequestModel === undefined
+    ) {
+      throw new runtime.RequiredError(
+        'createScoreboardRequestModel',
+        'Required parameter requestParameters.createScoreboardRequestModel was null or undefined when calling createScoreboard.',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters['Content-Type'] = 'application/json';
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/scoreboards`,
+        method: 'POST',
+        headers: headerParameters,
+        query: queryParameters,
+        body: CreateScoreboardRequestModelToJSON(requestParameters.createScoreboardRequestModel),
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, jsonValue => ScoreboardModelFromJSON(jsonValue));
+  }
+
+  /**
+   * creates a scoreboard
+   */
+  async createScoreboard(
+    requestParameters: CreateScoreboardRequest,
+    initOverrides?: RequestInit,
+  ): Promise<ScoreboardModel> {
+    const response = await this.createScoreboardRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
   /**
    * deletes a specific scoreboard
    */
@@ -347,7 +413,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async updateTeamRaw(
     requestParameters: UpdateTeamRequest,
     initOverrides?: RequestInit,
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<TeamModel>> {
     if (requestParameters.teamId === null || requestParameters.teamId === undefined) {
       throw new runtime.RequiredError(
         'teamId',
@@ -385,7 +451,7 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.JSONApiResponse(response, jsonValue => TeamModelFromJSON(jsonValue));
   }
 
   /**
@@ -394,7 +460,8 @@ export class DefaultApi extends runtime.BaseAPI {
   async updateTeam(
     requestParameters: UpdateTeamRequest,
     initOverrides?: RequestInit,
-  ): Promise<void> {
-    await this.updateTeamRaw(requestParameters, initOverrides);
+  ): Promise<TeamModel> {
+    const response = await this.updateTeamRaw(requestParameters, initOverrides);
+    return await response.value();
   }
 }

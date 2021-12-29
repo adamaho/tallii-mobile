@@ -4,6 +4,7 @@ an ios and android application for the tallii platform.
 
 ## todo
 
+- implement ability to update team score
 - add privacy policy and terms and conditions
 
 ## troubleshooting

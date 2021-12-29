@@ -1,5 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './CreateScoreboardRequestModel';
+export * from './CreateScoreboardRequestModelTeams';
 export * from './ErrorModel';
 export * from './LoginRequestModel';
 export * from './LoginSignupResponseModel';
