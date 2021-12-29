@@ -24,9 +24,12 @@ const signupSchema = yup
     email: yup.string().email('thats not an email bud').required('enter your email bud'),
     username: yup
       .string()
-      .length(3, 'your username must be at least 3 characters long')
+      .min(3, 'your username must be at least 3 characters long')
       .required('enter your username bud'),
-    password: yup.string().required('enter your password bud'),
+    password: yup
+      .string()
+      .min(6, 'your password must be at least 6 characters long')
+      .required('enter your password bud'),
   })
   .required();
 
