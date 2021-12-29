@@ -5,6 +5,9 @@ models/ErrorModel.ts
 models/LoginRequestModel.ts
 models/LoginSignupResponseModel.ts
 models/LoginSignupResponseModelUser.ts
+models/ScoreboardModel.ts
 models/SignupRequestModel.ts
+models/TeamModel.ts
+models/UserModel.ts
 models/index.ts
 runtime.ts

@@ -16,43 +16,40 @@ import {exists, mapValues} from '../runtime';
 /**
  *
  * @export
- * @interface LoginSignupResponseModelUser
+ * @interface UserModel
  */
-export interface LoginSignupResponseModelUser {
+export interface UserModel {
   /**
    *
    * @type {number}
-   * @memberof LoginSignupResponseModelUser
+   * @memberof UserModel
    */
   userId: number;
   /**
    *
    * @type {string}
-   * @memberof LoginSignupResponseModelUser
+   * @memberof UserModel
    */
   username: string;
   /**
    *
    * @type {string}
-   * @memberof LoginSignupResponseModelUser
+   * @memberof UserModel
    */
   email: string;
   /**
    *
    * @type {Date}
-   * @memberof LoginSignupResponseModelUser
+   * @memberof UserModel
    */
   createdAt: Date;
 }
 
-export function LoginSignupResponseModelUserFromJSON(json: any): LoginSignupResponseModelUser {
-  return LoginSignupResponseModelUserFromJSONTyped(json, false);
+export function UserModelFromJSON(json: any): UserModel {
+  return UserModelFromJSONTyped(json, false);
 }
 
-export function LoginSignupResponseModelUserFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): LoginSignupResponseModelUser {
+export function UserModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserModel {
   if (json === undefined || json === null) {
     return json;
   }
@@ -64,9 +61,7 @@ export function LoginSignupResponseModelUserFromJSONTyped(
   };
 }
 
-export function LoginSignupResponseModelUserToJSON(
-  value?: LoginSignupResponseModelUser | null,
-): any {
+export function UserModelToJSON(value?: UserModel | null): any {
   if (value === undefined) {
     return undefined;
   }

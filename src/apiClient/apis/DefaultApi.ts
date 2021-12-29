@@ -23,6 +23,9 @@ import {
   LoginSignupResponseModel,
   LoginSignupResponseModelFromJSON,
   LoginSignupResponseModelToJSON,
+  ScoreboardModel,
+  ScoreboardModelFromJSON,
+  ScoreboardModelToJSON,
   SignupRequestModel,
   SignupRequestModelFromJSON,
   SignupRequestModelToJSON,
@@ -74,6 +77,45 @@ export class DefaultApi extends runtime.BaseAPI {
    */
   async getAuthorize(initOverrides?: RequestInit): Promise<void> {
     await this.getAuthorizeRaw(initOverrides);
+  }
+
+  /**
+   * gets the scoreboards of the currently logged in user
+   */
+  async getMyScoreboardsRaw(
+    initOverrides?: RequestInit,
+  ): Promise<runtime.ApiResponse<ScoreboardModel>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/me/scoreboards`,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, jsonValue => ScoreboardModelFromJSON(jsonValue));
+  }
+
+  /**
+   * gets the scoreboards of the currently logged in user
+   */
+  async getMyScoreboards(initOverrides?: RequestInit): Promise<ScoreboardModel> {
+    const response = await this.getMyScoreboardsRaw(initOverrides);
+    return await response.value();
   }
 
   /**
