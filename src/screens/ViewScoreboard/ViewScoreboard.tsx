@@ -2,20 +2,25 @@ import React from 'react';
 
 import {SafeAreaView, ScrollView} from 'react-native';
 
+import {useQuery} from 'react-query';
+
 import {useRoute, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import type {RouteProp} from '@react-navigation/native';
 
 import {RootStackParamList} from '../../types/screens';
 
 import {Column, Row, TextButton, Icon, Text, Heading} from '../../design-system';
-
 import {theme} from '../../design-system/theme';
 
 import {Team} from './Team';
+import {scoreboards} from '../../constants';
+import {usePlatformApi} from '../../hooks';
+import {formatDate} from '../../utils';
 
 export const ViewScoreboard: React.FunctionComponent = () => {
   // init route to get the params
-  const route = useRoute();
+  const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
 
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -24,6 +29,23 @@ export const ViewScoreboard: React.FunctionComponent = () => {
   const handleBackPress = React.useCallback(() => {
     navigation.goBack();
   }, []);
+
+  // init api
+  const api = usePlatformApi();
+
+  // query for the specific scoreboard based on the scoreboard id
+  const {data: scoreboard, isLoading} = useQuery(scoreboards(route.params.scoreboardId), () =>
+    api.getScoreboard({
+      scoreboardId: route.params.scoreboardId,
+    }),
+  );
+
+  // format the date
+  const formattedDate = React.useMemo(() => {
+    if (scoreboard) {
+      return formatDate(scoreboard.createdAt);
+    }
+  }, [scoreboard]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -37,17 +59,18 @@ export const ViewScoreboard: React.FunctionComponent = () => {
           </TextButton.Root>
         </Row>
         <Row padding="default" horizontalAlign="between" verticalAlign="top">
-          <Column gap="none">
-            <Heading>christmas 2021</Heading>
-            <Text>euchure</Text>
+          <Column gap="xsmall">
+            <Heading numberOfLines={1}>{scoreboard?.name}</Heading>
+            <Text>{scoreboard?.game}</Text>
+            <Text styledAs="caption">{formattedDate}</Text>
           </Column>
-          <Text styledAs="label">nov. 12</Text>
         </Row>
       </Column>
       <ScrollView style={{flex: 1}}>
         <Column padding="default">
-          <Team name="hill beavers" score={12} />
-          <Team name="team safari" score={12} />
+          {scoreboard?.teams.map(t => {
+            return <Team key={t.teamId} name={t.name} score={t.score} />;
+          })}
         </Column>
       </ScrollView>
     </SafeAreaView>

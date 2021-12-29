@@ -31,6 +31,10 @@ import {
   SignupRequestModelToJSON,
 } from '../models';
 
+export interface GetScoreboardRequest {
+  scoreboardId: number;
+}
+
 export interface PostLoginRequest {
   loginRequestModel: LoginRequestModel;
 }
@@ -84,7 +88,7 @@ export class DefaultApi extends runtime.BaseAPI {
    */
   async getMyScoreboardsRaw(
     initOverrides?: RequestInit,
-  ): Promise<runtime.ApiResponse<ScoreboardModel>> {
+  ): Promise<runtime.ApiResponse<Array<ScoreboardModel>>> {
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -107,14 +111,69 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    return new runtime.JSONApiResponse(response, jsonValue => ScoreboardModelFromJSON(jsonValue));
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      jsonValue.map(ScoreboardModelFromJSON),
+    );
   }
 
   /**
    * gets the scoreboards of the currently logged in user
    */
-  async getMyScoreboards(initOverrides?: RequestInit): Promise<ScoreboardModel> {
+  async getMyScoreboards(initOverrides?: RequestInit): Promise<Array<ScoreboardModel>> {
     const response = await this.getMyScoreboardsRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * gets a specific scoreboard
+   */
+  async getScoreboardRaw(
+    requestParameters: GetScoreboardRequest,
+    initOverrides?: RequestInit,
+  ): Promise<runtime.ApiResponse<ScoreboardModel>> {
+    if (requestParameters.scoreboardId === null || requestParameters.scoreboardId === undefined) {
+      throw new runtime.RequiredError(
+        'scoreboardId',
+        'Required parameter requestParameters.scoreboardId was null or undefined when calling getScoreboard.',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/scoreboards/{scoreboard_id}`.replace(
+          `{${'scoreboard_id'}}`,
+          encodeURIComponent(String(requestParameters.scoreboardId)),
+        ),
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, jsonValue => ScoreboardModelFromJSON(jsonValue));
+  }
+
+  /**
+   * gets a specific scoreboard
+   */
+  async getScoreboard(
+    requestParameters: GetScoreboardRequest,
+    initOverrides?: RequestInit,
+  ): Promise<ScoreboardModel> {
+    const response = await this.getScoreboardRaw(requestParameters, initOverrides);
     return await response.value();
   }
 

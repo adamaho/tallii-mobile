@@ -1,26 +1,26 @@
 import React from 'react';
 
+import {Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
-import {Header} from '../components';
-import {Pressable, Row, Column, Text, Heading} from '../design-system';
-
 import {RootStackParamList} from '../types/screens';
 
-interface Team {
-  name: string;
-  score: number;
-}
+import {Header} from '../components';
+import {Row, Column, Text, Heading} from '../design-system';
+import {formatDate} from '../utils';
+
+import type {TeamModel} from '../apiClient';
 
 interface ScoreboardProps {
+  scoreboardId: number;
   name: string;
   game: string;
-  createdAt: string;
-  teams: Team[];
+  createdAt: Date;
+  teams: TeamModel[];
 }
 
 export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
+  scoreboardId,
   name,
   game,
   createdAt,
@@ -42,25 +42,28 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
     });
   }, [teams]);
 
+  // format the date
+  const formattedDate = React.useMemo(() => {
+    return formatDate(createdAt);
+  }, [createdAt]);
+
   return (
     <Pressable
       onPress={() =>
         navigation.navigate('ViewScoreboard', {
-          scoreboardId: 1,
+          scoreboardId,
         })
       }
     >
       <Column backgroundColor="widgetSecondary" padding="default" borderRadius="default">
         <Row horizontalAlign="between" verticalAlign="top">
-          <Column gap="none">
-            <Heading level="3">{name}</Heading>
+          <Column gap="none" style={{flex: 0.9}}>
+            <Heading level="3" numberOfLines={1}>
+              {name}
+            </Heading>
             <Text styledAs="label">{game}</Text>
           </Column>
-          <Text styledAs="label">nov. 12</Text>
-          {/* <Column gap="none" horizontalAlign="center">
-            <Heading>12</Heading>
-            <Text styledAs="caption">nov</Text>
-          </Column> */}
+          <Text styledAs="label">{formattedDate.toLocaleLowerCase()}</Text>
         </Row>
         <Column gap="small">
           {sortedTeams.map((t, i) => {

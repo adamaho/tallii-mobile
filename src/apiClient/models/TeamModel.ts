@@ -39,6 +39,12 @@ export interface TeamModel {
   name: string;
   /**
    *
+   * @type {number}
+   * @memberof TeamModel
+   */
+  score: number;
+  /**
+   *
    * @type {Date}
    * @memberof TeamModel
    */
@@ -57,6 +63,7 @@ export function TeamModelFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     teamId: json['team_id'],
     scoreboardId: json['scoreboard_id'],
     name: json['name'],
+    score: json['score'],
     createdAt: new Date(json['created_at']),
   };
 }
@@ -72,6 +79,7 @@ export function TeamModelToJSON(value?: TeamModel | null): any {
     team_id: value.teamId,
     scoreboard_id: value.scoreboardId,
     name: value.name,
+    score: value.score,
     created_at: value.createdAt.toISOString(),
   };
 }

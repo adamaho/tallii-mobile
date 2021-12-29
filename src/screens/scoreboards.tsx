@@ -1,10 +1,12 @@
 import React from 'react';
 
+import {useQuery} from 'react-query';
+
+import getUnixTime from 'date-fns/getUnixTime';
+
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
-import {SafeAreaView, ScrollView} from 'react-native';
-
+import {RefreshControl, SafeAreaView, ScrollView} from 'react-native';
 import {RootStackParamList} from '../types/screens';
 
 import {DismissKeyboard, HeaderTitle, Scoreboard} from '../components';
@@ -12,10 +14,37 @@ import {DismissKeyboard, HeaderTitle, Scoreboard} from '../components';
 import {Text, IconButton, Column, Row, Icon} from '../design-system';
 
 import {theme} from '../design-system/theme';
+import {scoreboards} from '../constants';
+import {usePlatformApi} from '../hooks';
 
 export const Scoreboards: React.FunctionComponent = () => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  // init api
+  const api = usePlatformApi();
+
+  // fetch all of the scoreboards
+  const {
+    data: myScoreboards,
+    isLoading,
+    refetch,
+  } = useQuery(scoreboards(), () => api.getMyScoreboards(), {
+    onError: () => {
+      // TODO: show toast notification
+    },
+  });
+
+  // sort the scoreboards by createdAt date
+  const sortedScoreboards = React.useMemo(() => {
+    if (myScoreboards) {
+      return [...myScoreboards]?.sort(
+        (a, b) => getUnixTime(b.createdAt) - getUnixTime(a.createdAt),
+      );
+    }
+
+    return [];
+  }, [myScoreboards]);
 
   return (
     <DismissKeyboard>
@@ -47,61 +76,20 @@ export const Scoreboards: React.FunctionComponent = () => {
             <TextInput placeholder="search" />
           </Box> */}
         </Column>
-        <ScrollView
-        // TODO: add swipe to refresh on scoreboards
-        // refreshControl={
-        //   <RefreshControl
-        //     refreshing={true}
-        //     onRefresh={() => console.log("Refresh")}
-        //   />
-        // }
-        >
+        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}>
           <Column paddingHorizontal="default" paddingTop="default">
-            <Scoreboard
-              name="christmas 2021"
-              game="euchure"
-              createdAt=""
-              teams={[
-                {
-                  name: 'hill beavers',
-                  score: 12,
-                },
-                {
-                  name: 'arctic lions',
-                  score: 10,
-                },
-              ]}
-            />
-            <Scoreboard
-              name="christmas 2021"
-              game="euchure"
-              createdAt=""
-              teams={[
-                {
-                  name: 'hill beavers',
-                  score: 12,
-                },
-                {
-                  name: 'arctic lions',
-                  score: 10,
-                },
-              ]}
-            />
-            <Scoreboard
-              name="christmas 2021"
-              game="euchure"
-              createdAt=""
-              teams={[
-                {
-                  name: 'hill beavers',
-                  score: 12,
-                },
-                {
-                  name: 'arctic lions',
-                  score: 10,
-                },
-              ]}
-            />
+            {sortedScoreboards?.map(s => {
+              return (
+                <Scoreboard
+                  key={s.scoreboardId}
+                  scoreboardId={s.scoreboardId}
+                  name={s.name}
+                  game={s.game}
+                  createdAt={s.createdAt}
+                  teams={s.teams}
+                />
+              );
+            })}
           </Column>
         </ScrollView>
       </SafeAreaView>
