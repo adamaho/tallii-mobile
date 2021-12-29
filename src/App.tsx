@@ -15,7 +15,7 @@ import {CreateTeam} from './screens/CreateTeam';
 import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
 import {ViewTeam} from './screens/ViewTeam/ViewTeam';
 import {ViewProfile} from './screens/ViewProfile';
-import {AuthContextProvider, useAuthContext} from './contexts';
+import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
 import {Column} from './design-system';
 import {Logo} from './components';
 
@@ -57,27 +57,29 @@ const AppNavigation: React.FunctionComponent = () => {
   }
 
   return (
-    <Stack.Navigator>
-      {!auth.isAuthenticated ? (
-        <Stack.Group screenOptions={{headerShown: false}}>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Signup" component={Signup} />
-        </Stack.Group>
-      ) : (
-        <>
+    <CreateTeamContextProvider>
+      <Stack.Navigator>
+        {!auth.isAuthenticated ? (
           <Stack.Group screenOptions={{headerShown: false}}>
-            <Stack.Screen name="scoreboards" component={Scoreboards} />
-            <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Signup" component={Signup} />
           </Stack.Group>
-          <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
-            <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
-            <Stack.Screen name="CreateTeam" component={CreateTeam} />
-            <Stack.Screen name="ViewTeam" component={ViewTeam} />
-            <Stack.Screen name="ViewProfile" component={ViewProfile} />
-          </Stack.Group>
-        </>
-      )}
-    </Stack.Navigator>
+        ) : (
+          <>
+            <Stack.Group screenOptions={{headerShown: false}}>
+              <Stack.Screen name="scoreboards" component={Scoreboards} />
+              <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
+            </Stack.Group>
+            <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
+              <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
+              <Stack.Screen name="CreateTeam" component={CreateTeam} />
+              <Stack.Screen name="ViewTeam" component={ViewTeam} />
+              <Stack.Screen name="ViewProfile" component={ViewProfile} />
+            </Stack.Group>
+          </>
+        )}
+      </Stack.Navigator>
+    </CreateTeamContextProvider>
   );
 };
 

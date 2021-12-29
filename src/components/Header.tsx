@@ -47,7 +47,11 @@ const HeaderTitle: React.FunctionComponent<HeaderTitleProps> = ({children}) => {
 /** ----------------------------------------------------------
  * HeaderBack
  * -----------------------------------------------------------*/
-const HeaderBack: React.FunctionComponent = () => {
+interface HeaderBackProps {
+  children: string;
+}
+
+const HeaderBack: React.FunctionComponent = ({children = 'back'}) => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -56,7 +60,7 @@ const HeaderBack: React.FunctionComponent = () => {
       <TextButton.Icon>
         <Icon.Back height={20} width={20} color={theme.colors.text.default} />
       </TextButton.Icon>
-      <TextButton.Text>back</TextButton.Text>
+      <TextButton.Text>{children}</TextButton.Text>
     </TextButton.Root>
   );
 };
