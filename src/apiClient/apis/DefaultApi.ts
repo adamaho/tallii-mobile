@@ -29,7 +29,14 @@ import {
   SignupRequestModel,
   SignupRequestModelFromJSON,
   SignupRequestModelToJSON,
+  UpdateTeamRequestModel,
+  UpdateTeamRequestModelFromJSON,
+  UpdateTeamRequestModelToJSON,
 } from '../models';
+
+export interface DeleteScoreboardRequest {
+  scoreboardId: number;
+}
 
 export interface GetScoreboardRequest {
   scoreboardId: number;
@@ -43,10 +50,67 @@ export interface PostSignupRequest {
   signupRequestModel: SignupRequestModel;
 }
 
+export interface UpdateTeamRequest {
+  teamId: number;
+  updateTeamRequestModel: UpdateTeamRequestModel;
+}
+
 /**
  *
  */
 export class DefaultApi extends runtime.BaseAPI {
+  /**
+   * deletes a specific scoreboard
+   */
+  async deleteScoreboardRaw(
+    requestParameters: DeleteScoreboardRequest,
+    initOverrides?: RequestInit,
+  ): Promise<runtime.ApiResponse<void>> {
+    if (requestParameters.scoreboardId === null || requestParameters.scoreboardId === undefined) {
+      throw new runtime.RequiredError(
+        'scoreboardId',
+        'Required parameter requestParameters.scoreboardId was null or undefined when calling deleteScoreboard.',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/scoreboards/{scoreboard_id}`.replace(
+          `{${'scoreboard_id'}}`,
+          encodeURIComponent(String(requestParameters.scoreboardId)),
+        ),
+        method: 'DELETE',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   * deletes a specific scoreboard
+   */
+  async deleteScoreboard(
+    requestParameters: DeleteScoreboardRequest,
+    initOverrides?: RequestInit,
+  ): Promise<void> {
+    await this.deleteScoreboardRaw(requestParameters, initOverrides);
+  }
+
   /**
    * authorizes the jwt token to make sure it hasnt expired
    */
@@ -275,5 +339,62 @@ export class DefaultApi extends runtime.BaseAPI {
   ): Promise<LoginSignupResponseModel> {
     const response = await this.postSignupRaw(requestParameters, initOverrides);
     return await response.value();
+  }
+
+  /**
+   * updates the specific team
+   */
+  async updateTeamRaw(
+    requestParameters: UpdateTeamRequest,
+    initOverrides?: RequestInit,
+  ): Promise<runtime.ApiResponse<void>> {
+    if (requestParameters.teamId === null || requestParameters.teamId === undefined) {
+      throw new runtime.RequiredError(
+        'teamId',
+        'Required parameter requestParameters.teamId was null or undefined when calling updateTeam.',
+      );
+    }
+
+    if (
+      requestParameters.updateTeamRequestModel === null ||
+      requestParameters.updateTeamRequestModel === undefined
+    ) {
+      throw new runtime.RequiredError(
+        'updateTeamRequestModel',
+        'Required parameter requestParameters.updateTeamRequestModel was null or undefined when calling updateTeam.',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters['Content-Type'] = 'application/json';
+
+    const response = await this.request(
+      {
+        path: `/v1/teams/{team_id}`.replace(
+          `{${'team_id'}}`,
+          encodeURIComponent(String(requestParameters.teamId)),
+        ),
+        method: 'PUT',
+        headers: headerParameters,
+        query: queryParameters,
+        body: UpdateTeamRequestModelToJSON(requestParameters.updateTeamRequestModel),
+      },
+      initOverrides,
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   * updates the specific team
+   */
+  async updateTeam(
+    requestParameters: UpdateTeamRequest,
+    initOverrides?: RequestInit,
+  ): Promise<void> {
+    await this.updateTeamRaw(requestParameters, initOverrides);
   }
 }

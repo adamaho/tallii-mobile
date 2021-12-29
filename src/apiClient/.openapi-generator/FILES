@@ -8,6 +8,7 @@ models/LoginSignupResponseModelUser.ts
 models/ScoreboardModel.ts
 models/SignupRequestModel.ts
 models/TeamModel.ts
+models/UpdateTeamRequestModel.ts
 models/UserModel.ts
 models/index.ts
 runtime.ts
