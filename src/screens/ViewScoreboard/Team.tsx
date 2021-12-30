@@ -10,14 +10,16 @@ import {Pressable, Heading, Text, Row} from '../../design-system';
 interface TeamProps {
   name: string;
   score: number;
+  teamId: number;
+  scoreboardId: number;
 }
 
-export const Team: React.FunctionComponent<TeamProps> = ({name, score}) => {
+export const Team: React.FunctionComponent<TeamProps> = ({name, score, scoreboardId, teamId}) => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <Pressable onPress={() => navigation.navigate('ViewTeam', {teamId: 1})}>
+    <Pressable onPress={() => navigation.navigate('ViewTeam', {teamId, scoreboardId})}>
       <Row
         horizontalAlign="between"
         backgroundColor="widgetSecondary"

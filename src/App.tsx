@@ -13,7 +13,7 @@ import {Scoreboards} from './screens/Scoreboards';
 import {CreateScoreboard} from './screens/CreateScoreboard';
 import {CreateTeam} from './screens/CreateTeam';
 import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
-import {ViewTeam} from './screens/ViewTeam/ViewTeam';
+import {ViewTeam} from './screens/ViewTeam';
 import {ViewProfile} from './screens/ViewProfile';
 import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
 import {Column} from './design-system';

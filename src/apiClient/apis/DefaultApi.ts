@@ -52,6 +52,10 @@ export interface GetScoreboardRequest {
   scoreboardId: number;
 }
 
+export interface GetTeamRequest {
+  teamId: number;
+}
+
 export interface PostLoginRequest {
   loginRequestModel: LoginRequestModel;
 }
@@ -308,6 +312,59 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * gets a specific team
+   */
+  async getTeamRaw(
+    requestParameters: GetTeamRequest,
+    initOverrides?: RequestInit,
+  ): Promise<runtime.ApiResponse<TeamModel>> {
+    if (requestParameters.teamId === null || requestParameters.teamId === undefined) {
+      throw new runtime.RequiredError(
+        'teamId',
+        'Required parameter requestParameters.teamId was null or undefined when calling getTeam.',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/teams/{team_id}`.replace(
+          `{${'team_id'}}`,
+          encodeURIComponent(String(requestParameters.teamId)),
+        ),
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, jsonValue => TeamModelFromJSON(jsonValue));
+  }
+
+  /**
+   * gets a specific team
+   */
+  async getTeam(
+    requestParameters: GetTeamRequest,
+    initOverrides?: RequestInit,
+  ): Promise<TeamModel> {
+    const response = await this.getTeamRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
    * accepts an email and password and returns an access token and the user info.
    */
   async postLoginRaw(
@@ -437,6 +494,14 @@ export class DefaultApi extends runtime.BaseAPI {
 
     headerParameters['Content-Type'] = 'application/json';
 
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/v1/teams/{team_id}`.replace(

@@ -34,7 +34,7 @@ export const ViewScoreboard: React.FunctionComponent = () => {
   const api = usePlatformApi();
 
   // query for the specific scoreboard based on the scoreboard id
-  const {data: scoreboard, isLoading} = useQuery(scoreboards(route.params.scoreboardId), () =>
+  const {data: scoreboard} = useQuery(scoreboards(route.params.scoreboardId), () =>
     api.getScoreboard({
       scoreboardId: route.params.scoreboardId,
     }),
@@ -45,6 +45,23 @@ export const ViewScoreboard: React.FunctionComponent = () => {
     if (scoreboard) {
       return formatDate(scoreboard.createdAt);
     }
+  }, [scoreboard]);
+
+  // sort the teams by score
+  const sortedTeams = React.useMemo(() => {
+    if (scoreboard) {
+      return [...scoreboard.teams].sort((a, b) => {
+        if (a.score > b.score) {
+          return -1;
+        } else if (a.score < b.score) {
+          return 1;
+        }
+
+        return 0;
+      });
+    }
+
+    return [];
   }, [scoreboard]);
 
   return (
@@ -67,11 +84,21 @@ export const ViewScoreboard: React.FunctionComponent = () => {
         </Row>
       </Column>
       <ScrollView style={{flex: 1}}>
-        <Column padding="default">
-          {scoreboard?.teams.map(t => {
-            return <Team key={t.teamId} name={t.name} score={t.score} />;
-          })}
-        </Column>
+        {sortedTeams && scoreboard && (
+          <Column padding="default">
+            {sortedTeams.map((t, i) => {
+              return (
+                <Team
+                  key={t.teamId}
+                  teamId={t.teamId}
+                  scoreboardId={scoreboard?.scoreboardId}
+                  name={t.name}
+                  score={t.score}
+                />
+              );
+            })}
+          </Column>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

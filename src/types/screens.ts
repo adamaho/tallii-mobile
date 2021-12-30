@@ -6,5 +6,5 @@ export type RootStackParamList = {
   ViewScoreboard: {scoreboardId: number};
   CreateTeam: undefined;
   ViewProfile: undefined;
-  ViewTeam: {teamId: number};
+  ViewTeam: {teamId: number; scoreboardId: number};
 };
