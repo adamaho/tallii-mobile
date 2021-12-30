@@ -16,7 +16,14 @@ import {theme} from '../design-system/theme';
 import {Row, Box, Column, IconButton, Text, Icon, Pressable} from '../design-system';
 import {DismissKeyboard, Header, TextInputField} from '../components';
 import {useCreateTeamContext} from '../contexts';
-import {TeamModelToJSON} from '../apiClient';
+import {
+  CreateScoreboardRequest,
+  CreateScoreboardRequestModelTeams,
+  TeamModelToJSON,
+} from '../apiClient';
+import {useMutation, useQueryClient} from 'react-query';
+import {usePlatformApi} from '../hooks';
+import {scoreboards} from '../constants';
 
 const scoreboardSchema = yup.object().shape({
   name: yup.string().required('need a name for the scoreboard bud'),
@@ -35,6 +42,44 @@ export const CreateScoreboard: React.FunctionComponent = () => {
   // init the team context
   const teamContext = useCreateTeamContext();
 
+  // init api
+  const api = usePlatformApi();
+
+  // init query client
+  const queryClient = useQueryClient();
+
+  // init the mutation
+  const {mutate} = useMutation((data: CreateScoreboardRequest) => api.createScoreboard(data), {
+    onSuccess: () => {
+      // invalidate the scoreboards query
+      queryClient.invalidateQueries(scoreboards());
+
+      // go back to scoreboard
+      navigation.navigate('Scoreboards');
+    },
+    onError: error => {
+      // TODO: handle error with
+      console.log(error);
+    },
+  });
+
+  // handle submitting the scoreboard
+  const saveScoreboard = React.useCallback(
+    (data: {name: string; game: string}) => {
+      const request: CreateScoreboardRequest = {
+        createScoreboardRequestModel: {
+          ...data,
+          teams: teamContext.teams.map(t => ({
+            name: t.name,
+          })),
+        },
+      };
+
+      mutate(request);
+    },
+    [teamContext],
+  );
+
   // clear the teams from context when the component unmounts
   React.useEffect(() => {
     return () => {
@@ -50,7 +95,7 @@ export const CreateScoreboard: React.FunctionComponent = () => {
             <Header.Cancel />
             <Header.Title>create scoreboard</Header.Title>
             {/* TODO: fix this */}
-            <Header.Action>save</Header.Action>
+            <Header.Action onPress={handleSubmit(saveScoreboard)}>save</Header.Action>
           </Header.Root>
           <Column padding="default">
             <TextInputField name="name" label="name" control={control} />

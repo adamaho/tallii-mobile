@@ -40,10 +40,10 @@ export interface CreateScoreboardRequestModel {
   game: string;
   /**
    *
-   * @type {CreateScoreboardRequestModelTeams}
+   * @type {Array<CreateScoreboardRequestModelTeams>}
    * @memberof CreateScoreboardRequestModel
    */
-  teams: CreateScoreboardRequestModelTeams;
+  teams: Array<CreateScoreboardRequestModelTeams>;
 }
 
 export function CreateScoreboardRequestModelFromJSON(json: any): CreateScoreboardRequestModel {
@@ -60,7 +60,7 @@ export function CreateScoreboardRequestModelFromJSONTyped(
   return {
     name: json['name'],
     game: json['game'],
-    teams: CreateScoreboardRequestModelTeamsFromJSON(json['teams']),
+    teams: (json['teams'] as Array<any>).map(CreateScoreboardRequestModelTeamsFromJSON),
   };
 }
 
@@ -76,6 +76,6 @@ export function CreateScoreboardRequestModelToJSON(
   return {
     name: value.name,
     game: value.game,
-    teams: CreateScoreboardRequestModelTeamsToJSON(value.teams),
+    teams: (value.teams as Array<any>).map(CreateScoreboardRequestModelTeamsToJSON),
   };
 }
