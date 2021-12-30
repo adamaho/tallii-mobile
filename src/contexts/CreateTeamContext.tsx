@@ -6,7 +6,29 @@ interface Team extends CreateScoreboardRequestModelTeams {
   id: number;
 }
 
-const CreateTeamContext = React.createContext<Team[]>([]);
+interface CreateTeamContextProps {
+  teams: Team[];
+  addTeam: (team: CreateScoreboardRequestModelTeams) => void;
+  removeTeam: (id: number) => void;
+  clearTeams: () => void;
+}
+
+const CreateTeamContext = React.createContext<CreateTeamContextProps>({
+  teams: [],
+  addTeam: team => {
+    return;
+  },
+  removeTeam: id => {
+    return;
+  },
+  clearTeams: () => {
+    return;
+  },
+});
+
+export const useCreateTeamContext = () => {
+  return React.useContext(CreateTeamContext);
+};
 
 export const CreateTeamContextProvider: React.FunctionComponent = ({children}) => {
   // init ref to track the teams
@@ -53,5 +75,16 @@ export const CreateTeamContextProvider: React.FunctionComponent = ({children}) =
     setTeams([]);
   }, []);
 
-  return <CreateTeamContext.Provider value={teams}>{children}</CreateTeamContext.Provider>;
+  return (
+    <CreateTeamContext.Provider
+      value={{
+        teams,
+        addTeam,
+        removeTeam,
+        clearTeams,
+      }}
+    >
+      {children}
+    </CreateTeamContext.Provider>
+  );
 };

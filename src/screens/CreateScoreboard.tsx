@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import * as yup from 'yup';
 
@@ -12,8 +12,11 @@ import {RootStackParamList} from '../types/screens';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 
-import {Row, Box, Column, IconButton, Text} from '../design-system';
+import {theme} from '../design-system/theme';
+import {Row, Box, Column, IconButton, Text, Icon} from '../design-system';
 import {DismissKeyboard, Header, TextInputField} from '../components';
+import {useCreateTeamContext} from '../contexts';
+import {TeamModelToJSON} from '../apiClient';
 
 const scoreboardSchema = yup.object().shape({
   name: yup.string().required('need a name for the scoreboard bud'),
@@ -29,14 +32,24 @@ export const CreateScoreboard: React.FunctionComponent = () => {
     resolver: yupResolver(scoreboardSchema),
   });
 
+  // init the team context
+  const teamContext = useCreateTeamContext();
+
+  // clear the teams from context when the component unmounts
+  React.useEffect(() => {
+    return () => {
+      teamContext.clearTeams();
+    };
+  }, []);
+
   return (
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1}}>
         <Header.Root horizontalAlign="between">
-          <Box />
+          <Header.Cancel />
           <Header.Title>create scoreboard</Header.Title>
           {/* TODO: fix this */}
-          <Header.Exit />
+          <Header.Action>save</Header.Action>
         </Header.Root>
         <Column padding="default">
           <TextInputField name="name" label="name" control={control} />
@@ -44,20 +57,28 @@ export const CreateScoreboard: React.FunctionComponent = () => {
           <Row horizontalAlign="between">
             <Text styledAs="label">teams</Text>
             <IconButton onPress={() => navigation.navigate('CreateTeam')}>
-              <Text>a</Text>
+              <Icon.Plus color={theme.colors.background.widget.default} width={20} height={20} />
             </IconButton>
           </Row>
-          <Column
-            gap="small"
-            style={{height: 100}}
-            horizontalAlign="center"
-            verticalAlign="center"
-            backgroundColor="widgetSecondary"
-            borderRadius="default"
-          >
-            <Text>❤️</Text>
-            <Text>create team</Text>
-          </Column>
+          {teamContext.teams.length === 0 ? (
+            <Column
+              gap="small"
+              style={{height: 100}}
+              horizontalAlign="center"
+              verticalAlign="center"
+              backgroundColor="widgetSecondary"
+              borderRadius="default"
+            >
+              <Text>❤️</Text>
+              <Text>create team</Text>
+            </Column>
+          ) : (
+            <Column>
+              {teamContext.teams.map(t => {
+                return <Text key={t.id}>{t.name}</Text>;
+              })}
+            </Column>
+          )}
         </Column>
       </SafeAreaView>
     </DismissKeyboard>

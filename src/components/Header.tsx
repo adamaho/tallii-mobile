@@ -8,7 +8,16 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/screens';
 
 import {theme} from '../design-system/theme';
-import {Heading, TextButton, Column, Row, Icon, IconButton} from '../design-system';
+import {
+  Heading,
+  TextButton,
+  Column,
+  Row,
+  Icon,
+  IconButton,
+  Text,
+  TextButtonProps,
+} from '../design-system';
 
 import type {RowProps} from '../design-system';
 
@@ -79,9 +88,36 @@ const HeaderExit: React.FunctionComponent = () => {
   );
 };
 
+/** ----------------------------------------------------------
+ * HeaderCancelButton
+ * -----------------------------------------------------------*/
+const HeaderCancel: React.FunctionComponent = () => {
+  // init navigation
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  return (
+    <TextButton.Root onPress={() => navigation.goBack()}>
+      <TextButton.Text>cancel</TextButton.Text>
+    </TextButton.Root>
+  );
+};
+
+/** ----------------------------------------------------------
+ * HeaderActionButton
+ * -----------------------------------------------------------*/
+const HeaderAction: React.FunctionComponent<TextButtonProps> = ({children, ...props}) => {
+  return (
+    <TextButton.Root {...props}>
+      <TextButton.Text>{children}</TextButton.Text>
+    </TextButton.Root>
+  );
+};
+
 export const Header = {
   Root: HeaderRoot,
   Back: HeaderBack,
+  Cancel: HeaderCancel,
+  Action: HeaderAction,
   Title: HeaderTitle,
   Exit: HeaderExit,
 };
