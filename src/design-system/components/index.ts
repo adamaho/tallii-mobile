@@ -5,6 +5,7 @@ export * from './Field';
 export * from './Heading';
 export * from './Icons';
 export * from './IconButton';
+export * from './Modal';
 export * from './Pressable';
 export * from './Row';
 export * from './Text';

@@ -10,15 +10,18 @@ import type {RouteProp} from '@react-navigation/native';
 
 import {RootStackParamList} from '../../types/screens';
 
-import {Column, Row, TextButton, Icon, Text, Heading} from '../../design-system';
-import {theme} from '../../design-system/theme';
+import {Modal, Button, Column, Row, Text, Heading} from '../../design-system';
 
 import {Team} from './Team';
 import {scoreboards} from '../../constants';
 import {usePlatformApi} from '../../hooks';
 import {formatDate} from '../../utils';
+import {Header} from '../../components';
 
 export const ViewScoreboard: React.FunctionComponent = () => {
+  // init state for modal visibility
+  const [isVisible, setIsVisible] = React.useState(false);
+
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
 
@@ -67,14 +70,10 @@ export const ViewScoreboard: React.FunctionComponent = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Column>
-        <Row horizontalAlign="between" padding="default">
-          <TextButton.Root onPress={handleBackPress}>
-            <TextButton.Icon>
-              <Icon.Back color={theme.colors.text.default} height={20} width={20} />
-            </TextButton.Icon>
-            <TextButton.Text>back</TextButton.Text>
-          </TextButton.Root>
-        </Row>
+        <Header.Root horizontalAlign="between">
+          <Header.Back />
+          <Header.Action onPress={() => setIsVisible(true)}>delete</Header.Action>
+        </Header.Root>
         <Row padding="default" horizontalAlign="between" verticalAlign="top">
           <Column gap="xsmall">
             <Heading numberOfLines={1}>{scoreboard?.name}</Heading>
@@ -82,6 +81,9 @@ export const ViewScoreboard: React.FunctionComponent = () => {
             <Text styledAs="caption">{formattedDate}</Text>
           </Column>
         </Row>
+        <Modal.Root>
+          <Text>asdasd</Text>
+        </Modal.Root>
       </Column>
       <ScrollView style={{flex: 1}}>
         {sortedTeams && scoreboard && (
