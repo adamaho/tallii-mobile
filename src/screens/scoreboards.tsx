@@ -11,7 +11,7 @@ import {RootStackParamList} from '../types/screens';
 
 import {DismissKeyboard, HeaderTitle, Scoreboard} from '../components';
 
-import {Text, IconButton, Column, Row, Icon} from '../design-system';
+import {Text, IconButton, Column, Row, Icon, Button} from '../design-system';
 
 import {theme} from '../design-system/theme';
 import {scoreboards} from '../constants';

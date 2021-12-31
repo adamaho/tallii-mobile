@@ -21,6 +21,7 @@ export const theme = {
       widget: {
         default: '#000000',
         secondary: '#242424',
+        tertiary: '#525252',
         action: '#FFFFFF',
       },
       accent: {

@@ -1,20 +1,19 @@
 import React from 'react';
 
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-
+import {Text} from 'react-native';
 import type {PressableProps} from 'react-native';
 
 import {Pressable} from './Pressable';
 import {Box} from './Box';
 import {Row} from './Row';
-import {Text} from './Text';
 import {Atoms, atoms} from '../atoms';
 
 /** ----------------------------------------------------------
  * ButtonContext
  * -----------------------------------------------------------*/
 const ButtonContext = React.createContext({
-  appearance: 'primary',
+  appearance: 'default',
+  variant: 'primary',
 });
 
 const useButtonContext = () => {
@@ -36,16 +35,52 @@ interface ButtonTextProps {
 }
 
 const ButtonText: React.FunctionComponent<ButtonTextProps> = ({children}) => {
-  const {appearance} = useButtonContext();
+  const {variant, appearance} = useButtonContext();
 
-  return <Text styledAs={appearance === 'danger' ? 'text' : 'action'}>{children}</Text>;
+  const textStyles = React.useMemo(() => {
+    const styles: Partial<Atoms> = {
+      fontFamily: 'default',
+      fontSize: 'default',
+    };
+
+    switch (variant) {
+      case 'primary': {
+        switch (appearance) {
+          case 'default': {
+            styles.color = 'onAction';
+            break;
+          }
+          case 'danger': {
+            styles.color = 'default';
+            break;
+          }
+        }
+        break;
+      }
+      case 'secondary': {
+        switch (appearance) {
+          case 'default': {
+            styles.color = 'default';
+            break;
+          }
+          case 'danger': {
+            styles.color = 'accentRedDefault';
+          }
+        }
+      }
+    }
+
+    return atoms(styles);
+  }, [variant, appearance]);
+
+  return <Text style={[textStyles]}>{children}</Text>;
 };
 
 /** ----------------------------------------------------------
  * ButtonRoot
  * -----------------------------------------------------------*/
 interface ButtonProps extends PressableProps {
-  variant?: 'primary';
+  variant?: 'primary' | 'secondary';
   appearance?: 'default' | 'danger';
 }
 
@@ -66,6 +101,19 @@ const ButtonRoot = React.forwardRef<any, ButtonProps>(
             }
             case 'danger': {
               styles.backgroundColor = 'accentRedDefault';
+              break;
+            }
+          }
+          break;
+        }
+        case 'secondary': {
+          switch (appearance) {
+            case 'default': {
+              styles.backgroundColor = 'widgetTertiary';
+              break;
+            }
+            case 'danger': {
+              styles.backgroundColor = 'widgetTertiary';
             }
           }
         }
@@ -75,7 +123,7 @@ const ButtonRoot = React.forwardRef<any, ButtonProps>(
     }, [variant, appearance]);
 
     return (
-      <ButtonContext.Provider value={{appearance}}>
+      <ButtonContext.Provider value={{appearance, variant}}>
         <Pressable
           {...props}
           ref={forwardedRef}

@@ -65,7 +65,7 @@ const ModalRoot: React.FunctionComponent<ModalProps> = ({children, ...props}) =>
         <Column verticalAlign="bottom" flex={1}>
           <Box
             margin="small"
-            borderRadius="default"
+            borderRadius="large"
             backgroundColor="widgetSecondary"
             padding="default"
             style={{bottom: 16}}

@@ -116,7 +116,7 @@ export const CreateScoreboard: React.FunctionComponent = () => {
                 borderRadius="default"
               >
                 <Text>❤️</Text>
-                <Text>create team</Text>
+                <Text>no teams</Text>
               </Column>
             ) : (
               <Column>

@@ -71,6 +71,7 @@ export const baseStyles = {
       brandDefault: theme.colors.background.brand.default,
       widgetDefault: theme.colors.background.widget.default,
       widgetSecondary: theme.colors.background.widget.secondary,
+      widgetTertiary: theme.colors.background.widget.tertiary,
       widgetAction: theme.colors.background.widget.action,
       accentRedDefault: theme.colors.background.accent.red.default,
       accentOrangeDefault: theme.colors.background.accent.orange.default,

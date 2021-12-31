@@ -70,10 +70,11 @@ const ViewScoreboardHeader: React.FunctionComponent = () => {
       </Header.Root>
       <Modal.Root>
         <Column>
+          <Text align="center">are you sure you want to delete this scoreboard?</Text>
           <Button.Root appearance="danger" onPress={handleDelete}>
             <Button.Text>delete</Button.Text>
           </Button.Root>
-          <Button.Root onPress={() => setIsVisible(false)}>
+          <Button.Root variant="secondary" onPress={() => setIsVisible(false)}>
             <Button.Text>cancel</Button.Text>
           </Button.Root>
         </Column>
