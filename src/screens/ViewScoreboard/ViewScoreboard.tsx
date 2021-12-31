@@ -41,11 +41,11 @@ const ViewScoreboardHeader: React.FunctionComponent = () => {
   // init mutation to delete the scoreboard
   const {mutate} = useMutation((data: DeleteScoreboardRequest) => api.deleteScoreboard(data), {
     onSuccess: () => {
-      // invalidate scoreboards
-      queryClient.invalidateQueries(scoreboards());
-
       // go back
       navigation.goBack();
+
+      // invalidate scoreboards
+      queryClient.invalidateQueries(scoreboards(), {exact: true});
     },
     onError: error => {
       // TODO handle error

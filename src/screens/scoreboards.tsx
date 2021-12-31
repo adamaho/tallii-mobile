@@ -76,22 +76,39 @@ export const Scoreboards: React.FunctionComponent = () => {
             <TextInput placeholder="search" />
           </Box> */}
         </Column>
-        <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}>
-          <Column paddingHorizontal="default" paddingTop="default">
-            {sortedScoreboards?.map(s => {
-              return (
-                <Scoreboard
-                  key={s.scoreboardId}
-                  scoreboardId={s.scoreboardId}
-                  name={s.name}
-                  game={s.game}
-                  createdAt={s.createdAt}
-                  teams={s.teams}
-                />
-              );
-            })}
+        {sortedScoreboards.length === 0 ? (
+          <Column flex={1} paddingTop="large" paddingHorizontal="default">
+            <Column
+              gap="small"
+              horizontalAlign="center"
+              backgroundColor="widgetSecondary"
+              padding="xlarge"
+              borderRadius="default"
+            >
+              <Text>🕹</Text>
+              <Text>no scoreboards</Text>
+            </Column>
           </Column>
-        </ScrollView>
+        ) : (
+          <ScrollView
+            refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}
+          >
+            <Column paddingHorizontal="default" paddingTop="default">
+              {sortedScoreboards?.map(s => {
+                return (
+                  <Scoreboard
+                    key={s.scoreboardId}
+                    scoreboardId={s.scoreboardId}
+                    name={s.name}
+                    game={s.game}
+                    createdAt={s.createdAt}
+                    teams={s.teams}
+                  />
+                );
+              })}
+            </Column>
+          </ScrollView>
+        )}
       </SafeAreaView>
     </DismissKeyboard>
   );
