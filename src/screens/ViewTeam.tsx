@@ -5,7 +5,8 @@ import {Keyboard, SafeAreaView, TextInput} from 'react-native';
 import {useQuery, useMutation, useQueryClient} from 'react-query';
 
 import {RouteProp, useRoute} from '@react-navigation/native';
-
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/screens';
 
 import {DismissKeyboard, Header} from '../components';
@@ -24,6 +25,9 @@ export const ViewTeam: React.FunctionComponent = () => {
 
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'ViewTeam'>>();
+
+  // init navigation
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   // init api
   const api = usePlatformApi();
@@ -53,6 +57,9 @@ export const ViewTeam: React.FunctionComponent = () => {
 
       // invalidate the scoreboard
       queryClient.invalidateQueries(scoreboards());
+
+      // go back
+      navigation.goBack();
     },
     onError: error => {
       // TODO show toast notification on error
