@@ -2,7 +2,7 @@ import React from 'react';
 
 import {SafeAreaView, ScrollView} from 'react-native';
 
-import {useQuery} from 'react-query';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
 
 import {useRoute, useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -10,17 +10,21 @@ import type {RouteProp} from '@react-navigation/native';
 
 import {RootStackParamList} from '../../types/screens';
 
-import {Modal, Button, Column, Row, Text, Heading} from '../../design-system';
+import {Modal, useModalContext, Button, Column, Row, Text, Heading} from '../../design-system';
 
 import {Team} from './Team';
 import {scoreboards} from '../../constants';
 import {usePlatformApi} from '../../hooks';
 import {formatDate} from '../../utils';
 import {Header} from '../../components';
+import {DeleteScoreboardRequest} from '../../apiClient';
 
-export const ViewScoreboard: React.FunctionComponent = () => {
-  // init state for modal visibility
-  const [isVisible, setIsVisible] = React.useState(false);
+/** ----------------------------------------------------------
+ * ViewScoreboard Header
+ * -----------------------------------------------------------*/
+const ViewScoreboardHeader: React.FunctionComponent = () => {
+  // set is visible
+  const {setIsVisible} = useModalContext();
 
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
@@ -28,10 +32,59 @@ export const ViewScoreboard: React.FunctionComponent = () => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  // handle going back
-  const handleBackPress = React.useCallback(() => {
-    navigation.goBack();
+  // init query client
+  const queryClient = useQueryClient();
+
+  // init api
+  const api = usePlatformApi();
+
+  // init mutation to delete the scoreboard
+  const {mutate} = useMutation((data: DeleteScoreboardRequest) => api.deleteScoreboard(data), {
+    onSuccess: () => {
+      // invalidate scoreboards
+      queryClient.invalidateQueries(scoreboards());
+
+      // go back
+      navigation.goBack();
+    },
+    onError: error => {
+      // TODO handle error
+      console.log(error);
+    },
+  });
+
+  // handle the delete press
+  const handleDelete = React.useCallback(() => {
+    const request: DeleteScoreboardRequest = {
+      scoreboardId: route.params.scoreboardId,
+    };
+
+    mutate(request);
   }, []);
+
+  return (
+    <>
+      <Header.Root horizontalAlign="between">
+        <Header.Back />
+        <Modal.TextTrigger>delete</Modal.TextTrigger>
+      </Header.Root>
+      <Modal.Root>
+        <Column>
+          <Button.Root appearance="danger" onPress={handleDelete}>
+            <Button.Text>delete</Button.Text>
+          </Button.Root>
+          <Button.Root onPress={() => setIsVisible(false)}>
+            <Button.Text>cancel</Button.Text>
+          </Button.Root>
+        </Column>
+      </Modal.Root>
+    </>
+  );
+};
+
+export const ViewScoreboard: React.FunctionComponent = () => {
+  // init route to get the params
+  const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
 
   // init api
   const api = usePlatformApi();
@@ -70,10 +123,9 @@ export const ViewScoreboard: React.FunctionComponent = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Column>
-        <Header.Root horizontalAlign="between">
-          <Header.Back />
-          <Header.Action onPress={() => setIsVisible(true)}>delete</Header.Action>
-        </Header.Root>
+        <Modal.Context>
+          <ViewScoreboardHeader />
+        </Modal.Context>
         <Row padding="default" horizontalAlign="between" verticalAlign="top">
           <Column gap="xsmall">
             <Heading numberOfLines={1}>{scoreboard?.name}</Heading>
@@ -81,9 +133,6 @@ export const ViewScoreboard: React.FunctionComponent = () => {
             <Text styledAs="caption">{formattedDate}</Text>
           </Column>
         </Row>
-        <Modal.Root>
-          <Text>asdasd</Text>
-        </Modal.Root>
       </Column>
       <ScrollView style={{flex: 1}}>
         {sortedTeams && scoreboard && (

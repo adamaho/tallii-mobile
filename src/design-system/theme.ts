@@ -25,7 +25,7 @@ export const theme = {
       },
       accent: {
         red: {
-          default: 'red',
+          default: '#EA745A',
         },
         orange: {
           default: '#F6B67A',
