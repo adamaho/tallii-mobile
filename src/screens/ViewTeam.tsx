@@ -10,7 +10,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/screens';
 
 import {DismissKeyboard, Header} from '../components';
-import {Box, Heading, Column, Button} from '../design-system';
+import {Row, IconButton, Box, Heading, Column, Button, Icon} from '../design-system';
 
 import {theme} from '../design-system/theme';
 
@@ -86,6 +86,22 @@ export const ViewTeam: React.FunctionComponent = () => {
     setScore(Number(score));
   }, []);
 
+  // handle minus press
+  const handleMinusPress = React.useCallback(() => {
+    setScore(current => {
+      if (current <= 0) {
+        return 0;
+      }
+
+      return (current -= 1);
+    });
+  }, []);
+
+  // handle plus press
+  const handlePlusPress = React.useCallback(() => {
+    setScore(current => (current += 1));
+  }, []);
+
   return (
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1}}>
@@ -97,24 +113,33 @@ export const ViewTeam: React.FunctionComponent = () => {
           <Column gap="large">
             <Box
               backgroundColor="widgetSecondary"
-              padding="xlarge"
+              padding="large"
               borderRadius="large"
               width="full"
             >
               {!(currentTeam == null) && (
-                <TextInput
-                  defaultValue={currentTeam.score.toString()}
-                  onChangeText={handleScoreChange}
-                  style={{
-                    textAlign: 'center',
-                    fontFamily: 'Nunito-Black',
-                    fontSize: 64,
-                    color: theme.colors.text.default,
-                    minWidth: 100,
-                    width: '100%',
-                  }}
-                  keyboardType="number-pad"
-                />
+                <Row horizontalAlign="between">
+                  <IconButton onPress={handleMinusPress}>
+                    <Icon.Minus width={20} height={20} color={theme.colors.text.onAction} />
+                  </IconButton>
+                  <TextInput
+                    defaultValue={currentTeam.score.toString()}
+                    value={score === 0 ? undefined : score.toString()}
+                    onChangeText={handleScoreChange}
+                    style={{
+                      textAlign: 'center',
+                      fontFamily: 'Nunito-Black',
+                      fontSize: 64,
+                      color: theme.colors.text.default,
+                      minWidth: 100,
+                      width: '100%',
+                    }}
+                    keyboardType="number-pad"
+                  />
+                  <IconButton onPress={handlePlusPress}>
+                    <Icon.Plus width={20} height={20} color={theme.colors.text.onAction} />
+                  </IconButton>
+                </Row>
               )}
             </Box>
             <Button.Root onPress={handleUpdateTeam}>
