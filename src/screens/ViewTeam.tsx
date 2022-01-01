@@ -119,7 +119,7 @@ export const ViewTeam: React.FunctionComponent = () => {
             >
               {!(currentTeam == null) && (
                 <Row horizontalAlign="between">
-                  <IconButton onPress={handleMinusPress}>
+                  <IconButton onPress={handleMinusPress} backgroundColor="widgetTertiary">
                     <Icon.Minus width={20} height={20} color={theme.colors.text.onAction} />
                   </IconButton>
                   <TextInput
@@ -136,7 +136,7 @@ export const ViewTeam: React.FunctionComponent = () => {
                     }}
                     keyboardType="number-pad"
                   />
-                  <IconButton onPress={handlePlusPress}>
+                  <IconButton onPress={handlePlusPress} backgroundColor="widgetTertiary">
                     <Icon.Plus width={20} height={20} color={theme.colors.text.onAction} />
                   </IconButton>
                 </Row>

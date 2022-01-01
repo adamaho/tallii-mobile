@@ -4,7 +4,6 @@ an ios and android application for the tallii platform.
 
 ## todo
 
-- implement +1 -1 for the score
 - add privacy policy and terms and conditions
 
 ## troubleshooting
