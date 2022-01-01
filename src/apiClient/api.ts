@@ -3,7 +3,7 @@ import {Configuration as PlatformConfiguration, DefaultApi as PlatformApi} from 
 // get the base path of the service to all
 const getBasePath = (service: string) => {
   return `http://192.168.179.142:6000`;
-  // return `https://api.tallii.io/${service}`;
+  // return `https://tallii-platform-cb9d8.ondigitalocean.app`;
 };
 
 // define the config for the auth api

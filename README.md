@@ -4,6 +4,7 @@ an ios and android application for the tallii platform.
 
 ## todo
 
+- change all buttons but the primary ones to secondary background
 - add privacy policy and terms and conditions
 
 ## troubleshooting
