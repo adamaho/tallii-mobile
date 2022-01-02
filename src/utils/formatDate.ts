@@ -7,5 +7,5 @@ export const formatDate = (date: Date): string => {
 
   const zonedTime = utcToZonedTime(date, timeZone);
 
-  return format(zonedTime, 'h:m MMM. d');
+  return format(zonedTime, 'MMM. d');
 };
