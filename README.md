@@ -11,6 +11,8 @@ an ios and android application for the tallii platform.
 - truncate team names everywhere, consider adding character limit as well
 - edited most recent decending for scoreboards
 - add max score
+- loading state for each page
+- add linting
 - add validation on teams
 - fix minus button for score when trying to go to 0
 - change all buttons but the primary ones to secondary background

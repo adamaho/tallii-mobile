@@ -11,7 +11,7 @@ import {RootStackParamList} from '../types/screens';
 
 import {DismissKeyboard, HeaderTitle, Scoreboard} from '../components';
 
-import {Text, IconButton, Column, Row, Icon, Button} from '../design-system';
+import {Text, IconButton, Column, Row, Icon} from '../design-system';
 
 import {theme} from '../design-system/theme';
 import {scoreboards} from '../constants';
@@ -35,11 +35,11 @@ export const Scoreboards: React.FunctionComponent = () => {
     },
   });
 
-  // sort the scoreboards by createdAt date
+  // sort the scoreboards by updatedAt date
   const sortedScoreboards = React.useMemo(() => {
     if (myScoreboards) {
       return [...myScoreboards]?.sort(
-        (a, b) => getUnixTime(b.createdAt) - getUnixTime(a.createdAt),
+        (a, b) => getUnixTime(b.updatedAt) - getUnixTime(a.updatedAt),
       );
     }
 
@@ -101,7 +101,7 @@ export const Scoreboards: React.FunctionComponent = () => {
                     scoreboardId={s.scoreboardId}
                     name={s.name}
                     game={s.game}
-                    createdAt={s.createdAt}
+                    updatedAt={s.updatedAt}
                     teams={s.teams}
                   />
                 );

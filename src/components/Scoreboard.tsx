@@ -15,7 +15,7 @@ interface ScoreboardProps {
   scoreboardId: number;
   name: string;
   game: string;
-  createdAt: Date;
+  updatedAt: Date;
   teams: TeamModel[];
 }
 
@@ -23,7 +23,7 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
   scoreboardId,
   name,
   game,
-  createdAt,
+  updatedAt,
   teams,
 }) => {
   // init navigation
@@ -44,8 +44,8 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
 
   // format the date
   const formattedDate = React.useMemo(() => {
-    return formatDate(createdAt);
-  }, [createdAt]);
+    return formatDate(updatedAt);
+  }, [updatedAt]);
 
   return (
     <Pressable

@@ -54,6 +54,12 @@ export interface ScoreboardModel {
   createdAt: Date;
   /**
    *
+   * @type {Date}
+   * @memberof ScoreboardModel
+   */
+  updatedAt: Date;
+  /**
+   *
    * @type {Array<TeamModel>}
    * @memberof ScoreboardModel
    */
@@ -77,6 +83,7 @@ export function ScoreboardModelFromJSONTyped(
     game: json['game'],
     createdBy: json['created_by'],
     createdAt: new Date(json['created_at']),
+    updatedAt: new Date(json['updated_at']),
     teams: (json['teams'] as Array<any>).map(TeamModelFromJSON),
   };
 }
@@ -94,6 +101,7 @@ export function ScoreboardModelToJSON(value?: ScoreboardModel | null): any {
     game: value.game,
     created_by: value.createdBy,
     created_at: value.createdAt.toISOString(),
+    updated_at: value.updatedAt.toISOString(),
     teams: (value.teams as Array<any>).map(TeamModelToJSON),
   };
 }
