@@ -100,7 +100,7 @@ export const ViewScoreboard: React.FunctionComponent = () => {
   // format the date
   const formattedDate = React.useMemo(() => {
     if (scoreboard) {
-      return formatDate(scoreboard.createdAt);
+      return formatDate(scoreboard.updatedAt);
     }
   }, [scoreboard]);
 
