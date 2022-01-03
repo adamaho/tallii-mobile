@@ -1,5 +1,6 @@
 enum QueryKeys {
   AUTHORIZE = 'AUTHORIZE',
+  ME = 'ME',
   SCOREBOARDS = 'SCOREBOARDS',
   TEAM = 'TEAM',
 }
@@ -32,4 +33,11 @@ export const scoreboards = (scoreboardId?: number) => {
  */
 export const team = (teamId: number) => {
   return [QueryKeys.TEAM, teamId];
+};
+
+/**
+ * the cache key for the currently logged in user
+ */
+export const me = () => {
+  return QueryKeys.ME;
 };

@@ -19,7 +19,7 @@ export const theme = {
         default: '#3B82F6',
       },
       widget: {
-        default: '#000000',
+        default: '#151515',
         secondary: '#242424',
         tertiary: '#525252',
         action: '#FFFFFF',

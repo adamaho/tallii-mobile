@@ -38,6 +38,9 @@ import {
   UpdateTeamRequestModel,
   UpdateTeamRequestModelFromJSON,
   UpdateTeamRequestModelToJSON,
+  UserModel,
+  UserModelFromJSON,
+  UserModelToJSON,
 } from '../models';
 
 export interface CreateScoreboardRequest {
@@ -215,6 +218,43 @@ export class DefaultApi extends runtime.BaseAPI {
    */
   async getAuthorize(initOverrides?: RequestInit): Promise<void> {
     await this.getAuthorizeRaw(initOverrides);
+  }
+
+  /**
+   * gets the user info of the currently logged in user
+   */
+  async getMeRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<UserModel>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/me`,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, jsonValue => UserModelFromJSON(jsonValue));
+  }
+
+  /**
+   * gets the user info of the currently logged in user
+   */
+  async getMe(initOverrides?: RequestInit): Promise<UserModel> {
+    const response = await this.getMeRaw(initOverrides);
+    return await response.value();
   }
 
   /**

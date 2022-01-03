@@ -1,12 +1,15 @@
 import React from 'react';
 
 import * as Keychain from 'react-native-keychain';
+import {UserModel} from '../apiClient';
 
 import {getPlatformApi} from '../apiClient/api';
 
 interface AuthContextProps {
   token?: string;
   setToken?: React.Dispatch<React.SetStateAction<string | undefined>>;
+  user?: UserModel;
+  setUser?: React.Dispatch<React.SetStateAction<UserModel | undefined>>;
   isAuthenticating: boolean;
   isAuthenticated: boolean;
   authorize?: (token: string) => Promise<any>;
@@ -20,6 +23,7 @@ const AuthContext = React.createContext<AuthContextProps>({
 
 export const AuthContextProvider: React.FunctionComponent = ({children}) => {
   const [token, setToken] = React.useState<string | undefined>();
+  const [user, setUser] = React.useState<UserModel | undefined>();
 
   const [isAuthenticating, setIsAuthenticating] = React.useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
@@ -54,7 +58,7 @@ export const AuthContextProvider: React.FunctionComponent = ({children}) => {
 
   return (
     <AuthContext.Provider
-      value={{token, setToken, authorize, isAuthenticating, isAuthenticated, logout}}
+      value={{token, setToken, authorize, isAuthenticating, isAuthenticated, logout, user, setUser}}
     >
       {children}
     </AuthContext.Provider>

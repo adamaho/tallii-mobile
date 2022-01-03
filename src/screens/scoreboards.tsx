@@ -9,7 +9,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RefreshControl, SafeAreaView, ScrollView} from 'react-native';
 import {RootStackParamList} from '../types/screens';
 
-import {DismissKeyboard, HeaderTitle, Scoreboard} from '../components';
+import {DismissKeyboard, Header, Scoreboard} from '../components';
 
 import {Text, IconButton, Column, Row, Icon} from '../design-system';
 
@@ -50,23 +50,18 @@ export const Scoreboards: React.FunctionComponent = () => {
     <DismissKeyboard>
       <SafeAreaView style={{flex: 1}}>
         <Column>
-          <Row
-            horizontalAlign="between"
-            paddingHorizontal="default"
-            verticalAlign="center"
-            paddingVertical="default"
-          >
+          <Header.Root horizontalAlign="between">
             <IconButton
-              backgroundColor="accentOrangeDefault"
+              backgroundColor="widgetSecondary"
               onPress={() => navigation.navigate('ViewProfile')}
             >
-              <Text>🐺</Text>
+              <Icon.User height={20} width={20} color={theme.colors.text.default} />
             </IconButton>
-            <HeaderTitle>scoreboards</HeaderTitle>
+            <Header.Title>scoreboards</Header.Title>
             <IconButton onPress={() => navigation.navigate('CreateScoreboard')}>
               <Icon.Plus color={theme.colors.background.widget.default} width={20} height={20} />
             </IconButton>
-          </Row>
+          </Header.Root>
           {/* TODO: Add support for this at a later date */}
           {/* <Box
             paddingHorizontal="default"

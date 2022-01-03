@@ -58,6 +58,9 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
 
       // save the access token to context
       auth.authorize?.(response.accessToken);
+
+      // save the user info to context
+      auth.setUser?.(response.user);
     },
     onError: error => {
       // TODO throw toast notification when an error occurs

@@ -60,6 +60,9 @@ export const Signup: React.FunctionComponent<SignupProps> = () => {
 
       // save the access token to context
       auth.authorize?.(response.accessToken);
+
+      // save the user info to context
+      auth.setUser?.(response.user);
     },
     onError: error => {
       // show error in toast notification here

@@ -41,7 +41,7 @@ interface HeaderTitleProps {
 
 const HeaderTitle: React.FunctionComponent<HeaderTitleProps> = ({children}) => {
   return (
-    <Column gap="xsmall">
+    <Column gap="none">
       <Heading level="3">{children}</Heading>
       <LinearGradient
         start={{x: 0, y: 0}}
