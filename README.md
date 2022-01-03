@@ -4,9 +4,7 @@ an ios and android application for the tallii platform.
 
 ## todo
 
-- fix profile screen by fetching user info when the screen opens
 - truncate team names everywhere, consider adding character limit as well
-- edited most recent decending for scoreboards
 - add max score
 - loading state for each page
 - add linting
