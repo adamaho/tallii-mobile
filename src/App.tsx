@@ -10,7 +10,7 @@ import {theme} from './design-system/theme';
 import {Login} from './screens/Login';
 import {Signup} from './screens/Signup';
 import {Scoreboards} from './screens/Scoreboards';
-import {CreateScoreboard} from './screens/CreateScoreboard';
+import {CreateScoreboard} from './screens/CreateScoreboard/CreateScoreboard';
 import {CreateTeam} from './screens/CreateTeam';
 import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
 import {ViewTeam} from './screens/ViewTeam';

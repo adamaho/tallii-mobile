@@ -10,7 +10,6 @@ an ios and android application for the tallii platform.
 - loading state for each page
 - add linting
 - add validation on teams
-- fix minus button for score when trying to go to 0
 - add privacy policy and terms and conditions
 
 ## troubleshooting
