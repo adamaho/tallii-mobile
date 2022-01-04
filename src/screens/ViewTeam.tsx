@@ -23,6 +23,9 @@ export const ViewTeam: React.FunctionComponent = () => {
   // init state to get the new score
   const [score, setScore] = React.useState<number>(0);
 
+  // init state to track if the user is using keyboard or not
+  const [isUsingKeyboard, setIsUsingKeyboard] = React.useState(false);
+
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'ViewTeam'>>();
 
@@ -89,7 +92,7 @@ export const ViewTeam: React.FunctionComponent = () => {
   // handle minus press
   const handleMinusPress = React.useCallback(() => {
     setScore(current => {
-      if (current <= 0) {
+      if (current <= 1) {
         return 0;
       }
 
@@ -119,24 +122,27 @@ export const ViewTeam: React.FunctionComponent = () => {
             >
               {!(currentTeam == null) && (
                 <Row horizontalAlign="between">
-                  <IconButton onPress={handleMinusPress} backgroundColor="widgetTertiary">
+                  <IconButton onPress={handleMinusPress}>
                     <Icon.Minus width={20} height={20} color={theme.colors.text.onAction} />
                   </IconButton>
                   <TextInput
                     defaultValue={currentTeam.score.toString()}
-                    value={score === 0 ? undefined : score.toString()}
+                    value={score === 0 && isUsingKeyboard ? undefined : score.toString()}
                     onChangeText={handleScoreChange}
+                    onFocus={() => setIsUsingKeyboard(true)}
+                    onBlur={() => setIsUsingKeyboard(true)}
                     style={{
                       textAlign: 'center',
                       fontFamily: 'Nunito-Black',
                       fontSize: 64,
                       color: theme.colors.text.default,
                       minWidth: 100,
+                      maxWidth: 200,
                       width: '100%',
                     }}
                     keyboardType="number-pad"
                   />
-                  <IconButton onPress={handlePlusPress} backgroundColor="widgetTertiary">
+                  <IconButton onPress={handlePlusPress}>
                     <Icon.Plus width={20} height={20} color={theme.colors.text.onAction} />
                   </IconButton>
                 </Row>

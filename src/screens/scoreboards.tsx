@@ -51,11 +51,8 @@ export const Scoreboards: React.FunctionComponent = () => {
       <SafeAreaView style={{flex: 1}}>
         <Column>
           <Header.Root horizontalAlign="between">
-            <IconButton
-              backgroundColor="widgetSecondary"
-              onPress={() => navigation.navigate('ViewProfile')}
-            >
-              <Icon.User height={20} width={20} color={theme.colors.text.default} />
+            <IconButton onPress={() => navigation.navigate('ViewProfile')}>
+              <Icon.User height={20} width={20} color={theme.colors.text.onAction} />
             </IconButton>
             <Header.Title>scoreboards</Header.Title>
             <IconButton onPress={() => navigation.navigate('CreateScoreboard')}>

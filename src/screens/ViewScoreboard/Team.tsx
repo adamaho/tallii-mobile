@@ -26,7 +26,9 @@ export const Team: React.FunctionComponent<TeamProps> = ({name, score, scoreboar
         padding="default"
         borderRadius="default"
       >
-        <Text>{name}</Text>
+        <Text numberOfLines={1} style={{flex: 0.9}}>
+          {name}
+        </Text>
         <Heading>{score}</Heading>
       </Row>
     </Pressable>

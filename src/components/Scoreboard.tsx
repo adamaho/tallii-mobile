@@ -61,7 +61,9 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
             <Heading level="3" numberOfLines={1}>
               {name}
             </Heading>
-            <Text styledAs="label">{game}</Text>
+            <Text styledAs="label" numberOfLines={1}>
+              {game}
+            </Text>
           </Column>
           <Text styledAs="label">{formattedDate.toLocaleLowerCase()}</Text>
         </Row>
@@ -69,7 +71,9 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
           {sortedTeams.map((t, i) => {
             return (
               <Row key={i} horizontalAlign="between" padding="none">
-                <Text styledAs="caption">{t.name}</Text>
+                <Text styledAs="caption" style={{flex: 0.9}} numberOfLines={1}>
+                  {t.name}
+                </Text>
                 {i === 0 ? (
                   <Header.Title>{t.score.toString()}</Header.Title>
                 ) : (

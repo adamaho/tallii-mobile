@@ -2,15 +2,15 @@
 
 an ios and android application for the tallii platform.
 
-## todo
+## todo mvp
 
-- truncate team names everywhere, consider adding character limit as well
-- add max score
+- add loading states for every screen
+- add error states for every screen when things go wrong
+- add toast notifications
 - loading state for each page
 - add linting
 - add validation on teams
 - fix minus button for score when trying to go to 0
-- change all buttons but the primary ones to secondary background
 - add privacy policy and terms and conditions
 
 ## troubleshooting

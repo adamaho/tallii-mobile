@@ -130,7 +130,7 @@ export const ViewScoreboard: React.FunctionComponent = () => {
         <Row padding="default" horizontalAlign="between" verticalAlign="top">
           <Column gap="xsmall">
             <Heading numberOfLines={1}>{scoreboard?.name}</Heading>
-            <Text>{scoreboard?.game}</Text>
+            <Text numberOfLines={1}>{scoreboard?.game}</Text>
             <Text styledAs="caption">{formattedDate}</Text>
           </Column>
         </Row>

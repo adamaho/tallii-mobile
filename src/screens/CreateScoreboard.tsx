@@ -115,7 +115,7 @@ export const CreateScoreboard: React.FunctionComponent = () => {
                 backgroundColor="widgetSecondary"
                 borderRadius="default"
               >
-                <Text>❤️</Text>
+                <Text>💔</Text>
                 <Text>no teams</Text>
               </Column>
             ) : (
@@ -129,7 +129,9 @@ export const CreateScoreboard: React.FunctionComponent = () => {
                       borderRadius="default"
                       horizontalAlign="between"
                     >
-                      <Text>{t.name}</Text>
+                      <Text numberOfLines={1} style={{flex: 0.9}}>
+                        {t.name}
+                      </Text>
                       <Pressable onPress={() => teamContext.removeTeam(t.id)}>
                         <Icon.Times height={20} width={20} color={theme.colors.text.default} />
                       </Pressable>
