@@ -22,11 +22,12 @@ export const theme = {
         default: '#151515',
         secondary: '#242424',
         tertiary: '#525252',
+        highlight: '#353535',
         action: '#FFFFFF',
       },
       accent: {
         red: {
-          default: '#EA745A',
+          default: '#ED213A',
         },
         orange: {
           default: '#F6B67A',

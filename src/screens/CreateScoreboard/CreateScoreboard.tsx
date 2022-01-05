@@ -14,7 +14,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 
 import {Column} from '../../design-system';
 import {DismissKeyboard, Header, TextInputField} from '../../components';
-import {useCreateTeamContext} from '../../contexts';
+import {Team, useCreateTeamContext} from '../../contexts';
 
 import {CreateScoreboardRequest} from '../../apiClient';
 
@@ -28,7 +28,12 @@ const scoreboardSchema = yup.object().shape({
   game: yup.string().required('you forgot to say what game it is'),
   teams: yup
     .array()
-    .of(yup.string())
+    .of(
+      yup.object().shape({
+        id: yup.number(),
+        name: yup.string(),
+      }),
+    )
     .min(1, "it's no fun without teams")
     .required("it's no fun without teams"),
 });
@@ -67,22 +72,20 @@ export const CreateScoreboard: React.FunctionComponent = () => {
   });
 
   // handle submitting the scoreboard
-  const saveScoreboard = React.useCallback(
-    (data: {name: string; game: string}) => {
-      console.log(data);
-      const request: CreateScoreboardRequest = {
-        createScoreboardRequestModel: {
-          ...data,
-          teams: teamContext.teams.map(t => ({
-            name: t.name,
-          })),
-        },
-      };
+  const saveScoreboard = React.useCallback((data: {name: string; game: string; teams: Team[]}) => {
+    const request: CreateScoreboardRequest = {
+      createScoreboardRequestModel: {
+        ...data,
+        teams: data.teams.map(t => ({
+          name: t.name,
+        })),
+      },
+    };
 
-      // mutate(request);
-    },
-    [teamContext],
-  );
+    console.log(request);
+
+    mutate(request);
+  }, []);
 
   // clear the teams from context when the component unmounts
   React.useEffect(() => {

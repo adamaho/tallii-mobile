@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {useQuery} from 'react-query';
+import ContentLoader, {Rect, Circle} from 'react-content-loader/native';
 
 import getUnixTime from 'date-fns/getUnixTime';
 
@@ -11,7 +12,7 @@ import {RootStackParamList} from '../types/screens';
 
 import {DismissKeyboard, Header, Scoreboard} from '../components';
 
-import {Text, IconButton, Column, Row, Icon} from '../design-system';
+import {Text, IconButton, Column, Row, Icon, Box} from '../design-system';
 
 import {theme} from '../design-system/theme';
 import {scoreboards} from '../constants';
@@ -28,6 +29,7 @@ export const Scoreboards: React.FunctionComponent = () => {
   const {
     data: myScoreboards,
     isLoading,
+    isError,
     refetch,
   } = useQuery(scoreboards(), () => api.getMyScoreboards(), {
     onError: () => {
@@ -45,6 +47,80 @@ export const Scoreboards: React.FunctionComponent = () => {
 
     return [];
   }, [myScoreboards]);
+
+  const list = React.useMemo(() => {
+    if (isLoading) {
+      return (
+        <Column width="full" paddingHorizontal="default" verticalAlign="top">
+          <ContentLoader
+            width="100%"
+            height={450}
+            viewBox="0 0 400 500"
+            backgroundColor={theme.colors.background.widget.secondary}
+            foregroundColor={theme.colors.background.widget.highlight}
+          >
+            <Rect x="0" y="16" rx="16" ry="16" width="100%" height="150" />
+            <Rect x="0" y="182" rx="16" ry="16" width="100%" height="150" />
+            <Rect x="0" y="348" rx="16" ry="16" width="100%" height="150" />
+          </ContentLoader>
+        </Column>
+      );
+    }
+
+    if (isError) {
+      return (
+        <Column flex={1} horizontalAlign="center" padding="default">
+          <Column
+            gap="small"
+            backgroundColor="widgetSecondary"
+            horizontalAlign="center"
+            width="full"
+            padding="default"
+            borderRadius="default"
+          >
+            <Icon.ExclamationTriangle height={48} width={48} color={theme.colors.text.default} />
+            <Text>well bud, seems we can't get your scoreboards. check back in later.</Text>
+          </Column>
+        </Column>
+      );
+    }
+
+    if (myScoreboards?.length === 0) {
+      return (
+        <Column flex={1} paddingTop="large" paddingHorizontal="default">
+          <Column
+            gap="small"
+            horizontalAlign="center"
+            backgroundColor="widgetSecondary"
+            padding="xlarge"
+            borderRadius="default"
+          >
+            <Text>🕹</Text>
+            <Text>no scoreboards</Text>
+          </Column>
+        </Column>
+      );
+    }
+
+    return (
+      <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}>
+        <Column paddingHorizontal="default" paddingTop="default">
+          {sortedScoreboards?.map(s => {
+            return (
+              <Scoreboard
+                key={s.scoreboardId}
+                scoreboardId={s.scoreboardId}
+                name={s.name}
+                game={s.game}
+                updatedAt={s.updatedAt}
+                teams={s.teams}
+              />
+            );
+          })}
+        </Column>
+      </ScrollView>
+    );
+  }, [isLoading, isError, sortedScoreboards]);
 
   return (
     <DismissKeyboard>
@@ -68,39 +144,7 @@ export const Scoreboards: React.FunctionComponent = () => {
             <TextInput placeholder="search" />
           </Box> */}
         </Column>
-        {sortedScoreboards.length === 0 ? (
-          <Column flex={1} paddingTop="large" paddingHorizontal="default">
-            <Column
-              gap="small"
-              horizontalAlign="center"
-              backgroundColor="widgetSecondary"
-              padding="xlarge"
-              borderRadius="default"
-            >
-              <Text>🕹</Text>
-              <Text>no scoreboards</Text>
-            </Column>
-          </Column>
-        ) : (
-          <ScrollView
-            refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}
-          >
-            <Column paddingHorizontal="default" paddingTop="default">
-              {sortedScoreboards?.map(s => {
-                return (
-                  <Scoreboard
-                    key={s.scoreboardId}
-                    scoreboardId={s.scoreboardId}
-                    name={s.name}
-                    game={s.game}
-                    updatedAt={s.updatedAt}
-                    teams={s.teams}
-                  />
-                );
-              })}
-            </Column>
-          </ScrollView>
-        )}
+        {list}
       </SafeAreaView>
     </DismissKeyboard>
   );

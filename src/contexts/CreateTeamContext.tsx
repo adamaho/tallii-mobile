@@ -2,7 +2,7 @@ import React from 'react';
 
 import type {CreateScoreboardRequestModelTeams} from '../apiClient';
 
-interface Team extends CreateScoreboardRequestModelTeams {
+export interface Team extends CreateScoreboardRequestModelTeams {
   id: number;
 }
 

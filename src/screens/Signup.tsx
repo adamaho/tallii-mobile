@@ -97,7 +97,12 @@ export const Signup: React.FunctionComponent<SignupProps> = () => {
                   autoCapitalize="none"
                   keyboardType="email-address"
                 />
-                <TextInputField name="username" label="username" control={control} />
+                <TextInputField
+                  name="username"
+                  label="username"
+                  control={control}
+                  autoCapitalize="none"
+                />
                 <TextInputField
                   name="password"
                   label="password"

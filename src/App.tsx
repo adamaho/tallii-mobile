@@ -50,7 +50,12 @@ const AppNavigation: React.FunctionComponent = () => {
 
   if (isLoadingToken || auth.isAuthenticating) {
     return (
-      <Column flex={1} verticalAlign="center" horizontalAlign="center">
+      <Column
+        flex={1}
+        verticalAlign="center"
+        horizontalAlign="center"
+        backgroundColor="widgetDefault"
+      >
         <Logo />
       </Column>
     );
