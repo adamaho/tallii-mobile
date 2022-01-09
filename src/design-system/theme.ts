@@ -28,9 +28,31 @@ export const theme = {
       accent: {
         red: {
           default: '#ED213A',
+          secondary: '#F39393',
         },
         orange: {
-          default: '#F6B67A',
+          default: '#FFA44F',
+          secondary: '#F6B67A',
+        },
+        yellow: {
+          default: '#FFE55F',
+          secondary: '#F9E893',
+        },
+        green: {
+          default: '#90FC8E',
+          secondary: '#C7FEC6',
+        },
+        blue: {
+          default: '#78B6FF',
+          secondary: '#AECFF7',
+        },
+        purple: {
+          default: '#C483F8',
+          secondary: '#D8B4F3',
+        },
+        pink: {
+          default: '#FF96F4',
+          secondary: '#FFCBFA',
         },
       },
     },

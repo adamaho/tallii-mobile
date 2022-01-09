@@ -1,3 +1,5 @@
+import type {Atoms} from '../design-system/atoms';
+
 export type RootStackParamList = {
   Login: undefined;
   Signup: undefined;
@@ -9,7 +11,7 @@ export type RootStackParamList = {
   ViewTeam: {teamId: number; scoreboardId: number};
   EditAvatar: {
     onSave: (emoji: string, backgroundColor: string) => void;
-    defaultBackgroundColor: string;
+    defaultBackgroundColor: Atoms['backgroundColor'];
     defaultEmoji: string;
   };
 };

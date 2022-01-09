@@ -5,33 +5,89 @@ import {Text} from 'react-native';
 import {Column} from './Column';
 import type {ColumnProps} from './Column';
 
+import {Pressable} from './Pressable';
+import type {PressableProps} from './Pressable';
+
 import type {Atoms} from '../atoms';
 
 /** ----------------------------------------------------------
  * AvatarContext
  * -----------------------------------------------------------*/
+interface AvatarContextProps {
+  size: 'small' | 'default' | 'large';
+}
+
+const AvatarContext = React.createContext({
+  size: 'default',
+});
+
+const useAvatarContext = () => {
+  return React.useContext(AvatarContext);
+};
 
 /** ----------------------------------------------------------
  * AvatarRoot
  * -----------------------------------------------------------*/
-export interface AvatarRootProps extends ColumnProps {
+type AvatarRooteComponentProps = ColumnProps;
+
+export interface AvatarRootProps extends AvatarRooteComponentProps {
   backgroundColor?: Atoms['backgroundColor'];
-  size?: 'small' | 'large';
+  size?: 'small' | 'default' | 'large';
+  onPress?: () => void;
+  isDisabled?: boolean;
 }
 
 const AvatarRoot = React.forwardRef<any, AvatarRootProps>(
-  ({backgroundColor = 'accentOrangeDefault', children, ...props}, forwardedRef) => {
+  (
+    {
+      backgroundColor = 'accentOrangeDefault',
+      size = 'default',
+      isDisabled,
+      children,
+      onPress,
+      ...props
+    },
+    forwardedRef,
+  ) => {
+    const sizeStyle = React.useMemo(() => {
+      switch (size) {
+        case 'default': {
+          return {
+            height: 50,
+            width: 50,
+          };
+        }
+        case 'small': {
+          return {
+            height: 30,
+            width: 30,
+          };
+        }
+        case 'large': {
+          return {
+            height: 80,
+            width: 80,
+          };
+        }
+      }
+    }, [size]);
+
     return (
-      <Column
-        {...props}
-        verticalAlign="center"
-        horizontalAlign="center"
-        backgroundColor={backgroundColor}
-        borderRadius="round"
-        style={{height: 80, width: 80}}
-      >
-        {children}
-      </Column>
+      <AvatarContext.Provider value={{size}}>
+        <Pressable onPress={onPress} disabled={isDisabled}>
+          <Column
+            {...props}
+            verticalAlign="center"
+            horizontalAlign="center"
+            backgroundColor={backgroundColor}
+            borderRadius="round"
+            ref={forwardedRef}
+            style={sizeStyle}
+          >
+            {children}
+          </Column>
+        </Pressable>
+      </AvatarContext.Provider>
     );
   },
 );
@@ -43,8 +99,30 @@ export interface AvatarEmojiProps {}
 
 const AvatarEmoji = React.forwardRef<any, AvatarEmojiProps>(
   ({children, ...props}, forwardedRef) => {
+    const {size} = useAvatarContext();
+
+    const sizeStyle = React.useMemo(() => {
+      switch (size) {
+        case 'default': {
+          return {
+            fontSize: 24,
+          };
+        }
+        case 'small': {
+          return {
+            fontSize: 12,
+          };
+        }
+        case 'large': {
+          return {
+            fontSize: 40,
+          };
+        }
+      }
+    }, [size]);
+
     return (
-      <Text {...props} style={{fontSize: 40}}>
+      <Text {...props} ref={forwardedRef} style={sizeStyle}>
         {children}
       </Text>
     );
