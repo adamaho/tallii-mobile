@@ -3,7 +3,7 @@ import React from 'react';
 import {SafeAreaView} from 'react-native';
 import {useQuery} from 'react-query';
 
-import {Column, Button, Box} from '../design-system';
+import {Column, Button, Row, Heading} from '../design-system';
 import {Header} from '../components';
 import {useAuthContext} from '../contexts';
 import {usePlatformApi} from '../hooks';
@@ -21,12 +21,13 @@ export const ViewProfile: React.FunctionComponent = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <Column flex={1} verticalAlign="between" horizontalAlign="center">
-        <Header.Root horizontalAlign="between">
-          <Box />
-          <Header.Title>{user?.username || 'unknown'}</Header.Title>
+      <Column flex={1} horizontalAlign="center">
+        <Header.Root horizontalAlign="right">
           <Header.Exit />
         </Header.Root>
+        <Column>
+          <Heading>{user?.username || 'unknown'}</Heading>
+        </Column>
         <Button.Root onPress={() => auth.logout?.()}>
           <Button.Text>log out</Button.Text>
         </Button.Root>

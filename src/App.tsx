@@ -18,6 +18,7 @@ import {ViewProfile} from './screens/ViewProfile';
 import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
 import {Column} from './design-system';
 import {Logo} from './components';
+import {EditAvatar} from './screens/EditAvatar';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +73,7 @@ const AppNavigation: React.FunctionComponent = () => {
         ) : (
           <>
             <Stack.Group screenOptions={{headerShown: false}}>
+              <Stack.Screen name="EditAvatar" component={EditAvatar} />
               <Stack.Screen name="Scoreboards" component={Scoreboards} />
               <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
             </Stack.Group>
