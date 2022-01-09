@@ -5,18 +5,22 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {Animated, Pressable as NativePressable} from 'react-native';
 import type {PressableProps as NativePressableProps} from 'react-native';
 
-export interface PressableProps extends NativePressableProps {}
+export interface PressableProps extends NativePressableProps {
+  disableHaptics?: boolean;
+}
 
 export const Pressable = React.forwardRef<any, PressableProps>(
-  ({children, ...props}, forwardedRef) => {
+  ({children, disableHaptics = false, ...props}, forwardedRef) => {
     // init animation ref
     const scale = React.useRef(new Animated.Value(1)).current;
 
     const handlePressIn = React.useCallback(() => {
       // provide haptic feedback
-      ReactNativeHapticFeedback.trigger('impactLight', {
-        enableVibrateFallback: true,
-      });
+      if (!disableHaptics) {
+        ReactNativeHapticFeedback.trigger('impactLight', {
+          enableVibrateFallback: true,
+        });
+      }
 
       // scale the button to denote a press
       Animated.timing(scale, {
@@ -24,7 +28,7 @@ export const Pressable = React.forwardRef<any, PressableProps>(
         duration: 100,
         useNativeDriver: true,
       }).start();
-    }, []);
+    }, [disableHaptics]);
 
     const handlePressOut = React.useCallback(() => {
       // scale the button to denote a press

@@ -3,8 +3,12 @@ import emoji from 'emoji-datasource';
 import chunk from 'lodash.chunk';
 
 import {SafeAreaView, ScrollView} from 'react-native';
+import {useNavigation, RouteProp, useRoute} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {Avatar, Box, Pressable, Row, Column, Heading, Button, Text, Icon} from '../design-system';
+import {RootStackParamList} from '../types/screens';
+
+import {Avatar, Box, Pressable, Row, Column, Heading, Button, Text} from '../design-system';
 import {theme} from '../design-system/theme';
 
 import {Header} from '../components';
@@ -71,26 +75,23 @@ const ColorBubble: React.FunctionComponent<ColorBubbleProps> = ({
 /** ----------------------------------------------------------
  * Edit Avatar Screen
  * -----------------------------------------------------------*/
-interface EditAvatarProps {
-  onSave: (emoji: string, backgroundColor: string) => void;
-  defaultBackgroundColor: string;
-  defaultEmoji: string;
-}
-
-export const EditAvatar: React.FunctionComponent<EditAvatarProps> = ({
-  onSave,
-  defaultBackgroundColor = 'accentOrangeSecondary',
-  defaultEmoji,
-}) => {
+export const EditAvatar: React.FunctionComponent = () => {
   // init the current category
   const [currentCategory, setCurrentCategory] = React.useState('Smileys & Emotion');
 
+  // init route to get the params
+  const route = useRoute<RouteProp<RootStackParamList, 'EditAvatar'>>();
+
+  // init navigation
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   // init the current backgroundColor
-  const [currentBackgroundColor, setCurrentBackgroundColor] =
-    React.useState(defaultBackgroundColor);
+  const [currentBackgroundColor, setCurrentBackgroundColor] = React.useState(
+    route.params.backgroundColor,
+  );
 
   // init current emoji
-  const [currentEmoji, setCurrentEmoji] = React.useState(defaultEmoji);
+  const [currentEmoji, setCurrentEmoji] = React.useState(route.params.emoji);
 
   // group the emojis by category
   const allEmojis = React.useMemo(() => {
@@ -108,6 +109,14 @@ export const EditAvatar: React.FunctionComponent<EditAvatarProps> = ({
     }
     return emojis;
   }, []);
+
+  // handle saving the backgroundColor and emoji
+  const handleSave = React.useCallback(() => {
+    navigation.navigate('ViewProfile', {
+      backgroundColor: currentBackgroundColor,
+      emoji: currentEmoji,
+    });
+  }, [currentBackgroundColor, currentEmoji]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -135,7 +144,7 @@ export const EditAvatar: React.FunctionComponent<EditAvatarProps> = ({
         <Column
           backgroundColor="widgetSecondary"
           borderRadius="large"
-          padding="default"
+          padding="small"
           gap="small"
           style={{height: 300}}
         >
@@ -146,14 +155,13 @@ export const EditAvatar: React.FunctionComponent<EditAvatarProps> = ({
                   <Row
                     key={i}
                     verticalAlign="top"
-                    horizontalAlign="left"
-                    gap="default"
+                    horizontalAlign="evenly"
                     style={{flexWrap: 'wrap'}}
                   >
                     {emoRow.map((emo: string, j) => {
                       return (
                         <Pressable key={j} onPress={() => setCurrentEmoji(emo)}>
-                          <Heading>{emo}</Heading>
+                          <Heading padding="default">{emo}</Heading>
                         </Pressable>
                       );
                     })}
@@ -191,7 +199,7 @@ export const EditAvatar: React.FunctionComponent<EditAvatarProps> = ({
             </ScrollView>
           </Box>
         </Column>
-        <Button.Root>
+        <Button.Root onPress={handleSave}>
           <Button.Text>save</Button.Text>
         </Button.Root>
       </Column>

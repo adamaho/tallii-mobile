@@ -73,11 +73,11 @@ const AppNavigation: React.FunctionComponent = () => {
         ) : (
           <>
             <Stack.Group screenOptions={{headerShown: false}}>
-              <Stack.Screen name="EditAvatar" component={EditAvatar} />
               <Stack.Screen name="Scoreboards" component={Scoreboards} />
               <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
             </Stack.Group>
             <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
+              <Stack.Screen name="EditAvatar" component={EditAvatar} />
               <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
               <Stack.Screen name="CreateTeam" component={CreateTeam} />
               <Stack.Screen name="ViewTeam" component={ViewTeam} />

@@ -7,11 +7,14 @@ export type RootStackParamList = {
   CreateScoreboard: undefined;
   ViewScoreboard: {scoreboardId: number};
   CreateTeam: undefined;
-  ViewProfile: undefined;
+  ViewProfile: {
+    backgroundColor?: string;
+    emoji?: string;
+  };
   ViewTeam: {teamId: number; scoreboardId: number};
   EditAvatar: {
-    onSave: (emoji: string, backgroundColor: string) => void;
-    defaultBackgroundColor: Atoms['backgroundColor'];
-    defaultEmoji: string;
+    returnTo: 'ViewProfile';
+    backgroundColor: string;
+    emoji: string;
   };
 };
