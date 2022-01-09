@@ -32,8 +32,6 @@ export const Teams: React.FunctionComponent<TeamsProps> = ({control, setValue}) 
     setValue('teams', teamContext.teams);
   }, [teamContext.teams]);
 
-  console.log(form.errors);
-
   return (
     <Column>
       <Row horizontalAlign="between">

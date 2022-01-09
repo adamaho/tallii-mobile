@@ -4,10 +4,9 @@ an ios and android application for the tallii platform.
 
 ## todo mvp
 
-- add loading states for every screen
-- add error states for every screen when things go wrong
-- add toast notifications
-- loading state for each page
+- add toast notifications for when a write error occurs
+- loading state for scoreboard screen
+- loading state for team screen
 - add linting
 - add privacy policy and terms and conditions
 

@@ -82,8 +82,6 @@ export const CreateScoreboard: React.FunctionComponent = () => {
       },
     };
 
-    console.log(request);
-
     mutate(request);
   }, []);
 
