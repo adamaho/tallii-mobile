@@ -68,7 +68,7 @@ export interface RowProps
 }
 
 export const Row: React.FunctionComponent<RowProps> = ({
-  horizontalAlign,
+  horizontalAlign = 'left',
   verticalAlign = 'center',
   gap = 'default',
   children,
@@ -87,13 +87,7 @@ export const Row: React.FunctionComponent<RowProps> = ({
   return (
     <Box {...props} flexDirection="row" alignItems={alignItems} justifyContent={justifyContent}>
       {Children.map(flattenChildren(children), (child, index) => {
-        return gap && index > 0 ? (
-          <Box paddingLeft={noPaddingStyles.has(horizontalAlign ?? '') ? undefined : gap}>
-            {child}
-          </Box>
-        ) : (
-          child
-        );
+        return gap && index > 0 ? <Box paddingLeft={gap}>{child}</Box> : child;
       })}
     </Box>
   );

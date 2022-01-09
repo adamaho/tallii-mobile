@@ -28,10 +28,10 @@ const useAvatarContext = () => {
 /** ----------------------------------------------------------
  * AvatarRoot
  * -----------------------------------------------------------*/
-type AvatarRooteComponentProps = ColumnProps;
+type AvatarRooteComponentProps = Omit<ColumnProps, 'backgroundColor'>;
 
 export interface AvatarRootProps extends AvatarRooteComponentProps {
-  backgroundColor?: Atoms['backgroundColor'];
+  backgroundColor?: string;
   size?: 'small' | 'default' | 'large';
   onPress?: () => void;
   isDisabled?: boolean;
@@ -79,10 +79,9 @@ const AvatarRoot = React.forwardRef<any, AvatarRootProps>(
             {...props}
             verticalAlign="center"
             horizontalAlign="center"
-            backgroundColor={backgroundColor}
             borderRadius="round"
             ref={forwardedRef}
-            style={sizeStyle}
+            style={[sizeStyle, {backgroundColor}]}
           >
             {children}
           </Column>
