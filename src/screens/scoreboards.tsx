@@ -12,10 +12,10 @@ import {RootStackParamList} from '../types/screens';
 
 import {DismissKeyboard, Header, Scoreboard} from '../components';
 
-import {Text, IconButton, Column, Row, Icon, Box} from '../design-system';
+import {Text, IconButton, Column, Icon, Avatar} from '../design-system';
 
 import {theme} from '../design-system/theme';
-import {scoreboards} from '../constants';
+import {scoreboards, me} from '../constants';
 import {usePlatformApi} from '../hooks';
 
 export const Scoreboards: React.FunctionComponent = () => {
@@ -36,6 +36,9 @@ export const Scoreboards: React.FunctionComponent = () => {
       // TODO: show toast notification
     },
   });
+
+  // fetch the current user
+  const {data: user} = useQuery(me(), () => api.getMe());
 
   // sort the scoreboards by updatedAt date
   const sortedScoreboards = React.useMemo(() => {
@@ -127,22 +130,18 @@ export const Scoreboards: React.FunctionComponent = () => {
       <SafeAreaView style={{flex: 1}}>
         <Column>
           <Header.Root horizontalAlign="between">
-            <IconButton onPress={() => navigation.navigate('ViewProfile')}>
-              <Icon.User height={20} width={20} color={theme.colors.text.onAction} />
-            </IconButton>
+            <Avatar.Root
+              size="small"
+              onPress={() => navigation.navigate('ViewProfile', {})}
+              backgroundColor={user?.avatarBackground}
+            >
+              <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
+            </Avatar.Root>
             <Header.Title>scoreboards</Header.Title>
             <IconButton onPress={() => navigation.navigate('CreateScoreboard')}>
               <Icon.Plus color={theme.colors.background.widget.default} width={20} height={20} />
             </IconButton>
           </Header.Root>
-          {/* TODO: Add support for this at a later date */}
-          {/* <Box
-            paddingHorizontal="default"
-            backgroundColor="widgetDefault"
-            paddingVertical="default"
-          >
-            <TextInput placeholder="search" />
-          </Box> */}
         </Column>
         {list}
       </SafeAreaView>

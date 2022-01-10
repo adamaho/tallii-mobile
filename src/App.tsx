@@ -18,6 +18,7 @@ import {ViewProfile} from './screens/ViewProfile';
 import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
 import {Column} from './design-system';
 import {Logo} from './components';
+import {EditAvatar} from './screens/EditAvatar';
 
 const Stack = createNativeStackNavigator();
 
@@ -79,6 +80,7 @@ const AppNavigation: React.FunctionComponent = () => {
               <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
               <Stack.Screen name="CreateTeam" component={CreateTeam} />
               <Stack.Screen name="ViewTeam" component={ViewTeam} />
+              <Stack.Screen name="EditAvatar" component={EditAvatar} />
               <Stack.Screen name="ViewProfile" component={ViewProfile} />
             </Stack.Group>
           </>

@@ -16,66 +16,48 @@ import {exists, mapValues} from '../runtime';
 /**
  *
  * @export
- * @interface UserModel
+ * @interface UpdateUserRequestModel
  */
-export interface UserModel {
-  /**
-   *
-   * @type {number}
-   * @memberof UserModel
-   */
-  userId: number;
+export interface UpdateUserRequestModel {
   /**
    *
    * @type {string}
-   * @memberof UserModel
+   * @memberof UpdateUserRequestModel
    */
   username: string;
   /**
    *
    * @type {string}
-   * @memberof UserModel
-   */
-  email: string;
-  /**
-   *
-   * @type {string}
-   * @memberof UserModel
+   * @memberof UpdateUserRequestModel
    */
   avatarBackground: string;
   /**
    *
    * @type {string}
-   * @memberof UserModel
+   * @memberof UpdateUserRequestModel
    */
   avatarEmoji: string;
-  /**
-   *
-   * @type {Date}
-   * @memberof UserModel
-   */
-  createdAt: Date;
 }
 
-export function UserModelFromJSON(json: any): UserModel {
-  return UserModelFromJSONTyped(json, false);
+export function UpdateUserRequestModelFromJSON(json: any): UpdateUserRequestModel {
+  return UpdateUserRequestModelFromJSONTyped(json, false);
 }
 
-export function UserModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserModel {
+export function UpdateUserRequestModelFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): UpdateUserRequestModel {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    userId: json['user_id'],
     username: json['username'],
-    email: json['email'],
     avatarBackground: json['avatar_background'],
     avatarEmoji: json['avatar_emoji'],
-    createdAt: new Date(json['created_at']),
   };
 }
 
-export function UserModelToJSON(value?: UserModel | null): any {
+export function UpdateUserRequestModelToJSON(value?: UpdateUserRequestModel | null): any {
   if (value === undefined) {
     return undefined;
   }
@@ -83,11 +65,8 @@ export function UserModelToJSON(value?: UserModel | null): any {
     return null;
   }
   return {
-    user_id: value.userId,
     username: value.username,
-    email: value.email,
     avatar_background: value.avatarBackground,
     avatar_emoji: value.avatarEmoji,
-    created_at: value.createdAt.toISOString(),
   };
 }

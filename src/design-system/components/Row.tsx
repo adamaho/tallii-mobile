@@ -58,6 +58,8 @@ const horizontalAlignToStyle = (value?: HorizontalAlign): Atoms['justifyContent'
   }
 };
 
+const noPaddingStyles = new Set(['between', 'around', 'evenly']);
+
 export interface RowProps
   extends Omit<BoxProps, 'display' | 'flexDirection' | 'alignItems' | 'justifyContent'> {
   horizontalAlign?: HorizontalAlign;
@@ -66,7 +68,7 @@ export interface RowProps
 }
 
 export const Row: React.FunctionComponent<RowProps> = ({
-  horizontalAlign,
+  horizontalAlign = 'left',
   verticalAlign = 'center',
   gap = 'default',
   children,

@@ -1,3 +1,5 @@
+import type {Atoms} from '../design-system/atoms';
+
 export type RootStackParamList = {
   Login: undefined;
   Signup: undefined;
@@ -5,6 +7,14 @@ export type RootStackParamList = {
   CreateScoreboard: undefined;
   ViewScoreboard: {scoreboardId: number};
   CreateTeam: undefined;
-  ViewProfile: undefined;
+  ViewProfile: {
+    backgroundColor?: string;
+    emoji?: string;
+  };
   ViewTeam: {teamId: number; scoreboardId: number};
+  EditAvatar: {
+    returnTo: 'ViewProfile';
+    backgroundColor: string;
+    emoji: string;
+  };
 };

@@ -38,6 +38,9 @@ import {
   UpdateTeamRequestModel,
   UpdateTeamRequestModelFromJSON,
   UpdateTeamRequestModelToJSON,
+  UpdateUserRequestModel,
+  UpdateUserRequestModelFromJSON,
+  UpdateUserRequestModelToJSON,
   UserModel,
   UserModelFromJSON,
   UserModelToJSON,
@@ -65,6 +68,10 @@ export interface PostLoginRequest {
 
 export interface PostSignupRequest {
   signupRequestModel: SignupRequestModel;
+}
+
+export interface UpdateMeRequest {
+  updateUserRequestModel: UpdateUserRequestModel;
 }
 
 export interface UpdateTeamRequest {
@@ -501,6 +508,62 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit,
   ): Promise<LoginSignupResponseModel> {
     const response = await this.postSignupRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * updates the currently logged in users profile
+   */
+  async updateMeRaw(
+    requestParameters: UpdateMeRequest,
+    initOverrides?: RequestInit,
+  ): Promise<runtime.ApiResponse<UserModel>> {
+    if (
+      requestParameters.updateUserRequestModel === null ||
+      requestParameters.updateUserRequestModel === undefined
+    ) {
+      throw new runtime.RequiredError(
+        'updateUserRequestModel',
+        'Required parameter requestParameters.updateUserRequestModel was null or undefined when calling updateMe.',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters['Content-Type'] = 'application/json';
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/me`,
+        method: 'PUT',
+        headers: headerParameters,
+        query: queryParameters,
+        body: UpdateUserRequestModelToJSON(requestParameters.updateUserRequestModel),
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, jsonValue => UserModelFromJSON(jsonValue));
+  }
+
+  /**
+   * updates the currently logged in users profile
+   */
+  async updateMe(
+    requestParameters: UpdateMeRequest,
+    initOverrides?: RequestInit,
+  ): Promise<UserModel> {
+    const response = await this.updateMeRaw(requestParameters, initOverrides);
     return await response.value();
   }
 

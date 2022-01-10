@@ -13,12 +13,7 @@
  */
 
 import {exists, mapValues} from '../runtime';
-import {
-  LoginSignupResponseModelUser,
-  LoginSignupResponseModelUserFromJSON,
-  LoginSignupResponseModelUserFromJSONTyped,
-  LoginSignupResponseModelUserToJSON,
-} from './LoginSignupResponseModelUser';
+import {UserModel, UserModelFromJSON, UserModelFromJSONTyped, UserModelToJSON} from './UserModel';
 
 /**
  *
@@ -34,10 +29,10 @@ export interface LoginSignupResponseModel {
   accessToken: string;
   /**
    *
-   * @type {LoginSignupResponseModelUser}
+   * @type {UserModel}
    * @memberof LoginSignupResponseModel
    */
-  user: LoginSignupResponseModelUser;
+  user: UserModel;
 }
 
 export function LoginSignupResponseModelFromJSON(json: any): LoginSignupResponseModel {
@@ -53,7 +48,7 @@ export function LoginSignupResponseModelFromJSONTyped(
   }
   return {
     accessToken: json['access_token'],
-    user: LoginSignupResponseModelUserFromJSON(json['user']),
+    user: json['user'],
   };
 }
 
@@ -66,6 +61,6 @@ export function LoginSignupResponseModelToJSON(value?: LoginSignupResponseModel 
   }
   return {
     access_token: value.accessToken,
-    user: LoginSignupResponseModelUserToJSON(value.user),
+    user: value.user,
   };
 }
