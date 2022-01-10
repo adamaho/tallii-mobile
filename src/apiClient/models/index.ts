@@ -10,4 +10,5 @@ export * from './ScoreboardModel';
 export * from './SignupRequestModel';
 export * from './TeamModel';
 export * from './UpdateTeamRequestModel';
+export * from './UpdateUserRequestModel';
 export * from './UserModel';
