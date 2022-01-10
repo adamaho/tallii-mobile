@@ -5,7 +5,6 @@ export * from './CreateScoreboardRequestModelTeams';
 export * from './ErrorModel';
 export * from './LoginRequestModel';
 export * from './LoginSignupResponseModel';
-export * from './LoginSignupResponseModelUser';
 export * from './ScoreboardModel';
 export * from './SignupRequestModel';
 export * from './TeamModel';

@@ -17,7 +17,7 @@ interface AvatarContextProps {
   size: 'small' | 'default' | 'large';
 }
 
-const AvatarContext = React.createContext({
+const AvatarContext = React.createContext<AvatarContextProps>({
   size: 'default',
 });
 

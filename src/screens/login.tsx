@@ -91,7 +91,7 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
             <Row horizontalAlign="center" width="full">
               <Logo />
             </Row>
-            <Text align="center">welcome back. lets's get you logged in bud.</Text>
+            <Text align="center">welcome back. let's get you logged in bud.</Text>
             <Column gap="small">
               <TextInputField
                 name="email"

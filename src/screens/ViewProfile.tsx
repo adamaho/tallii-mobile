@@ -1,14 +1,15 @@
 import React from 'react';
 
 import {SafeAreaView} from 'react-native';
-import {useQuery} from 'react-query';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
 
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {RootStackParamList} from '../types/screens';
 
-import {Column, Button, Box, Heading, Avatar} from '../design-system';
+import {Column, Button, Heading, Avatar} from '../design-system';
+import {UpdateMeRequest} from '../apiClient';
 import {theme} from '../design-system/theme';
 import {Header} from '../components';
 import {useAuthContext} from '../contexts';
@@ -25,8 +26,23 @@ export const ViewProfile: React.FunctionComponent = () => {
   // init api
   const api = usePlatformApi();
 
+  // init the query client
+  const queryClient = useQueryClient();
+
   // query user
   const {data: user} = useQuery(me(), () => api.getMe());
+
+  // init mutation to update the user
+  const {mutate} = useMutation((data: UpdateMeRequest) => api.updateMe(data), {
+    onSuccess: response => {
+      // update the cache of the currently logged in user
+      queryClient.setQueryData(me(), response);
+    },
+    onError: error => {
+      console.log(error);
+      // throw toast notification
+    },
+  });
 
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'ViewProfile'>>();
@@ -34,8 +50,8 @@ export const ViewProfile: React.FunctionComponent = () => {
   // handle editing the avatar
   const handleAvatarPress = React.useCallback(() => {
     navigation.navigate('EditAvatar', {
-      backgroundColor: theme.colors.background.accent.orange.secondary,
-      emoji: 'A',
+      backgroundColor: user?.avatarBackground ?? theme.colors.background.accent.orange.secondary,
+      emoji: user?.avatarEmoji ?? '🍕',
       returnTo: 'ViewProfile',
     });
   }, [user]);
@@ -46,10 +62,20 @@ export const ViewProfile: React.FunctionComponent = () => {
       return;
     }
 
-    // update the user avatar here
+    const {backgroundColor, emoji} = route.params;
 
-    console.log(route.params);
-  }, [route.params]);
+    if (user && backgroundColor && emoji) {
+      const request: UpdateMeRequest = {
+        updateUserRequestModel: {
+          username: user.username,
+          avatarBackground: backgroundColor,
+          avatarEmoji: emoji,
+        },
+      };
+
+      mutate(request);
+    }
+  }, [route.params, user]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -58,15 +84,13 @@ export const ViewProfile: React.FunctionComponent = () => {
           <Header.Root horizontalAlign="right">
             <Header.Exit />
           </Header.Root>
-          <Column>
+          <Column horizontalAlign="center">
             <Avatar.Root
               size="large"
-              backgroundColor={
-                route.params?.backgroundColor ?? theme.colors.background.accent.orange.secondary
-              }
+              backgroundColor={user?.avatarBackground}
               onPress={handleAvatarPress}
             >
-              <Avatar.Emoji>{route.params?.emoji ?? 'A'}</Avatar.Emoji>
+              <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
             </Avatar.Root>
             <Heading align="center">{user?.username || 'unknown'}</Heading>
           </Column>
