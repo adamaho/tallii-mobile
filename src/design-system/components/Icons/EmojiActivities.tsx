@@ -1,9 +1,11 @@
 import React from 'react';
 import Svg, {Path} from 'react-native-svg';
 
+import type {SvgProps} from 'react-native-svg';
+
 import {theme} from '../../theme';
 
-interface EmojiActivitiesIconProps {
+interface EmojiActivitiesIconProps extends SvgProps {
   color: keyof typeof theme.colors.text;
 }
 

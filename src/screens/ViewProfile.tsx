@@ -38,9 +38,16 @@ export const ViewProfile: React.FunctionComponent = () => {
       emoji: 'A',
       returnTo: 'ViewProfile',
     });
-  }, []);
+  }, [user]);
 
+  // save the changes to the avatar
   React.useEffect(() => {
+    if (route.params == null) {
+      return;
+    }
+
+    // update the user avatar here
+
     console.log(route.params);
   }, [route.params]);
 

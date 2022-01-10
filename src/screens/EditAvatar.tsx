@@ -8,7 +8,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {RootStackParamList} from '../types/screens';
 
-import {Avatar, Box, Pressable, Row, Column, Heading, Button, Text} from '../design-system';
+import {Avatar, Box, Pressable, Row, Column, Heading, Button, Icon} from '../design-system';
 import {theme} from '../design-system/theme';
 
 import {Header} from '../components';
@@ -16,17 +16,16 @@ import {Header} from '../components';
 /** ----------------------------------------------------------
  * cateogories
  * -----------------------------------------------------------*/
-const categories = [
-  'Smileys & Emotion',
-  'People & Body',
-  'Animals & Nature',
-  'Food & Drink',
-  'Activities',
-  'Travel & Places',
-  'Objects',
-  'Symbols',
-  'Flags',
-];
+const categories = {
+  'Smileys & Emotion': Icon.EmojiSmileys,
+  'Animals & Nature': Icon.EmojiAnimals,
+  'Food & Drink': Icon.EmojiFood,
+  Activities: Icon.EmojiActivities,
+  'Travel & Places': Icon.EmojiTravel,
+  Objects: Icon.EmojiObjects,
+  Symbols: Icon.EmojiSymbols,
+  Flags: Icon.EmojiFlags,
+};
 
 /** ----------------------------------------------------------
  * parse unicode emoji
@@ -170,33 +169,23 @@ export const EditAvatar: React.FunctionComponent = () => {
               })}
             </Column>
           </ScrollView>
-          <Box
-            backgroundColor="widgetTertiary"
-            paddingHorizontal="xsmall"
-            style={{width: '100%', height: 36}}
-            borderRadius="round"
-          >
-            <ScrollView horizontal>
-              <Row horizontalAlign="center" verticalAlign="center" gap="small">
-                {categories.map((c: string, i) => {
-                  const isSelected = currentCategory === c;
-                  return (
-                    <Pressable key={i} onPress={() => setCurrentCategory(c)}>
-                      <Box
-                        borderRadius="round"
-                        paddingHorizontal="small"
-                        paddingVertical="xsmall"
-                        backgroundColor={isSelected ? 'widgetAction' : undefined}
-                      >
-                        <Text styledAs="caption" textColor={isSelected ? 'onAction' : undefined}>
-                          {c}
-                        </Text>
-                      </Box>
-                    </Pressable>
-                  );
-                })}
-              </Row>
-            </ScrollView>
+          <Box backgroundColor="widgetTertiary" padding="xsmall" borderRadius="round" width="full">
+            <Row horizontalAlign="between" verticalAlign="center" gap="none" width="full">
+              {Object.entries(categories).map(([c, Icon], i) => {
+                const isSelected = currentCategory === c;
+                return (
+                  <Pressable key={i} onPress={() => setCurrentCategory(c)}>
+                    <Box
+                      borderRadius="round"
+                      padding="xsmall"
+                      backgroundColor={isSelected ? 'widgetAction' : undefined}
+                    >
+                      <Icon height={26} width={26} color={isSelected ? 'onAction' : 'default'} />
+                    </Box>
+                  </Pressable>
+                );
+              })}
+            </Row>
           </Box>
         </Column>
         <Button.Root onPress={handleSave}>
