@@ -87,10 +87,10 @@ export const ViewProfile: React.FunctionComponent = () => {
           <Column horizontalAlign="center">
             <Avatar.Root
               size="large"
-              backgroundColor={user?.avatarBackground}
+              backgroundColor={route.params?.backgroundColor ?? user?.avatarBackground}
               onPress={handleAvatarPress}
             >
-              <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
+              <Avatar.Emoji>{route.params?.emoji ?? user?.avatarEmoji}</Avatar.Emoji>
             </Avatar.Root>
             <Heading align="center">{user?.username || 'unknown'}</Heading>
           </Column>
