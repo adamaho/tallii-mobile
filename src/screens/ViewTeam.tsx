@@ -78,7 +78,7 @@ export const ViewTeam: React.FunctionComponent = () => {
       navigation.goBack();
     },
     onError: () => {
-      toastContext.addToast({label: "well that's no good. try again later."});
+      toastContext.addToast({label: "we couldn't update the score."});
     },
   });
 

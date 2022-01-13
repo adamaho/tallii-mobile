@@ -42,7 +42,7 @@ export const ViewProfile: React.FunctionComponent = () => {
       queryClient.setQueryData(me(), response);
     },
     onError: () => {
-      toastContext.addToast({label: 'hmm... try updating your profile later.'});
+      toastContext.addToast({label: "we couldn't update your avatar"});
     },
   });
 

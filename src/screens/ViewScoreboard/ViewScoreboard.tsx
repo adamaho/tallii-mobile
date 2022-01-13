@@ -61,7 +61,7 @@ const ViewScoreboardHeader: React.FunctionComponent = () => {
       queryClient.invalidateQueries(scoreboards(), {exact: true});
     },
     onError: error => {
-      toastContext.addToast({label: "well that's no good. try again later."});
+      toastContext.addToast({label: "we couldn't delete the scoreboard"});
     },
   });
 

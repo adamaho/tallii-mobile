@@ -76,7 +76,7 @@ export const Signup: React.FunctionComponent<SignupProps> = () => {
       auth.setUser?.(response.user);
     },
     onError: error => {
-      toastContext.addToast({label: "well that's no good. try again later."});
+      toastContext.addToast({label: 'seems someone might have taken your email.'});
     },
   });
 

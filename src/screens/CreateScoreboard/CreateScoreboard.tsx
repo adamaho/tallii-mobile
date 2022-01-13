@@ -69,7 +69,7 @@ export const CreateScoreboard: React.FunctionComponent = () => {
       navigation.navigate('Scoreboards');
     },
     onError: () => {
-      toastContext.addToast({label: 'hmm... try again later.'});
+      toastContext.addToast({label: "we couldn't create the scoreboard."});
     },
   });
 

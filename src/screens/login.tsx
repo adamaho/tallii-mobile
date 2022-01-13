@@ -74,7 +74,7 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
       auth.setUser?.(response.user);
     },
     onError: () => {
-      toastContext.addToast({label: "well that's no good. try again later."});
+      toastContext.addToast({label: 'check your email and password bud.'});
     },
   });
 

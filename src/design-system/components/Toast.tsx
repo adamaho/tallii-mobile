@@ -120,7 +120,7 @@ export const Toast: React.FunctionComponent<ToastProps> = ({type, label}) => {
   }, []);
 
   return (
-    <Animated.View style={{opacity: fade, transform: [{translateY: slide}]}}>
+    <Animated.View style={{opacity: fade, transform: [{translateY: slide}], padding: 16}}>
       <Row
         gap="small"
         paddingHorizontal="default"
@@ -129,7 +129,9 @@ export const Toast: React.FunctionComponent<ToastProps> = ({type, label}) => {
         backgroundColor="widgetTertiary"
       >
         {icon}
-        <Text styledAs="caption">{label}</Text>
+        <Text styledAs="caption" align="center">
+          {label}
+        </Text>
       </Row>
     </Animated.View>
   );
