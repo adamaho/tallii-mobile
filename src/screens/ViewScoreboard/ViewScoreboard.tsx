@@ -19,6 +19,7 @@ import {
   Text,
   Heading,
   useToastContext,
+  Toaster,
 } from '../../design-system';
 
 import {Team} from './Team';
@@ -136,36 +137,39 @@ export const ViewScoreboard: React.FunctionComponent = () => {
   }, [scoreboard]);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <Column>
-        <Modal.Context>
-          <ViewScoreboardHeader />
-        </Modal.Context>
-        <Row padding="default" horizontalAlign="between" verticalAlign="top">
-          <Column gap="xsmall">
-            <Heading numberOfLines={1}>{scoreboard?.name}</Heading>
-            <Text numberOfLines={1}>{scoreboard?.game}</Text>
-            <Text styledAs="caption">{formattedDate}</Text>
-          </Column>
-        </Row>
-      </Column>
-      <ScrollView style={{flex: 1}}>
-        {sortedTeams && scoreboard && (
-          <Column padding="default">
-            {sortedTeams.map((t, i) => {
-              return (
-                <Team
-                  key={t.teamId}
-                  teamId={t.teamId}
-                  scoreboardId={scoreboard?.scoreboardId}
-                  name={t.name}
-                  score={t.score}
-                />
-              );
-            })}
-          </Column>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={{flex: 1}}>
+        <Column>
+          <Modal.Context>
+            <ViewScoreboardHeader />
+          </Modal.Context>
+          <Row padding="default" horizontalAlign="between" verticalAlign="top">
+            <Column gap="xsmall">
+              <Heading numberOfLines={1}>{scoreboard?.name}</Heading>
+              <Text numberOfLines={1}>{scoreboard?.game}</Text>
+              <Text styledAs="caption">{formattedDate}</Text>
+            </Column>
+          </Row>
+        </Column>
+        <ScrollView style={{flex: 1}}>
+          {sortedTeams && scoreboard && (
+            <Column padding="default">
+              {sortedTeams.map((t, i) => {
+                return (
+                  <Team
+                    key={t.teamId}
+                    teamId={t.teamId}
+                    scoreboardId={scoreboard?.scoreboardId}
+                    name={t.name}
+                    score={t.score}
+                  />
+                );
+              })}
+            </Column>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+      <Toaster />
+    </>
   );
 };

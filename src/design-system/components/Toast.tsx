@@ -72,7 +72,7 @@ export const Toaster: React.FunctionComponent = () => {
   }, [context, timeout]);
 
   return (
-    <Column horizontalAlign="center" width="full" style={{position: 'absolute', bottom: 0}}>
+    <Column horizontalAlign="center" width="full" style={{position: 'absolute', top: 0}}>
       {isVisible && <Toast label={context?.toast?.label ?? ''} type={context?.toast?.type} />}
     </Column>
   );
@@ -87,7 +87,7 @@ interface ToastProps {
 }
 
 export const Toast: React.FunctionComponent<ToastProps> = ({type, label}) => {
-  const slide = React.useRef(new Animated.Value(30)).current;
+  const slide = React.useRef(new Animated.Value(-30)).current;
   const fade = React.useRef(new Animated.Value(0)).current;
 
   // render the icon based on the type
@@ -106,7 +106,7 @@ export const Toast: React.FunctionComponent<ToastProps> = ({type, label}) => {
   React.useEffect(() => {
     Animated.parallel([
       Animated.spring(slide, {
-        toValue: -60,
+        toValue: 60,
         speed: 20,
         bounciness: 12,
         useNativeDriver: true,
@@ -117,22 +117,6 @@ export const Toast: React.FunctionComponent<ToastProps> = ({type, label}) => {
         useNativeDriver: true,
       }),
     ]).start();
-
-    return () => {
-      Animated.parallel([
-        Animated.spring(slide, {
-          toValue: 0,
-          speed: 20,
-          bounciness: 12,
-          useNativeDriver: true,
-        }),
-        Animated.timing(fade, {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-      ]).start();
-    };
   }, []);
 
   return (
