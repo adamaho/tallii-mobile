@@ -11,14 +11,14 @@ import {RootStackParamList} from '../../types/screens';
 
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {useMutation, useQueryClient} from 'react-query';
 
-import {Column} from '../../design-system';
+import {Column, useToastContext, Toaster} from '../../design-system';
 import {DismissKeyboard, Header, TextInputField} from '../../components';
 import {Team, useCreateTeamContext} from '../../contexts';
 
 import {CreateScoreboardRequest} from '../../apiClient';
 
-import {useMutation, useQueryClient} from 'react-query';
 import {usePlatformApi} from '../../hooks';
 import {scoreboards} from '../../constants';
 import {Teams} from './Teams';
@@ -41,6 +41,9 @@ const scoreboardSchema = yup.object().shape({
 export const CreateScoreboard: React.FunctionComponent = () => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  // init toast context
+  const toastContext = useToastContext();
 
   // init the form
   const {control, handleSubmit, setValue} = useForm({
@@ -65,9 +68,8 @@ export const CreateScoreboard: React.FunctionComponent = () => {
       // go back to scoreboard
       navigation.navigate('Scoreboards');
     },
-    onError: error => {
-      // TODO: handle error with
-      console.log(error);
+    onError: () => {
+      toastContext.addToast({label: "we couldn't create the scoreboard."});
     },
   });
 
@@ -93,22 +95,24 @@ export const CreateScoreboard: React.FunctionComponent = () => {
   }, []);
 
   return (
-    <DismissKeyboard>
-      <ScrollView>
-        <SafeAreaView style={{flex: 1}}>
-          <Header.Root horizontalAlign="between">
-            <Header.Cancel />
-            <Header.Title>create scoreboard</Header.Title>
-            {/* TODO: fix this */}
-            <Header.Action onPress={handleSubmit(saveScoreboard)}>save</Header.Action>
-          </Header.Root>
-          <Column padding="default">
-            <TextInputField name="name" label="name" control={control} />
-            <TextInputField name="game" label="game" control={control} />
-            <Teams control={control} setValue={setValue} />
-          </Column>
-        </SafeAreaView>
-      </ScrollView>
-    </DismissKeyboard>
+    <>
+      <DismissKeyboard>
+        <ScrollView style={{flex: 1}}>
+          <SafeAreaView style={{height: '100%', flex: 1}}>
+            <Header.Root horizontalAlign="between">
+              <Header.Cancel />
+              <Header.Title>create scoreboard</Header.Title>
+              <Header.Action onPress={handleSubmit(saveScoreboard)}>save</Header.Action>
+            </Header.Root>
+            <Column padding="default">
+              <TextInputField name="name" label="name" control={control} />
+              <TextInputField name="game" label="game" control={control} />
+              <Teams control={control} setValue={setValue} />
+            </Column>
+          </SafeAreaView>
+        </ScrollView>
+      </DismissKeyboard>
+      <Toaster />
+    </>
   );
 };

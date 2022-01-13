@@ -8,7 +8,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {RootStackParamList} from '../types/screens';
 
-import {Column, Button, Heading, Avatar} from '../design-system';
+import {Column, Button, Heading, Avatar, Toaster, useToastContext} from '../design-system';
 import {UpdateMeRequest} from '../apiClient';
 import {theme} from '../design-system/theme';
 import {Header} from '../components';
@@ -19,6 +19,9 @@ import {me} from '../constants';
 export const ViewProfile: React.FunctionComponent = () => {
   // init auth context
   const auth = useAuthContext();
+
+  // init toast context
+  const toastContext = useToastContext();
 
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -38,9 +41,8 @@ export const ViewProfile: React.FunctionComponent = () => {
       // update the cache of the currently logged in user
       queryClient.setQueryData(me(), response);
     },
-    onError: error => {
-      console.log(error);
-      // throw toast notification
+    onError: () => {
+      toastContext.addToast({label: "we couldn't update your avatar"});
     },
   });
 
@@ -78,27 +80,30 @@ export const ViewProfile: React.FunctionComponent = () => {
   }, [route.params, user]);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <Column flex={1} verticalAlign="between" padding="default">
-        <Column horizontalAlign="center">
-          <Header.Root horizontalAlign="right">
-            <Header.Exit />
-          </Header.Root>
+    <>
+      <SafeAreaView style={{flex: 1}}>
+        <Column flex={1} verticalAlign="between" padding="default">
           <Column horizontalAlign="center">
-            <Avatar.Root
-              size="large"
-              backgroundColor={user?.avatarBackground}
-              onPress={handleAvatarPress}
-            >
-              <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
-            </Avatar.Root>
-            <Heading align="center">{user?.username || 'unknown'}</Heading>
+            <Header.Root horizontalAlign="right">
+              <Header.Exit />
+            </Header.Root>
+            <Column horizontalAlign="center">
+              <Avatar.Root
+                size="large"
+                backgroundColor={user?.avatarBackground}
+                onPress={handleAvatarPress}
+              >
+                <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
+              </Avatar.Root>
+              <Heading align="center">{user?.username || 'unknown'}</Heading>
+            </Column>
           </Column>
+          <Button.Root onPress={() => auth.logout?.()}>
+            <Button.Text>log out</Button.Text>
+          </Button.Root>
         </Column>
-        <Button.Root onPress={() => auth.logout?.()}>
-          <Button.Text>log out</Button.Text>
-        </Button.Root>
-      </Column>
-    </SafeAreaView>
+      </SafeAreaView>
+      <Toaster />
+    </>
   );
 };

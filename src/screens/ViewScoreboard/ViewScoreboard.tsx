@@ -10,7 +10,17 @@ import type {RouteProp} from '@react-navigation/native';
 
 import {RootStackParamList} from '../../types/screens';
 
-import {Modal, useModalContext, Button, Column, Row, Text, Heading} from '../../design-system';
+import {
+  Modal,
+  useModalContext,
+  Button,
+  Column,
+  Row,
+  Text,
+  Heading,
+  useToastContext,
+  Toaster,
+} from '../../design-system';
 
 import {Team} from './Team';
 import {scoreboards} from '../../constants';
@@ -25,6 +35,9 @@ import {DeleteScoreboardRequest} from '../../apiClient';
 const ViewScoreboardHeader: React.FunctionComponent = () => {
   // set is visible
   const {setIsVisible} = useModalContext();
+
+  // init toast context
+  const toastContext = useToastContext();
 
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
@@ -48,8 +61,7 @@ const ViewScoreboardHeader: React.FunctionComponent = () => {
       queryClient.invalidateQueries(scoreboards(), {exact: true});
     },
     onError: error => {
-      // TODO handle error
-      console.log(error);
+      toastContext.addToast({label: "we couldn't delete the scoreboard"});
     },
   });
 
@@ -125,36 +137,39 @@ export const ViewScoreboard: React.FunctionComponent = () => {
   }, [scoreboard]);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <Column>
-        <Modal.Context>
-          <ViewScoreboardHeader />
-        </Modal.Context>
-        <Row padding="default" horizontalAlign="between" verticalAlign="top">
-          <Column gap="xsmall">
-            <Heading numberOfLines={1}>{scoreboard?.name}</Heading>
-            <Text numberOfLines={1}>{scoreboard?.game}</Text>
-            <Text styledAs="caption">{formattedDate}</Text>
-          </Column>
-        </Row>
-      </Column>
-      <ScrollView style={{flex: 1}}>
-        {sortedTeams && scoreboard && (
-          <Column padding="default">
-            {sortedTeams.map((t, i) => {
-              return (
-                <Team
-                  key={t.teamId}
-                  teamId={t.teamId}
-                  scoreboardId={scoreboard?.scoreboardId}
-                  name={t.name}
-                  score={t.score}
-                />
-              );
-            })}
-          </Column>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={{flex: 1}}>
+        <Column>
+          <Modal.Context>
+            <ViewScoreboardHeader />
+          </Modal.Context>
+          <Row padding="default" horizontalAlign="between" verticalAlign="top">
+            <Column gap="xsmall">
+              <Heading numberOfLines={1}>{scoreboard?.name}</Heading>
+              <Text numberOfLines={1}>{scoreboard?.game}</Text>
+              <Text styledAs="caption">{formattedDate}</Text>
+            </Column>
+          </Row>
+        </Column>
+        <ScrollView style={{flex: 1}}>
+          {sortedTeams && scoreboard && (
+            <Column padding="default">
+              {sortedTeams.map((t, i) => {
+                return (
+                  <Team
+                    key={t.teamId}
+                    teamId={t.teamId}
+                    scoreboardId={scoreboard?.scoreboardId}
+                    name={t.name}
+                    score={t.score}
+                  />
+                );
+              })}
+            </Column>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+      <Toaster />
+    </>
   );
 };

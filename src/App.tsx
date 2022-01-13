@@ -16,9 +16,10 @@ import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
 import {ViewTeam} from './screens/ViewTeam';
 import {ViewProfile} from './screens/ViewProfile';
 import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
-import {Column} from './design-system';
+import {Column, Text, Toaster, Toast, ToastContextProvider} from './design-system';
 import {Logo} from './components';
 import {EditAvatar} from './screens/EditAvatar';
+// import { Playground } from './screens/Playground';
 
 const Stack = createNativeStackNavigator();
 
@@ -64,28 +65,31 @@ const AppNavigation: React.FunctionComponent = () => {
 
   return (
     <CreateTeamContextProvider>
-      <Stack.Navigator>
-        {!auth.isAuthenticated ? (
-          <Stack.Group screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Signup" component={Signup} />
-          </Stack.Group>
-        ) : (
-          <>
+      <ToastContextProvider>
+        <Stack.Navigator>
+          {!auth.isAuthenticated ? (
             <Stack.Group screenOptions={{headerShown: false}}>
-              <Stack.Screen name="Scoreboards" component={Scoreboards} />
-              <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="Signup" component={Signup} />
             </Stack.Group>
-            <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
-              <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
-              <Stack.Screen name="CreateTeam" component={CreateTeam} />
-              <Stack.Screen name="ViewTeam" component={ViewTeam} />
-              <Stack.Screen name="EditAvatar" component={EditAvatar} />
-              <Stack.Screen name="ViewProfile" component={ViewProfile} />
-            </Stack.Group>
-          </>
-        )}
-      </Stack.Navigator>
+          ) : (
+            <>
+              <Stack.Group screenOptions={{headerShown: false}}>
+                {/* <Stack.Screen name="Playground" component={Playground} /> */}
+                <Stack.Screen name="Scoreboards" component={Scoreboards} />
+                <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
+              </Stack.Group>
+              <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
+                <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
+                <Stack.Screen name="CreateTeam" component={CreateTeam} />
+                <Stack.Screen name="ViewTeam" component={ViewTeam} />
+                <Stack.Screen name="EditAvatar" component={EditAvatar} />
+                <Stack.Screen name="ViewProfile" component={ViewProfile} />
+              </Stack.Group>
+            </>
+          )}
+        </Stack.Navigator>
+      </ToastContextProvider>
     </CreateTeamContextProvider>
   );
 };

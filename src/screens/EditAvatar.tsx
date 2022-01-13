@@ -78,6 +78,9 @@ export const EditAvatar: React.FunctionComponent = () => {
   // init the current category
   const [currentCategory, setCurrentCategory] = React.useState('Smileys & Emotion');
 
+  // init ref to scroll view
+  const scrollRef = React.useRef<ScrollView>(null);
+
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'EditAvatar'>>();
 
@@ -100,14 +103,30 @@ export const EditAvatar: React.FunctionComponent = () => {
       const uni = parseUnicode(emo.unified);
       const category = emo.category;
 
-      if (emo.category in emojis) {
-        emojis[category] = [...emojis[category], uni];
+      if (category === 'People & Body') {
+        if ('Smileys & Emotion' in emojis) {
+          emojis['Smileys & Emotion'] = [...emojis['Smileys & Emotion'], uni];
+        } else {
+          emojis['Smileys & Emotion'] = [uni];
+        }
       } else {
-        emojis[category] = [uni];
+        if (category in emojis) {
+          emojis[category] = [...emojis[category], uni];
+        } else {
+          emojis[category] = [uni];
+        }
       }
     }
     return emojis;
-  }, []);
+  }, [emoji]);
+
+  // when the selected category changes, scroll to top
+  React.useEffect(() => {
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: false,
+    });
+  }, [currentCategory]);
 
   // handle saving the backgroundColor and emoji
   const handleSave = React.useCallback(() => {
@@ -147,7 +166,7 @@ export const EditAvatar: React.FunctionComponent = () => {
           gap="small"
           style={{height: 300}}
         >
-          <ScrollView style={{height: 300}}>
+          <ScrollView style={{height: 300}} ref={scrollRef}>
             <Column gap="small" horizontalAlign="center">
               {chunk(allEmojis[currentCategory], 8).map((emoRow: string[], i) => {
                 return (

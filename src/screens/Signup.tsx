@@ -10,7 +10,15 @@ import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
 import {useMutation} from 'react-query';
 
-import {Row, Column, Text, Button, Pressable} from '../design-system/components';
+import {
+  Row,
+  Column,
+  Text,
+  Button,
+  Pressable,
+  useToastContext,
+  Toaster,
+} from '../design-system/components';
 
 import type {RootStackParamList} from '../types/screens';
 import {DismissKeyboard, Logo, TextInputField} from '../components';
@@ -49,6 +57,9 @@ export const Signup: React.FunctionComponent<SignupProps> = () => {
   // init auth context
   const auth = useAuthContext();
 
+  // init toast context
+  const toastContext = useToastContext();
+
   // init api
   const api = usePlatformApi();
 
@@ -65,8 +76,7 @@ export const Signup: React.FunctionComponent<SignupProps> = () => {
       auth.setUser?.(response.user);
     },
     onError: error => {
-      // show error in toast notification here
-      console.log('handle error', error);
+      toastContext.addToast({label: 'seems someone might have taken your email.'});
     },
   });
 
@@ -80,55 +90,58 @@ export const Signup: React.FunctionComponent<SignupProps> = () => {
   }, []);
 
   return (
-    <DismissKeyboard>
-      <SafeAreaView style={{flex: 1}}>
-        <ScrollView contentContainerStyle={{flex: 1}}>
-          <Column flex={1} paddingHorizontal="default" verticalAlign="between">
-            <Column gap="large">
-              <Row horizontalAlign="center" width="full">
-                <Logo />
-              </Row>
-              <Text align="center">welcome. let's get you signed up bud.</Text>
-              <Column gap="small">
-                <TextInputField
-                  name="email"
-                  label="email"
-                  control={control}
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                />
-                <TextInputField
-                  name="username"
-                  label="username"
-                  control={control}
-                  autoCapitalize="none"
-                />
-                <TextInputField
-                  name="password"
-                  label="password"
-                  control={control}
-                  secureTextEntry
-                />
+    <>
+      <DismissKeyboard>
+        <SafeAreaView style={{flex: 1}}>
+          <ScrollView contentContainerStyle={{flex: 1}}>
+            <Column flex={1} paddingHorizontal="default" verticalAlign="between">
+              <Column gap="large">
+                <Row horizontalAlign="center" width="full">
+                  <Logo />
+                </Row>
+                <Text align="center">welcome. let's get you signed up bud.</Text>
+                <Column gap="small">
+                  <TextInputField
+                    name="email"
+                    label="email"
+                    control={control}
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                  />
+                  <TextInputField
+                    name="username"
+                    label="username"
+                    control={control}
+                    autoCapitalize="none"
+                  />
+                  <TextInputField
+                    name="password"
+                    label="password"
+                    control={control}
+                    secureTextEntry
+                  />
+                </Column>
+                <Button.Root onPress={handleSubmit(handleSignup)}>
+                  {isLoading ? (
+                    <Button.Icon>
+                      <ActivityIndicator color={theme.colors.text.onAction} />
+                    </Button.Icon>
+                  ) : (
+                    <Button.Text>sign up</Button.Text>
+                  )}
+                </Button.Root>
               </Column>
-              <Button.Root onPress={handleSubmit(handleSignup)}>
-                {isLoading ? (
-                  <Button.Icon>
-                    <ActivityIndicator color={theme.colors.text.onAction} />
-                  </Button.Icon>
-                ) : (
-                  <Button.Text>sign up</Button.Text>
-                )}
-              </Button.Root>
+              <Column horizontalAlign="center" paddingBottom="xxlarge" gap="small">
+                <Text styledAs="label">already have an account?</Text>
+                <Pressable onPress={() => navigation.navigate('Login')}>
+                  <Text>log in</Text>
+                </Pressable>
+              </Column>
             </Column>
-            <Column horizontalAlign="center" paddingBottom="xxlarge" gap="small">
-              <Text styledAs="label">already have an account?</Text>
-              <Pressable onPress={() => navigation.navigate('Login')}>
-                <Text>log in</Text>
-              </Pressable>
-            </Column>
-          </Column>
-        </ScrollView>
-      </SafeAreaView>
-    </DismissKeyboard>
+          </ScrollView>
+        </SafeAreaView>
+      </DismissKeyboard>
+      <Toaster />
+    </>
   );
 };
