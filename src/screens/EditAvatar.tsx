@@ -100,14 +100,22 @@ export const EditAvatar: React.FunctionComponent = () => {
       const uni = parseUnicode(emo.unified);
       const category = emo.category;
 
-      if (emo.category in emojis) {
-        emojis[category] = [...emojis[category], uni];
+      if (category === 'People & Body') {
+        if ('Smileys & Emotion' in emojis) {
+          emojis['Smileys & Emotion'] = [...emojis['Smileys & Emotion'], uni];
+        } else {
+          emojis['Smileys & Emotion'] = [uni];
+        }
       } else {
-        emojis[category] = [uni];
+        if (category in emojis) {
+          emojis[category] = [...emojis[category], uni];
+        } else {
+          emojis[category] = [uni];
+        }
       }
     }
     return emojis;
-  }, []);
+  }, [emoji]);
 
   // handle saving the backgroundColor and emoji
   const handleSave = React.useCallback(() => {
