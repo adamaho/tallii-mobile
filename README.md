@@ -4,8 +4,6 @@ an ios and android application for the tallii platform.
 
 ## todo mvp
 
-- add toast notifications for when a write error occurs
-- add linting
 - add privacy policy and terms and conditions
 
 ## troubleshooting

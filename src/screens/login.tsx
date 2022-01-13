@@ -14,7 +14,15 @@ import * as yup from 'yup';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import type {RootStackParamList} from '../types/screens';
 
-import {Row, Column, Text, Button, Pressable} from '../design-system/components';
+import {
+  Row,
+  Column,
+  Text,
+  Button,
+  Pressable,
+  Toaster,
+  useToastContext,
+} from '../design-system/components';
 
 import {DismissKeyboard, Logo, TextInputField} from '../components';
 import {useNavigation} from '@react-navigation/native';
@@ -39,6 +47,9 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
   // init auth context
   const auth = useAuthContext();
 
+  // init toast context
+  const toastContext = useToastContext();
+
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -62,13 +73,12 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
       // save the user info to context
       auth.setUser?.(response.user);
     },
-    onError: error => {
-      // TODO throw toast notification when an error occurs
-      console.warn(error);
+    onError: () => {
+      toastContext.addToast({label: "well that's no good. try again later."});
     },
   });
 
-  // TODO: handle the login
+  // handle the login
   const handleLogin = React.useCallback(
     data => {
       // dismiss the keyboard
@@ -84,42 +94,50 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
   );
 
   return (
-    <DismissKeyboard>
-      <SafeAreaView style={{flex: 1}}>
-        <Column flex={1} paddingHorizontal="default" verticalAlign="between">
-          <Column gap="large">
-            <Row horizontalAlign="center" width="full">
-              <Logo />
-            </Row>
-            <Text align="center">welcome back. let's get you logged in bud.</Text>
-            <Column gap="small">
-              <TextInputField
-                name="email"
-                label="email"
-                control={control}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-              <TextInputField name="password" label="password" control={control} secureTextEntry />
+    <>
+      <DismissKeyboard>
+        <SafeAreaView style={{flex: 1}}>
+          <Column flex={1} paddingHorizontal="default" verticalAlign="between">
+            <Column gap="large">
+              <Row horizontalAlign="center" width="full">
+                <Logo />
+              </Row>
+              <Text align="center">welcome back. let's get you logged in bud.</Text>
+              <Column gap="small">
+                <TextInputField
+                  name="email"
+                  label="email"
+                  control={control}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+                <TextInputField
+                  name="password"
+                  label="password"
+                  control={control}
+                  secureTextEntry
+                />
+              </Column>
+              <Button.Root onPress={handleSubmit(handleLogin)}>
+                {isLoading ? (
+                  <Button.Icon>
+                    <ActivityIndicator color={theme.colors.text.onAction} />
+                  </Button.Icon>
+                ) : (
+                  <Button.Text>login</Button.Text>
+                )}
+              </Button.Root>
             </Column>
-            <Button.Root onPress={handleSubmit(handleLogin)}>
-              {isLoading ? (
-                <Button.Icon>
-                  <ActivityIndicator color={theme.colors.text.onAction} />
-                </Button.Icon>
-              ) : (
-                <Button.Text>login</Button.Text>
-              )}
-            </Button.Root>
+            <Column horizontalAlign="center" paddingBottom="xxlarge" gap="small">
+              <Text styledAs="label">don't have an account yet?</Text>
+              <Pressable onPress={() => navigation.navigate('Signup')}>
+                <Text>create account</Text>
+              </Pressable>
+            </Column>
           </Column>
-          <Column horizontalAlign="center" paddingBottom="xxlarge" gap="small">
-            <Text styledAs="label">don't have an account yet?</Text>
-            <Pressable onPress={() => navigation.navigate('Signup')}>
-              <Text>create account</Text>
-            </Pressable>
-          </Column>
-        </Column>
-      </SafeAreaView>
-    </DismissKeyboard>
+        </SafeAreaView>
+      </DismissKeyboard>
+      <Toaster />
+    </>
   );
 };

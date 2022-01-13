@@ -12,3 +12,4 @@ export * from './Row';
 export * from './Text';
 export * from './TextButton';
 export * from './TextInput';
+export * from './Toast';

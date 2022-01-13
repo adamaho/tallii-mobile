@@ -1,4 +1,4 @@
-import React, {forwardRef} from 'react';
+import React from 'react';
 
 import {Animated} from 'react-native';
 import type {TextProps} from 'react-native';
@@ -23,11 +23,7 @@ const FieldContextProvider: React.FunctionComponent<FieldContextProps> = ({
   appearance,
   children,
 }) => {
-  return (
-    <FieldContext.Provider value={{appearance}}>
-      {children}
-    </FieldContext.Provider>
-  );
+  return <FieldContext.Provider value={{appearance}}>{children}</FieldContext.Provider>;
 };
 
 export const useFieldContext = () => {
@@ -58,15 +54,13 @@ const FieldRoot = React.forwardRef<FieldRootProps, any>(
  * -----------------------------------------------------------*/
 interface FieldLabelProps extends TextProps {}
 
-const FieldLabel = React.forwardRef<FieldLabelProps, any>(
-  ({children, ...props}, forwardedRef) => {
-    return (
-      <Text {...props} styledAs="label" ref={forwardedRef}>
-        {children}
-      </Text>
-    );
-  },
-);
+const FieldLabel = React.forwardRef<FieldLabelProps, any>(({children, ...props}, forwardedRef) => {
+  return (
+    <Text {...props} styledAs="label" ref={forwardedRef}>
+      {children}
+    </Text>
+  );
+});
 
 /** ----------------------------------------------------------
  * Field Message

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useQuery} from 'react-query';
-import ContentLoader, {Rect, Circle} from 'react-content-loader/native';
+import ContentLoader, {Rect} from 'react-content-loader/native';
 
 import getUnixTime from 'date-fns/getUnixTime';
 
@@ -31,11 +31,7 @@ export const Scoreboards: React.FunctionComponent = () => {
     isLoading,
     isError,
     refetch,
-  } = useQuery(scoreboards(), () => api.getMyScoreboards(), {
-    onError: () => {
-      // TODO: show toast notification
-    },
-  });
+  } = useQuery(scoreboards(), () => api.getMyScoreboards());
 
   // fetch the current user
   const {data: user} = useQuery(me(), () => api.getMe());
@@ -81,7 +77,7 @@ export const Scoreboards: React.FunctionComponent = () => {
             padding="default"
             borderRadius="default"
           >
-            <Icon.ExclamationTriangle height={48} width={48} color={theme.colors.text.default} />
+            <Icon.ExclamationTriangle height={48} width={48} color="default" />
             <Text>well bud, seems we can't get your scoreboards. check back in later.</Text>
           </Column>
         </Column>

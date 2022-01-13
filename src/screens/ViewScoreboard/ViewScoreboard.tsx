@@ -10,7 +10,16 @@ import type {RouteProp} from '@react-navigation/native';
 
 import {RootStackParamList} from '../../types/screens';
 
-import {Modal, useModalContext, Button, Column, Row, Text, Heading} from '../../design-system';
+import {
+  Modal,
+  useModalContext,
+  Button,
+  Column,
+  Row,
+  Text,
+  Heading,
+  useToastContext,
+} from '../../design-system';
 
 import {Team} from './Team';
 import {scoreboards} from '../../constants';
@@ -25,6 +34,9 @@ import {DeleteScoreboardRequest} from '../../apiClient';
 const ViewScoreboardHeader: React.FunctionComponent = () => {
   // set is visible
   const {setIsVisible} = useModalContext();
+
+  // init toast context
+  const toastContext = useToastContext();
 
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
@@ -48,8 +60,7 @@ const ViewScoreboardHeader: React.FunctionComponent = () => {
       queryClient.invalidateQueries(scoreboards(), {exact: true});
     },
     onError: error => {
-      // TODO handle error
-      console.log(error);
+      toastContext.addToast({label: "well that's no good. try again later."});
     },
   });
 

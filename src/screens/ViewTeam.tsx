@@ -10,7 +10,17 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/screens';
 
 import {DismissKeyboard, Header} from '../components';
-import {Row, IconButton, Box, Heading, Column, Button, Icon} from '../design-system';
+import {
+  Row,
+  IconButton,
+  Box,
+  Heading,
+  Column,
+  Button,
+  Icon,
+  Toaster,
+  useToastContext,
+} from '../design-system';
 
 import {theme} from '../design-system/theme';
 
@@ -22,6 +32,9 @@ import {team, scoreboards} from '../constants';
 export const ViewTeam: React.FunctionComponent = () => {
   // init state to get the new score
   const [score, setScore] = React.useState<number>(0);
+
+  // init toast context
+  const toastContext = useToastContext();
 
   // init state to track if the user is using keyboard or not
   const [isUsingKeyboard, setIsUsingKeyboard] = React.useState(false);
@@ -64,9 +77,8 @@ export const ViewTeam: React.FunctionComponent = () => {
       // go back
       navigation.goBack();
     },
-    onError: error => {
-      // TODO show toast notification on error
-      console.log(error);
+    onError: () => {
+      toastContext.addToast({label: "well that's no good. try again later."});
     },
   });
 
@@ -106,54 +118,57 @@ export const ViewTeam: React.FunctionComponent = () => {
   }, []);
 
   return (
-    <DismissKeyboard>
-      <SafeAreaView style={{flex: 1}}>
-        <Header.Root horizontalAlign="right">
-          <Header.Exit />
-        </Header.Root>
-        <Column padding="default" gap="xxxlarge">
-          <Heading align="center">{currentTeam?.name}</Heading>
-          <Column gap="large">
-            <Box
-              backgroundColor="widgetSecondary"
-              padding="large"
-              borderRadius="large"
-              width="full"
-            >
-              {!(currentTeam == null) && (
-                <Row horizontalAlign="between">
-                  <IconButton onPress={handleMinusPress}>
-                    <Icon.Minus width={20} height={20} color={theme.colors.text.onAction} />
-                  </IconButton>
-                  <TextInput
-                    defaultValue={currentTeam.score.toString()}
-                    value={score === 0 && isUsingKeyboard ? undefined : score.toString()}
-                    onChangeText={handleScoreChange}
-                    onFocus={() => setIsUsingKeyboard(true)}
-                    onBlur={() => setIsUsingKeyboard(true)}
-                    style={{
-                      textAlign: 'center',
-                      fontFamily: 'Nunito-Black',
-                      fontSize: 64,
-                      color: theme.colors.text.default,
-                      minWidth: 100,
-                      maxWidth: 200,
-                      width: '100%',
-                    }}
-                    keyboardType="number-pad"
-                  />
-                  <IconButton onPress={handlePlusPress}>
-                    <Icon.Plus width={20} height={20} color={theme.colors.text.onAction} />
-                  </IconButton>
-                </Row>
-              )}
-            </Box>
-            <Button.Root onPress={handleUpdateTeam}>
-              <Button.Text>save</Button.Text>
-            </Button.Root>
+    <>
+      <DismissKeyboard>
+        <SafeAreaView style={{flex: 1}}>
+          <Header.Root horizontalAlign="right">
+            <Header.Exit />
+          </Header.Root>
+          <Column padding="default" gap="xxxlarge">
+            <Heading align="center">{currentTeam?.name}</Heading>
+            <Column gap="large">
+              <Box
+                backgroundColor="widgetSecondary"
+                padding="large"
+                borderRadius="large"
+                width="full"
+              >
+                {!(currentTeam == null) && (
+                  <Row horizontalAlign="between">
+                    <IconButton onPress={handleMinusPress}>
+                      <Icon.Minus width={20} height={20} color={theme.colors.text.onAction} />
+                    </IconButton>
+                    <TextInput
+                      defaultValue={currentTeam.score.toString()}
+                      value={score === 0 && isUsingKeyboard ? undefined : score.toString()}
+                      onChangeText={handleScoreChange}
+                      onFocus={() => setIsUsingKeyboard(true)}
+                      onBlur={() => setIsUsingKeyboard(true)}
+                      style={{
+                        textAlign: 'center',
+                        fontFamily: 'Nunito-Black',
+                        fontSize: 64,
+                        color: theme.colors.text.default,
+                        minWidth: 100,
+                        maxWidth: 200,
+                        width: '100%',
+                      }}
+                      keyboardType="number-pad"
+                    />
+                    <IconButton onPress={handlePlusPress}>
+                      <Icon.Plus width={20} height={20} color={theme.colors.text.onAction} />
+                    </IconButton>
+                  </Row>
+                )}
+              </Box>
+              <Button.Root onPress={handleUpdateTeam}>
+                <Button.Text>save</Button.Text>
+              </Button.Root>
+            </Column>
           </Column>
-        </Column>
-      </SafeAreaView>
-    </DismissKeyboard>
+        </SafeAreaView>
+      </DismissKeyboard>
+      <Toaster />
+    </>
   );
 };
