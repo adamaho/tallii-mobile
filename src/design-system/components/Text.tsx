@@ -47,7 +47,11 @@ export const Text = React.forwardRef<TextProps, any>(
     }, [styledAs, textColor]);
 
     return (
-      <NativeText {...props} style={[{textAlign: align, ...props.style}, style]} ref={forwardedRef}>
+      <NativeText
+        {...props}
+        style={[{textAlign: align, textTransform: 'lowercase', ...props.style}, style]}
+        ref={forwardedRef}
+      >
         {children}
       </NativeText>
     );
