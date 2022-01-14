@@ -45,6 +45,7 @@ export const Heading = React.forwardRef<HeadingProps, any>(
           {
             fontSize,
             textAlign: align,
+            textTransform: 'lowercase',
           },
         ]}
         ref={forwardedRef}
