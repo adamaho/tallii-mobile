@@ -31,13 +31,12 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
 
   // sort the teams by score
   const sortedTeams = React.useMemo(() => {
-    return teams.sort((a, b) => {
+    return [...teams].sort((a, b) => {
       if (a.score > b.score) {
         return -1;
       } else if (a.score < b.score) {
         return 1;
       }
-
       return 0;
     });
   }, [teams]);

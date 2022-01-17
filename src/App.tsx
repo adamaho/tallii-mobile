@@ -16,7 +16,7 @@ import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
 import {ViewTeam} from './screens/ViewTeam';
 import {ViewProfile} from './screens/ViewProfile';
 import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
-import {Column, Text, Toaster, Toast, ToastContextProvider} from './design-system';
+import {Column, ToastContextProvider} from './design-system';
 import {Logo} from './components';
 import {EditAvatar} from './screens/EditAvatar';
 // import { Playground } from './screens/Playground';
