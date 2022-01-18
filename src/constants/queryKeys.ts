@@ -2,6 +2,7 @@ enum QueryKeys {
   AUTHORIZE = 'AUTHORIZE',
   ME = 'ME',
   SCOREBOARDS = 'SCOREBOARDS',
+  SEARCH = 'SEARCH',
   TEAM = 'TEAM',
 }
 
@@ -40,4 +41,15 @@ export const team = (teamId: number) => {
  */
 export const me = () => {
   return QueryKeys.ME;
+};
+
+/**
+ * the cache key for teh results of a search
+ */
+export const search = (query?: string) => {
+  if (query) {
+    return [QueryKeys.SEARCH, query];
+  }
+
+  return QueryKeys.SEARCH;
 };

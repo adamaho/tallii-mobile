@@ -7,6 +7,7 @@ models/ErrorModel.ts
 models/LoginRequestModel.ts
 models/LoginSignupResponseModel.ts
 models/ScoreboardModel.ts
+models/SearchResultModel.ts
 models/SignupRequestModel.ts
 models/TeamModel.ts
 models/UpdateTeamRequestModel.ts

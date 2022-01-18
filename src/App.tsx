@@ -9,9 +9,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {theme} from './design-system/theme';
 import {Login} from './screens/Login';
 import {Signup} from './screens/Signup';
-import {Scoreboards} from './screens/Scoreboards';
+import {Scoreboards} from './screens/ScoreboardsScreen';
 import {CreateScoreboard} from './screens/CreateScoreboard/CreateScoreboard';
 import {CreateTeam} from './screens/CreateTeam';
+import {SearchScreen} from './screens/SearchScreen';
 import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
 import {ViewTeam} from './screens/ViewTeam';
 import {ViewProfile} from './screens/ViewProfile';
@@ -77,14 +78,15 @@ const AppNavigation: React.FunctionComponent = () => {
               <Stack.Group screenOptions={{headerShown: false}}>
                 {/* <Stack.Screen name="Playground" component={Playground} /> */}
                 <Stack.Screen name="Scoreboards" component={Scoreboards} />
+                <Stack.Screen name="SearchScreen" component={SearchScreen} />
                 <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
+                <Stack.Screen name="ViewProfile" component={ViewProfile} />
+                <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
               </Stack.Group>
               <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
-                <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
                 <Stack.Screen name="CreateTeam" component={CreateTeam} />
                 <Stack.Screen name="ViewTeam" component={ViewTeam} />
                 <Stack.Screen name="EditAvatar" component={EditAvatar} />
-                <Stack.Screen name="ViewProfile" component={ViewProfile} />
               </Stack.Group>
             </>
           )}

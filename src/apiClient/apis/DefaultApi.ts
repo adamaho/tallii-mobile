@@ -29,6 +29,9 @@ import {
   ScoreboardModel,
   ScoreboardModelFromJSON,
   ScoreboardModelToJSON,
+  SearchResultModel,
+  SearchResultModelFromJSON,
+  SearchResultModelToJSON,
   SignupRequestModel,
   SignupRequestModelFromJSON,
   SignupRequestModelToJSON,
@@ -56,6 +59,10 @@ export interface DeleteScoreboardRequest {
 
 export interface GetScoreboardRequest {
   scoreboardId: number;
+}
+
+export interface GetSearchRequest {
+  query?: string;
 }
 
 export interface GetTeamRequest {
@@ -355,6 +362,53 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit,
   ): Promise<ScoreboardModel> {
     const response = await this.getScoreboardRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * searches content based on the query param that is passed
+   */
+  async getSearchRaw(
+    requestParameters: GetSearchRequest,
+    initOverrides?: RequestInit,
+  ): Promise<runtime.ApiResponse<SearchResultModel>> {
+    const queryParameters: any = {};
+
+    if (requestParameters.query !== undefined) {
+      queryParameters['query'] = requestParameters.query;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/search`,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, jsonValue => SearchResultModelFromJSON(jsonValue));
+  }
+
+  /**
+   * searches content based on the query param that is passed
+   */
+  async getSearch(
+    requestParameters: GetSearchRequest,
+    initOverrides?: RequestInit,
+  ): Promise<SearchResultModel> {
+    const response = await this.getSearchRaw(requestParameters, initOverrides);
     return await response.value();
   }
 

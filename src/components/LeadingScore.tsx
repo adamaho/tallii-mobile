@@ -5,15 +5,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Heading, Column} from '../design-system';
 import {theme} from '../design-system/theme';
 
-interface HeaderTitleProps {
+interface LeadingScoreProps {
   children: string;
 }
 
-export const HeaderTitle: React.FunctionComponent<HeaderTitleProps> = ({
-  children,
-}) => {
+export const LeadingScore: React.FunctionComponent<LeadingScoreProps> = ({children}) => {
   return (
-    <Column gap="xsmall">
+    <Column gap="none">
       <Heading level="3">{children}</Heading>
       <LinearGradient
         start={{x: 0, y: 0}}

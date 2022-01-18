@@ -1,5 +1,5 @@
 export * from './DismissKeyboard';
-export * from './HeaderTitle';
+export * from './LeadingScore';
 export * from './Header';
 export * from './Logo';
 export * from './Scoreboard';

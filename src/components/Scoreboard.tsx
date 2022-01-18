@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/screens';
 
-import {Header} from '../components';
+import {LeadingScore} from '../components';
 import {Row, Column, Text, Heading} from '../design-system';
 import {formatDate} from '../utils';
 
@@ -74,7 +74,7 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
                   {t.name}
                 </Text>
                 {i === 0 ? (
-                  <Header.Title>{t.score.toString()}</Header.Title>
+                  <LeadingScore>{t.score.toString()}</LeadingScore>
                 ) : (
                   <Heading level="3" color="secondary">
                     {t.score}

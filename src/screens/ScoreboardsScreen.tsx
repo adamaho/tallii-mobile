@@ -12,7 +12,7 @@ import {RootStackParamList} from '../types/screens';
 
 import {DismissKeyboard, Header, Scoreboard} from '../components';
 
-import {Text, IconButton, Column, Icon, Avatar} from '../design-system';
+import {Text, IconButton, Column, Icon, Avatar, Row} from '../design-system';
 
 import {theme} from '../design-system/theme';
 import {scoreboards, me} from '../constants';
@@ -126,17 +126,30 @@ export const Scoreboards: React.FunctionComponent = () => {
       <SafeAreaView style={{flex: 1}}>
         <Column>
           <Header.Root horizontalAlign="between">
-            <Avatar.Root
-              size="small"
-              onPress={() => navigation.navigate('ViewProfile', {})}
-              backgroundColor={user?.avatarBackground}
-            >
-              <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
-            </Avatar.Root>
-            <Header.Title>scoreboards</Header.Title>
-            <IconButton onPress={() => navigation.navigate('CreateScoreboard')}>
-              <Icon.Plus color={theme.colors.background.widget.default} width={20} height={20} />
-            </IconButton>
+            <Row verticalAlign="center">
+              <Header.Title>scoreboards</Header.Title>
+            </Row>
+            <Row gap="default">
+              <IconButton
+                onPress={() => navigation.navigate('SearchScreen')}
+                backgroundColor="widgetSecondary"
+              >
+                <Icon.Search color="default" width={20} height={20} />
+              </IconButton>
+              <IconButton
+                onPress={() => navigation.navigate('CreateScoreboard')}
+                backgroundColor="widgetSecondary"
+              >
+                <Icon.Plus color={theme.colors.text.default} width={20} height={20} />
+              </IconButton>
+              <Avatar.Root
+                size="small"
+                onPress={() => navigation.navigate('ViewProfile', {})}
+                backgroundColor={user?.avatarBackground}
+              >
+                <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
+              </Avatar.Root>
+            </Row>
           </Header.Root>
         </Column>
         {list}

@@ -42,7 +42,7 @@ interface HeaderTitleProps {
 const HeaderTitle: React.FunctionComponent<HeaderTitleProps> = ({children}) => {
   return (
     <Column gap="none">
-      <Heading level="3">{children}</Heading>
+      <Heading level="1">{children}</Heading>
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 0}}
@@ -65,12 +65,9 @@ const HeaderBack: React.FunctionComponent = ({children = 'back'}) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <TextButton.Root onPress={() => navigation.goBack()}>
-      <TextButton.Icon>
-        <Icon.Back height={20} width={20} color={theme.colors.text.default} />
-      </TextButton.Icon>
-      <TextButton.Text>{children}</TextButton.Text>
-    </TextButton.Root>
+    <IconButton onPress={() => navigation.goBack()} backgroundColor="widgetSecondary">
+      <Icon.Back height={20} width={20} color={theme.colors.text.default} />
+    </IconButton>
   );
 };
 
@@ -82,8 +79,8 @@ const HeaderExit: React.FunctionComponent = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <IconButton onPress={() => navigation.goBack()}>
-      <Icon.Times height={20} width={20} color={theme.colors.background.widget.default} />
+    <IconButton onPress={() => navigation.goBack()} backgroundColor="widgetSecondary">
+      <Icon.Times height={20} width={20} color={theme.colors.text.default} />
     </IconButton>
   );
 };

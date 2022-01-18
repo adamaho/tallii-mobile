@@ -8,7 +8,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {RootStackParamList} from '../types/screens';
 
-import {Column, Button, Heading, Avatar, Toaster, useToastContext} from '../design-system';
+import {Column, Box, Button, Heading, Avatar, Toaster, useToastContext} from '../design-system';
 import {UpdateMeRequest} from '../apiClient';
 import {theme} from '../design-system/theme';
 import {Header} from '../components';
@@ -82,10 +82,10 @@ export const ViewProfile: React.FunctionComponent = () => {
   return (
     <>
       <SafeAreaView style={{flex: 1}}>
-        <Column flex={1} verticalAlign="between" padding="default">
+        <Column flex={1} verticalAlign="between">
           <Column horizontalAlign="center">
-            <Header.Root horizontalAlign="right">
-              <Header.Exit />
+            <Header.Root>
+              <Header.Back />
             </Header.Root>
             <Column horizontalAlign="center">
               <Avatar.Root
@@ -98,9 +98,11 @@ export const ViewProfile: React.FunctionComponent = () => {
               <Heading align="center">{user?.username || 'unknown'}</Heading>
             </Column>
           </Column>
-          <Button.Root onPress={() => auth.logout?.()}>
-            <Button.Text>log out</Button.Text>
-          </Button.Root>
+          <Box padding="default">
+            <Button.Root onPress={() => auth.logout?.()}>
+              <Button.Text>log out</Button.Text>
+            </Button.Root>
+          </Box>
         </Column>
       </SafeAreaView>
       <Toaster />
