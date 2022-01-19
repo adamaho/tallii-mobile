@@ -8,8 +8,8 @@ import getUnixTime from 'date-fns/getUnixTime';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RefreshControl, SafeAreaView, ScrollView} from 'react-native';
-import {RootStackParamList} from '../types/screens';
 
+import {RootStackParamList} from '../types/screens';
 import {DismissKeyboard, Header, Scoreboard} from '../components';
 
 import {Text, IconButton, Column, Icon, Avatar, Row} from '../design-system';

@@ -1,11 +1,14 @@
 import React from 'react';
 
+import debounce from 'lodash.debounce';
+
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SafeAreaView, ScrollView, Pressable} from 'react-native';
 import {useQuery} from 'react-query';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
-import debounce from 'lodash.debounce';
-
+import {RootStackParamList} from '../types/screens';
 import {UserModel} from '../apiClient';
 import {DismissKeyboard, Header} from '../components';
 import {search} from '../constants';
@@ -21,6 +24,9 @@ interface UserSearchResultProps {
 }
 
 const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}) => {
+  // init navigation
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <Pressable>
       <Row horizontalAlign="between">
@@ -36,6 +42,9 @@ const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}
   );
 };
 
+/** ----------------------------------------------------------
+ * Search Screen
+ * -----------------------------------------------------------*/
 export const SearchScreen: React.FunctionComponent = () => {
   // init state to track in the input text
   const [query, setQuery] = React.useState<string | undefined>();
@@ -88,7 +97,7 @@ export const SearchScreen: React.FunctionComponent = () => {
       );
     }
 
-    if (results == null && query == null) {
+    if ((results == null && query == null) || query === '') {
       return (
         <Column horizontalAlign="center" gap="small">
           <Heading align="center">🔎</Heading>
