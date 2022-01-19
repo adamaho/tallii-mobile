@@ -78,7 +78,9 @@ export const Scoreboards: React.FunctionComponent = () => {
             borderRadius="default"
           >
             <Icon.ExclamationTriangle height={48} width={48} color="default" />
-            <Text>well bud, seems we can't get your scoreboards. check back in later.</Text>
+            <Text align="center">
+              well bud, seems we can't get your scoreboards. check back in later.
+            </Text>
           </Column>
         </Column>
       );

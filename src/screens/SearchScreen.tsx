@@ -2,14 +2,16 @@ import React from 'react';
 
 import {SafeAreaView, ScrollView, Pressable} from 'react-native';
 import {useQuery} from 'react-query';
+import ContentLoader, {Rect} from 'react-content-loader/native';
 
 import debounce from 'lodash.debounce';
 
 import {UserModel} from '../apiClient';
 import {DismissKeyboard, Header} from '../components';
 import {search} from '../constants';
-import {Avatar, Box, Row, Column, TextInput, Heading, Icon} from '../design-system';
+import {Avatar, Box, Row, Column, TextInput, Heading, Icon, Text} from '../design-system';
 import {usePlatformApi} from '../hooks';
+import {theme} from '../design-system/theme';
 
 /** ----------------------------------------------------------
  * User Search Result
@@ -56,30 +58,69 @@ export const SearchScreen: React.FunctionComponent = () => {
 
   // content of the search screen
   const content = React.useMemo(() => {
-    // if (isError) {
-    //   return (xqc
+    if (isError) {
+      return (
+        <Column
+          gap="small"
+          backgroundColor="widgetSecondary"
+          horizontalAlign="center"
+          width="full"
+          padding="default"
+          borderRadius="default"
+        >
+          <Icon.ExclamationTriangle height={48} width={48} color="default" />
+          <Text align="center">something went wrong when we were looking for your m8s</Text>
+        </Column>
+      );
+    }
 
-    //   )
-    // }
+    if (isLoading) {
+      return (
+        <ContentLoader
+          width={'100%'}
+          height={150}
+          viewBox="0 0 324 150"
+          backgroundColor={theme.colors.background.widget.secondary}
+          foregroundColor={theme.colors.background.widget.highlight}
+        >
+          <Rect x="0" y="0" rx="16" ry="16" width="100%" height="150" />
+        </ContentLoader>
+      );
+    }
 
-    // if (isLoading) {
-    //   return (
+    if (results == null && query == null) {
+      return (
+        <Column horizontalAlign="center" gap="small">
+          <Heading align="center">🔎</Heading>
+          <Text align="center" styledAs="caption">
+            start typing to look for your m8s
+          </Text>
+        </Column>
+      );
+    }
 
-    //   )
-    // }
-
-    // if (results.length === 0) {
-    //   return (
-
-    //   )
-    // }
+    if (results && results.users.length === 0) {
+      return (
+        <Column horizontalAlign="center" gap="small">
+          <Heading level="3" align="center">
+            😢
+          </Heading>
+          <Heading level="3" align="center">
+            couldn't find that person bed.
+          </Heading>
+          <Text align="center" styledAs="caption">
+            try searching again using a different spelling or keyword
+          </Text>
+        </Column>
+      );
+    }
 
     if (results) {
       return results.users.map((u, i) => {
         return <UserSearchResult key={i} user={u} />;
       });
     }
-  }, [isLoading, isError, results]);
+  }, [isLoading, isError, results, query]);
 
   return (
     <DismissKeyboard>
@@ -93,9 +134,10 @@ export const SearchScreen: React.FunctionComponent = () => {
           </Column>
           <Box padding="default" flex={1}>
             <TextInput
-              placeholder="find users"
+              placeholder="type here bud"
               onChangeText={handleSetQuery}
               autoCapitalize="none"
+              autoFocus
             />
           </Box>
           <Box padding="default">
@@ -104,6 +146,7 @@ export const SearchScreen: React.FunctionComponent = () => {
               padding="default"
               backgroundColor="widgetSecondary"
               borderRadius="large"
+              verticalAlign="top"
             >
               {content}
             </Column>
