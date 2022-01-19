@@ -16,7 +16,7 @@ import {useAuthContext} from '../contexts';
 import {usePlatformApi} from '../hooks';
 import {me} from '../constants';
 
-export const ViewProfile: React.FunctionComponent = () => {
+export const MyProfileScreen: React.FunctionComponent = () => {
   // init auth context
   const auth = useAuthContext();
 
@@ -47,7 +47,7 @@ export const ViewProfile: React.FunctionComponent = () => {
   });
 
   // init route to get the params
-  const route = useRoute<RouteProp<RootStackParamList, 'ViewProfile'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'MyProfile'>>();
 
   // handle editing the avatar
   const handleAvatarPress = React.useCallback(() => {
@@ -95,7 +95,7 @@ export const ViewProfile: React.FunctionComponent = () => {
               >
                 <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
               </Avatar.Root>
-              <Heading align="center">{user?.username || 'unknown'}</Heading>
+              <Header.Title>{user?.username || 'unknown'}</Header.Title>
             </Column>
           </Column>
           <Box padding="default">

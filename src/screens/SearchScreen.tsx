@@ -28,7 +28,7 @@ const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <Pressable>
+    <Pressable onPress={() => navigation.navigate('UserProfile', {userId: user.userId})}>
       <Row horizontalAlign="between">
         <Row>
           <Avatar.Root size="small" backgroundColor={user.avatarBackground}>

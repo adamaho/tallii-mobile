@@ -146,7 +146,7 @@ export const Scoreboards: React.FunctionComponent = () => {
               </IconButton>
               <Avatar.Root
                 size="small"
-                onPress={() => navigation.navigate('ViewProfile', {})}
+                onPress={() => navigation.navigate('MyProfile', {})}
                 backgroundColor={user?.avatarBackground}
               >
                 <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>

@@ -15,11 +15,13 @@ import {CreateTeam} from './screens/CreateTeam';
 import {SearchScreen} from './screens/SearchScreen';
 import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
 import {ViewTeam} from './screens/ViewTeam';
-import {ViewProfile} from './screens/ViewProfile';
+import {MyProfileScreen} from './screens/MyProfileScreen';
+import {EditAvatar} from './screens/EditAvatar';
+import {UserProfileScreen} from './screens/UserProfileScreen';
+
 import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
 import {Column, ToastContextProvider} from './design-system';
 import {Logo} from './components';
-import {EditAvatar} from './screens/EditAvatar';
 // import { Playground } from './screens/Playground';
 
 const Stack = createNativeStackNavigator();
@@ -80,7 +82,8 @@ const AppNavigation: React.FunctionComponent = () => {
                 <Stack.Screen name="Scoreboards" component={Scoreboards} />
                 <Stack.Screen name="SearchScreen" component={SearchScreen} />
                 <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
-                <Stack.Screen name="ViewProfile" component={ViewProfile} />
+                <Stack.Screen name="MyProfile" component={MyProfileScreen} />
+                <Stack.Screen name="UserProfile" component={UserProfileScreen} />
                 <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
               </Stack.Group>
               <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>

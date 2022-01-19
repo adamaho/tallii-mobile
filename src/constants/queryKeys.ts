@@ -4,6 +4,7 @@ enum QueryKeys {
   SCOREBOARDS = 'SCOREBOARDS',
   SEARCH = 'SEARCH',
   TEAM = 'TEAM',
+  USER = 'USER',
 }
 
 /**
@@ -52,4 +53,18 @@ export const search = (query?: string) => {
   }
 
   return QueryKeys.SEARCH;
+};
+
+/**
+ * the cache key for the currently logged in user
+ */
+export const user = (userId: number) => {
+  return [QueryKeys.USER, userId];
+};
+
+/**
+ * the cache key for the currently logged in user
+ */
+export const userScoreboards = (userId: number) => {
+  return [QueryKeys.USER, userId, 'scoreboards'];
 };

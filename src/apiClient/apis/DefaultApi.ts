@@ -69,6 +69,14 @@ export interface GetTeamRequest {
   teamId: number;
 }
 
+export interface GetUserRequest {
+  userId: number;
+}
+
+export interface GetUserScoreboardsRequest {
+  userId: number;
+}
+
 export interface PostLoginRequest {
   loginRequestModel: LoginRequestModel;
 }
@@ -462,6 +470,114 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit,
   ): Promise<TeamModel> {
     const response = await this.getTeamRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * gets the user info matching the id that is passed
+   */
+  async getUserRaw(
+    requestParameters: GetUserRequest,
+    initOverrides?: RequestInit,
+  ): Promise<runtime.ApiResponse<UserModel>> {
+    if (requestParameters.userId === null || requestParameters.userId === undefined) {
+      throw new runtime.RequiredError(
+        'userId',
+        'Required parameter requestParameters.userId was null or undefined when calling getUser.',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/users/{user_id}`.replace(
+          `{${'user_id'}}`,
+          encodeURIComponent(String(requestParameters.userId)),
+        ),
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, jsonValue => UserModelFromJSON(jsonValue));
+  }
+
+  /**
+   * gets the user info matching the id that is passed
+   */
+  async getUser(
+    requestParameters: GetUserRequest,
+    initOverrides?: RequestInit,
+  ): Promise<UserModel> {
+    const response = await this.getUserRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * gets the scoreboards for the matching user
+   */
+  async getUserScoreboardsRaw(
+    requestParameters: GetUserScoreboardsRequest,
+    initOverrides?: RequestInit,
+  ): Promise<runtime.ApiResponse<Array<ScoreboardModel>>> {
+    if (requestParameters.userId === null || requestParameters.userId === undefined) {
+      throw new runtime.RequiredError(
+        'userId',
+        'Required parameter requestParameters.userId was null or undefined when calling getUserScoreboards.',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/v1/users/{user_id}/scoreboards`.replace(
+          `{${'user_id'}}`,
+          encodeURIComponent(String(requestParameters.userId)),
+        ),
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      jsonValue.map(ScoreboardModelFromJSON),
+    );
+  }
+
+  /**
+   * gets the scoreboards for the matching user
+   */
+  async getUserScoreboards(
+    requestParameters: GetUserScoreboardsRequest,
+    initOverrides?: RequestInit,
+  ): Promise<Array<ScoreboardModel>> {
+    const response = await this.getUserScoreboardsRaw(requestParameters, initOverrides);
     return await response.value();
   }
 

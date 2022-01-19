@@ -7,9 +7,12 @@ export type RootStackParamList = {
   CreateScoreboard: undefined;
   ViewScoreboard: {scoreboardId: number};
   CreateTeam: undefined;
-  ViewProfile: {
+  MyProfile: {
     backgroundColor?: string;
     emoji?: string;
+  };
+  UserProfile: {
+    userId: number;
   };
   SearchScreen: undefined;
   ViewTeam: {teamId: number; scoreboardId: number};
