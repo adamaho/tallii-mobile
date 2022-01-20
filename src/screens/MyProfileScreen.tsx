@@ -95,7 +95,7 @@ export const MyProfileScreen: React.FunctionComponent = () => {
               >
                 <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
               </Avatar.Root>
-              <Header.Title>{user?.username || 'unknown'}</Header.Title>
+              <Heading>{user?.username || 'unknown'}</Heading>
             </Column>
           </Column>
           <Box padding="default">

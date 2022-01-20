@@ -13,7 +13,7 @@ import {Scoreboards} from './screens/ScoreboardsScreen';
 import {CreateScoreboard} from './screens/CreateScoreboard/CreateScoreboard';
 import {CreateTeam} from './screens/CreateTeam';
 import {SearchScreen} from './screens/SearchScreen';
-import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
+import {ViewScoreboard} from './screens/ViewScoreboard';
 import {ViewTeam} from './screens/ViewTeam';
 import {MyProfileScreen} from './screens/MyProfileScreen';
 import {EditAvatar} from './screens/EditAvatar';

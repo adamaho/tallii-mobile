@@ -8,7 +8,7 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import type {RouteProp} from '@react-navigation/native';
 
-import {RootStackParamList} from '../../types/screens';
+import {RootStackParamList} from '../types/screens';
 
 import {
   Modal,
@@ -20,19 +20,65 @@ import {
   Heading,
   useToastContext,
   Toaster,
-} from '../../design-system';
+  Pressable,
+} from '../design-system';
 
-import {Team} from './Team';
-import {scoreboards} from '../../constants';
-import {usePlatformApi} from '../../hooks';
-import {formatDate} from '../../utils';
-import {Header} from '../../components';
-import {DeleteScoreboardRequest} from '../../apiClient';
+import {scoreboards} from '../constants';
+import {usePlatformApi} from '../hooks';
+import {formatDate} from '../utils';
+import {Header} from '../components';
+import {DeleteScoreboardRequest} from '../apiClient';
+import {useAuthContext} from '../contexts';
+
+/** ----------------------------------------------------------
+ * ViewScoreboard Team
+ * -----------------------------------------------------------*/
+interface TeamProps {
+  name: string;
+  score: number;
+  teamId: number;
+  scoreboardId: number;
+  isCreator: boolean;
+}
+
+export const Team: React.FunctionComponent<TeamProps> = ({
+  name,
+  score,
+  scoreboardId,
+  teamId,
+  isCreator,
+}) => {
+  // init navigation
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  return (
+    <Pressable
+      isDisabled={!isCreator}
+      onPress={() => navigation.navigate('ViewTeam', {teamId, scoreboardId})}
+    >
+      <Row
+        horizontalAlign="between"
+        backgroundColor="widgetSecondary"
+        padding="default"
+        borderRadius="default"
+      >
+        <Text numberOfLines={1} style={{flex: 0.9}}>
+          {name}
+        </Text>
+        <Heading>{score}</Heading>
+      </Row>
+    </Pressable>
+  );
+};
 
 /** ----------------------------------------------------------
  * ViewScoreboard Header
  * -----------------------------------------------------------*/
-const ViewScoreboardHeader: React.FunctionComponent = () => {
+interface ViewScoreboardHeaderProps {
+  isCreator?: boolean;
+}
+
+const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> = ({isCreator}) => {
   // set is visible
   const {setIsVisible} = useModalContext();
 
@@ -78,7 +124,7 @@ const ViewScoreboardHeader: React.FunctionComponent = () => {
     <>
       <Header.Root horizontalAlign="between">
         <Header.Back />
-        <Modal.TextTrigger>delete</Modal.TextTrigger>
+        {isCreator && <Modal.TextTrigger>delete</Modal.TextTrigger>}
       </Header.Root>
       <Modal.Root>
         <Column>
@@ -86,9 +132,6 @@ const ViewScoreboardHeader: React.FunctionComponent = () => {
             <Heading>delete scoreboard</Heading>
             <Text>are you sure you want to delete this scoreboard?</Text>
           </Column>
-          <Button.Root appearance="danger" onPress={handleDelete}>
-            <Button.Text>delete</Button.Text>
-          </Button.Root>
           <Button.Root variant="primary" onPress={() => setIsVisible(false)}>
             <Button.Text>cancel</Button.Text>
           </Button.Root>
@@ -102,6 +145,9 @@ export const ViewScoreboard: React.FunctionComponent = () => {
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
 
+  // init auth context
+  const auth = useAuthContext();
+
   // init api
   const api = usePlatformApi();
 
@@ -111,6 +157,11 @@ export const ViewScoreboard: React.FunctionComponent = () => {
       scoreboardId: route.params.scoreboardId,
     }),
   );
+
+  // determine if the current user made the scoreboard
+  const isCreator = React.useMemo(() => {
+    return scoreboard?.createdBy.userId === auth.user?.userId;
+  }, [scoreboard, auth]);
 
   // format the date
   const formattedDate = React.useMemo(() => {
@@ -141,7 +192,7 @@ export const ViewScoreboard: React.FunctionComponent = () => {
       <SafeAreaView style={{flex: 1}}>
         <Column>
           <Modal.Context>
-            <ViewScoreboardHeader />
+            <ViewScoreboardHeader isCreator={isCreator} />
           </Modal.Context>
           <Row padding="default" horizontalAlign="between" verticalAlign="top">
             <Column gap="xsmall">
@@ -162,6 +213,7 @@ export const ViewScoreboard: React.FunctionComponent = () => {
                     scoreboardId={scoreboard?.scoreboardId}
                     name={t.name}
                     score={t.score}
+                    isCreator={isCreator}
                   />
                 );
               })}

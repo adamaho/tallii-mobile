@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/screens';
 
-import {LeadingScore} from '../components';
+import {GradientHeading} from '../components';
 import {Row, Column, Text, Heading} from '../design-system';
 import {formatDate} from '../utils';
 
@@ -74,7 +74,7 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
                   {t.name}
                 </Text>
                 {i === 0 ? (
-                  <LeadingScore>{t.score.toString()}</LeadingScore>
+                  <GradientHeading>{t.score.toString()}</GradientHeading>
                 ) : (
                   <Heading level="3" color="secondary">
                     {t.score}

@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {SafeAreaView, ScrollView, Pressable} from 'react-native';
+import {SafeAreaView, ScrollView} from 'react-native';
 import {useQuery} from 'react-query';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
@@ -12,7 +12,17 @@ import {RootStackParamList} from '../types/screens';
 import {UserModel} from '../apiClient';
 import {DismissKeyboard, Header} from '../components';
 import {search} from '../constants';
-import {Avatar, Box, Row, Column, TextInput, Heading, Icon, Text} from '../design-system';
+import {
+  Avatar,
+  Box,
+  Row,
+  Column,
+  TextInput,
+  Heading,
+  Icon,
+  Text,
+  Pressable,
+} from '../design-system';
 import {usePlatformApi} from '../hooks';
 import {theme} from '../design-system/theme';
 
@@ -28,7 +38,10 @@ const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <Pressable onPress={() => navigation.navigate('UserProfile', {userId: user.userId})}>
+    <Pressable
+      disableHaptics
+      onPress={() => navigation.navigate('UserProfile', {userId: user.userId})}
+    >
       <Row horizontalAlign="between">
         <Row>
           <Avatar.Root size="small" backgroundColor={user.avatarBackground}>
