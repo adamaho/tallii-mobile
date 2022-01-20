@@ -9,16 +9,19 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {theme} from './design-system/theme';
 import {Login} from './screens/Login';
 import {Signup} from './screens/Signup';
-import {Scoreboards} from './screens/Scoreboards';
+import {Scoreboards} from './screens/ScoreboardsScreen';
 import {CreateScoreboard} from './screens/CreateScoreboard/CreateScoreboard';
 import {CreateTeam} from './screens/CreateTeam';
-import {ViewScoreboard} from './screens/ViewScoreboard/ViewScoreboard';
+import {SearchScreen} from './screens/SearchScreen';
+import {ViewScoreboard} from './screens/ViewScoreboard';
 import {ViewTeam} from './screens/ViewTeam';
-import {ViewProfile} from './screens/ViewProfile';
-import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
-import {Column, Text, Toaster, Toast, ToastContextProvider} from './design-system';
-import {Logo} from './components';
+import {MyProfileScreen} from './screens/MyProfileScreen';
 import {EditAvatar} from './screens/EditAvatar';
+import {UserProfileScreen} from './screens/UserProfileScreen';
+
+import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
+import {Column, ToastContextProvider} from './design-system';
+import {Logo} from './components';
 // import { Playground } from './screens/Playground';
 
 const Stack = createNativeStackNavigator();
@@ -77,14 +80,16 @@ const AppNavigation: React.FunctionComponent = () => {
               <Stack.Group screenOptions={{headerShown: false}}>
                 {/* <Stack.Screen name="Playground" component={Playground} /> */}
                 <Stack.Screen name="Scoreboards" component={Scoreboards} />
+                <Stack.Screen name="SearchScreen" component={SearchScreen} />
                 <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
+                <Stack.Screen name="MyProfile" component={MyProfileScreen} />
+                <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+                <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
               </Stack.Group>
               <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
-                <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
                 <Stack.Screen name="CreateTeam" component={CreateTeam} />
                 <Stack.Screen name="ViewTeam" component={ViewTeam} />
                 <Stack.Screen name="EditAvatar" component={EditAvatar} />
-                <Stack.Screen name="ViewProfile" component={ViewProfile} />
               </Stack.Group>
             </>
           )}

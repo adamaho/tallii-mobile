@@ -8,7 +8,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {RootStackParamList} from '../types/screens';
 
-import {Column, Button, Heading, Avatar, Toaster, useToastContext} from '../design-system';
+import {Column, Box, Button, Heading, Avatar, Toaster, useToastContext} from '../design-system';
 import {UpdateMeRequest} from '../apiClient';
 import {theme} from '../design-system/theme';
 import {Header} from '../components';
@@ -16,7 +16,7 @@ import {useAuthContext} from '../contexts';
 import {usePlatformApi} from '../hooks';
 import {me} from '../constants';
 
-export const ViewProfile: React.FunctionComponent = () => {
+export const MyProfileScreen: React.FunctionComponent = () => {
   // init auth context
   const auth = useAuthContext();
 
@@ -47,7 +47,7 @@ export const ViewProfile: React.FunctionComponent = () => {
   });
 
   // init route to get the params
-  const route = useRoute<RouteProp<RootStackParamList, 'ViewProfile'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'MyProfile'>>();
 
   // handle editing the avatar
   const handleAvatarPress = React.useCallback(() => {
@@ -82,10 +82,10 @@ export const ViewProfile: React.FunctionComponent = () => {
   return (
     <>
       <SafeAreaView style={{flex: 1}}>
-        <Column flex={1} verticalAlign="between" padding="default">
+        <Column flex={1} verticalAlign="between">
           <Column horizontalAlign="center">
-            <Header.Root horizontalAlign="right">
-              <Header.Exit />
+            <Header.Root>
+              <Header.Back />
             </Header.Root>
             <Column horizontalAlign="center">
               <Avatar.Root
@@ -95,12 +95,14 @@ export const ViewProfile: React.FunctionComponent = () => {
               >
                 <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
               </Avatar.Root>
-              <Heading align="center">{user?.username || 'unknown'}</Heading>
+              <Heading>{user?.username || 'unknown'}</Heading>
             </Column>
           </Column>
-          <Button.Root onPress={() => auth.logout?.()}>
-            <Button.Text>log out</Button.Text>
-          </Button.Root>
+          <Box padding="default">
+            <Button.Root onPress={() => auth.logout?.()}>
+              <Button.Text>log out</Button.Text>
+            </Button.Root>
+          </Box>
         </Column>
       </SafeAreaView>
       <Toaster />

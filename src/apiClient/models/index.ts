@@ -6,6 +6,7 @@ export * from './ErrorModel';
 export * from './LoginRequestModel';
 export * from './LoginSignupResponseModel';
 export * from './ScoreboardModel';
+export * from './SearchResultModel';
 export * from './SignupRequestModel';
 export * from './TeamModel';
 export * from './UpdateTeamRequestModel';

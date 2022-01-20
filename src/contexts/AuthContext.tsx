@@ -35,6 +35,8 @@ export const AuthContextProvider: React.FunctionComponent = ({children}) => {
     try {
       setIsAuthenticating(true);
       await api.getAuthorize();
+      const user = await api.getMe();
+      setUser(user);
       setToken(token);
       setIsAuthenticated(true);
     } catch (error) {

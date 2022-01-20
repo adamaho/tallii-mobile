@@ -8,11 +8,11 @@ import getUnixTime from 'date-fns/getUnixTime';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RefreshControl, SafeAreaView, ScrollView} from 'react-native';
-import {RootStackParamList} from '../types/screens';
 
+import {RootStackParamList} from '../types/screens';
 import {DismissKeyboard, Header, Scoreboard} from '../components';
 
-import {Text, IconButton, Column, Icon, Avatar} from '../design-system';
+import {Text, IconButton, Column, Icon, Avatar, Row} from '../design-system';
 
 import {theme} from '../design-system/theme';
 import {scoreboards, me} from '../constants';
@@ -77,8 +77,10 @@ export const Scoreboards: React.FunctionComponent = () => {
             padding="default"
             borderRadius="default"
           >
-            <Icon.ExclamationTriangle height={48} width={48} color="default" />
-            <Text>well bud, seems we can't get your scoreboards. check back in later.</Text>
+            <Icon.ExclamationTriangle height={40} width={40} color="default" />
+            <Text align="center">
+              well bud, seems we can't get your scoreboards. check back in later.
+            </Text>
           </Column>
         </Column>
       );
@@ -126,17 +128,30 @@ export const Scoreboards: React.FunctionComponent = () => {
       <SafeAreaView style={{flex: 1}}>
         <Column>
           <Header.Root horizontalAlign="between">
-            <Avatar.Root
-              size="small"
-              onPress={() => navigation.navigate('ViewProfile', {})}
-              backgroundColor={user?.avatarBackground}
-            >
-              <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
-            </Avatar.Root>
-            <Header.Title>scoreboards</Header.Title>
-            <IconButton onPress={() => navigation.navigate('CreateScoreboard')}>
-              <Icon.Plus color={theme.colors.background.widget.default} width={20} height={20} />
-            </IconButton>
+            <Row verticalAlign="center">
+              <Header.Title>scoreboards</Header.Title>
+            </Row>
+            <Row gap="default">
+              <IconButton
+                onPress={() => navigation.navigate('SearchScreen')}
+                backgroundColor="widgetSecondary"
+              >
+                <Icon.Search color="default" width={20} height={20} />
+              </IconButton>
+              <IconButton
+                onPress={() => navigation.navigate('CreateScoreboard')}
+                backgroundColor="widgetSecondary"
+              >
+                <Icon.Plus color={theme.colors.text.default} width={20} height={20} />
+              </IconButton>
+              <Avatar.Root
+                size="small"
+                onPress={() => navigation.navigate('MyProfile', {})}
+                backgroundColor={user?.avatarBackground}
+              >
+                <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
+              </Avatar.Root>
+            </Row>
           </Header.Root>
         </Column>
         {list}

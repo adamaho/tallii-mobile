@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/screens';
 
-import {Header} from '../components';
+import {GradientHeading} from '../components';
 import {Row, Column, Text, Heading} from '../design-system';
 import {formatDate} from '../utils';
 
@@ -31,13 +31,12 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
 
   // sort the teams by score
   const sortedTeams = React.useMemo(() => {
-    return teams.sort((a, b) => {
+    return [...teams].sort((a, b) => {
       if (a.score > b.score) {
         return -1;
       } else if (a.score < b.score) {
         return 1;
       }
-
       return 0;
     });
   }, [teams]);
@@ -75,7 +74,7 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
                   {t.name}
                 </Text>
                 {i === 0 ? (
-                  <Header.Title>{t.score.toString()}</Header.Title>
+                  <GradientHeading>{t.score.toString()}</GradientHeading>
                 ) : (
                   <Heading level="3" color="secondary">
                     {t.score}

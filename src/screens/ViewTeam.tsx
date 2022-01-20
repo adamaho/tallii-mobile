@@ -67,7 +67,7 @@ export const ViewTeam: React.FunctionComponent = () => {
 
   // init mutation to update the team
   const {mutate} = useMutation((data: UpdateTeamRequest) => api.updateTeam(data), {
-    onSuccess: () => {
+    onSuccess: async () => {
       // invalidate the team
       queryClient.invalidateQueries(team(route.params.teamId));
 

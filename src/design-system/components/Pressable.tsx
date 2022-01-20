@@ -7,10 +7,11 @@ import type {PressableProps as NativePressableProps} from 'react-native';
 
 export interface PressableProps extends NativePressableProps {
   disableHaptics?: boolean;
+  isDisabled?: boolean;
 }
 
 export const Pressable = React.forwardRef<any, PressableProps>(
-  ({children, disableHaptics = false, ...props}, forwardedRef) => {
+  ({children, disableHaptics = false, isDisabled, ...props}, forwardedRef) => {
     // init animation ref
     const scale = React.useRef(new Animated.Value(1)).current;
 
@@ -48,6 +49,7 @@ export const Pressable = React.forwardRef<any, PressableProps>(
         <NativePressable
           {...props}
           ref={forwardedRef}
+          disabled={isDisabled}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
         >
