@@ -90,7 +90,7 @@ export const SearchScreen: React.FunctionComponent = () => {
           padding="default"
           borderRadius="default"
         >
-          <Icon.ExclamationTriangle height={48} width={48} color="default" />
+          <Icon.ExclamationTriangle height={40} width={40} color="default" />
           <Text align="center">something went wrong when we were looking for your m8s</Text>
         </Column>
       );

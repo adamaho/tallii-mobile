@@ -5,10 +5,12 @@ import {useQuery} from 'react-query';
 
 import {RouteProp, useRoute, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import ContentLoader, {Rect} from 'react-content-loader/native';
 
 import {RootStackParamList} from '../types/screens';
-import {Toaster, Column, Avatar, Heading, Row, Text, Pressable} from '../design-system';
+import {Toaster, Column, Avatar, Heading, Row, Text, Pressable, Icon} from '../design-system';
 import {Header, GradientHeading} from '../components';
+import {theme} from '../design-system/theme';
 import {usePlatformApi} from '../hooks';
 import {user, userScoreboards} from '../constants';
 
@@ -32,7 +34,7 @@ export const UserProfileScreen: React.FunctionComponent = () => {
   // init query to fetch scoreboards for a user
   const {
     data: scoreboards,
-    isLoading: isLoadingScorebaords,
+    isLoading: isLoadingScoreboards,
     isError: isErrorScoreboards,
   } = useQuery(userScoreboards(route.params.userId), () =>
     api.getUserScoreboards({userId: route.params.userId}),
@@ -40,17 +42,51 @@ export const UserProfileScreen: React.FunctionComponent = () => {
 
   // init scoreboard content
   const scoreboardContent = React.useMemo(() => {
-    // if (isLoading) {
+    if (isLoadingScoreboards) {
+      return (
+        <ContentLoader
+          width={'100%'}
+          height={75}
+          viewBox="0 0 360 75"
+          backgroundColor={theme.colors.background.widget.secondary}
+          foregroundColor={theme.colors.background.widget.highlight}
+        >
+          <Rect x="0" y="0" rx="16" ry="16" width="100%" height="75" />
+        </ContentLoader>
+      );
+    }
 
-    // }
+    if (isErrorScoreboards) {
+      return (
+        <Column
+          horizontalAlign="center"
+          gap="small"
+          backgroundColor="widgetSecondary"
+          padding="default"
+          borderRadius="large"
+        >
+          <Icon.ExclamationTriangle height={40} width={40} color="default" />
+          <Text align="center">something went wrong when we were trying to get scoreboards</Text>
+        </Column>
+      );
+    }
 
-    // if (isError) {
-
-    // }
-
-    // if (scoreboards && scoreboards.length === 0) {
-
-    // }
+    if (scoreboards && scoreboards.length === 0) {
+      return (
+        <Column
+          horizontalAlign="center"
+          gap="small"
+          backgroundColor="widgetSecondary"
+          padding="default"
+          borderRadius="large"
+        >
+          <Heading align="center">🌴</Heading>
+          <Text align="center" styledAs="caption">
+            no scoreboards
+          </Text>
+        </Column>
+      );
+    }
 
     return (
       <Column>
@@ -74,7 +110,7 @@ export const UserProfileScreen: React.FunctionComponent = () => {
         })}
       </Column>
     );
-  }, [isLoadingScorebaords, isErrorScoreboards, scoreboards]);
+  }, [isLoadingScoreboards, isErrorScoreboards, scoreboards]);
 
   return (
     <>
@@ -91,11 +127,11 @@ export const UserProfileScreen: React.FunctionComponent = () => {
               <Heading>{userInfo?.username || 'unknown'}</Heading>
             </Column>
           </Column>
-          <Column paddingHorizontal="default">
+          <Column paddingHorizontal="default" height="full">
             <Row>
               <GradientHeading>scoreboards</GradientHeading>
             </Row>
-            <ScrollView>{scoreboardContent}</ScrollView>
+            <ScrollView style={{height: '100%'}}>{scoreboardContent}</ScrollView>
           </Column>
         </Column>
       </SafeAreaView>

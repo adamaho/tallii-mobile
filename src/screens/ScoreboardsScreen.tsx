@@ -77,7 +77,7 @@ export const Scoreboards: React.FunctionComponent = () => {
             padding="default"
             borderRadius="default"
           >
-            <Icon.ExclamationTriangle height={48} width={48} color="default" />
+            <Icon.ExclamationTriangle height={40} width={40} color="default" />
             <Text align="center">
               well bud, seems we can't get your scoreboards. check back in later.
             </Text>
