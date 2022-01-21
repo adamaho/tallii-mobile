@@ -130,7 +130,7 @@ export const EditAvatar: React.FunctionComponent = () => {
 
   // handle saving the backgroundColor and emoji
   const handleSave = React.useCallback(() => {
-    navigation.navigate('ViewProfile', {
+    navigation.navigate('MyProfile', {
       backgroundColor: currentBackgroundColor,
       emoji: currentEmoji,
     });

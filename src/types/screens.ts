@@ -17,7 +17,7 @@ export type RootStackParamList = {
   SearchScreen: undefined;
   ViewTeam: {teamId: number; scoreboardId: number};
   EditAvatar: {
-    returnTo: 'ViewProfile';
+    returnTo: 'MyProfile';
     backgroundColor: string;
     emoji: string;
   };

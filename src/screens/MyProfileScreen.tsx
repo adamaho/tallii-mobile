@@ -8,7 +8,16 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {RootStackParamList} from '../types/screens';
 
-import {Column, Box, Button, Heading, Avatar, Toaster, useToastContext} from '../design-system';
+import {
+  Column,
+  Box,
+  Button,
+  Heading,
+  Text,
+  Avatar,
+  Toaster,
+  useToastContext,
+} from '../design-system';
 import {UpdateMeRequest} from '../apiClient';
 import {theme} from '../design-system/theme';
 import {Header} from '../components';
@@ -54,7 +63,7 @@ export const MyProfileScreen: React.FunctionComponent = () => {
     navigation.navigate('EditAvatar', {
       backgroundColor: user?.avatarBackground ?? theme.colors.background.accent.orange.secondary,
       emoji: user?.avatarEmoji ?? '🍕',
-      returnTo: 'ViewProfile',
+      returnTo: 'MyProfile',
     });
   }, [user]);
 
@@ -88,13 +97,18 @@ export const MyProfileScreen: React.FunctionComponent = () => {
               <Header.Back />
             </Header.Root>
             <Column horizontalAlign="center">
-              <Avatar.Root
-                size="large"
-                backgroundColor={user?.avatarBackground}
-                onPress={handleAvatarPress}
-              >
-                <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
-              </Avatar.Root>
+              <Column horizontalAlign="center" gap="small">
+                <Avatar.Root
+                  size="large"
+                  backgroundColor={user?.avatarBackground}
+                  onPress={handleAvatarPress}
+                >
+                  <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
+                </Avatar.Root>
+                <Text styledAs="caption" textColor="secondary">
+                  edit
+                </Text>
+              </Column>
               <Heading>{user?.username || 'unknown'}</Heading>
             </Column>
           </Column>

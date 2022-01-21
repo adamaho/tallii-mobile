@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {SafeAreaView, ScrollView} from 'react-native';
+import {FlatList, SafeAreaView, ScrollView} from 'react-native';
 import {useQuery} from 'react-query';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
@@ -23,7 +23,9 @@ import {
   Text,
   Pressable,
 } from '../design-system';
+
 import {usePlatformApi} from '../hooks';
+
 import {theme} from '../design-system/theme';
 
 /** ----------------------------------------------------------
@@ -31,9 +33,15 @@ import {theme} from '../design-system/theme';
  * -----------------------------------------------------------*/
 interface UserSearchResultProps {
   user: UserModel;
+  isFirstItem: boolean;
+  isLastItem: boolean;
 }
 
-const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}) => {
+const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({
+  user,
+  isFirstItem,
+  isLastItem,
+}) => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -42,7 +50,11 @@ const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}
       disableHaptics
       onPress={() => navigation.navigate('UserProfile', {userId: user.userId})}
     >
-      <Row horizontalAlign="between">
+      <Row
+        horizontalAlign="between"
+        marginTop={!isFirstItem ? 'default' : undefined}
+        marginBottom={!isLastItem ? 'default' : undefined}
+      >
         <Row>
           <Avatar.Root size="small" backgroundColor={user.avatarBackground}>
             <Avatar.Emoji>{user.avatarEmoji}</Avatar.Emoji>
@@ -82,16 +94,11 @@ export const SearchScreen: React.FunctionComponent = () => {
   const content = React.useMemo(() => {
     if (isError) {
       return (
-        <Column
-          gap="small"
-          backgroundColor="widgetSecondary"
-          horizontalAlign="center"
-          width="full"
-          padding="default"
-          borderRadius="default"
-        >
+        <Column gap="small" horizontalAlign="center">
           <Icon.ExclamationTriangle height={40} width={40} color="default" />
-          <Text align="center">something went wrong when we were looking for your m8s</Text>
+          <Text align="center" styledAs="caption">
+            something went wrong when we were looking for your m8s
+          </Text>
         </Column>
       );
     }
@@ -138,9 +145,21 @@ export const SearchScreen: React.FunctionComponent = () => {
     }
 
     if (results) {
-      return results.users.map((u, i) => {
-        return <UserSearchResult key={i} user={u} />;
-      });
+      return (
+        <FlatList
+          data={results.users}
+          keyExtractor={item => item.userId.toString()}
+          renderItem={({item, index}) => {
+            return (
+              <UserSearchResult
+                user={item}
+                isFirstItem={index === 0}
+                isLastItem={index === results.users.length - 1}
+              />
+            );
+          }}
+        />
+      );
     }
   }, [isLoading, isError, results, query]);
 
@@ -150,30 +169,26 @@ export const SearchScreen: React.FunctionComponent = () => {
         <Header.Root>
           <Header.Back />
         </Header.Root>
-        <ScrollView style={{flex: 1}}>
-          <Column horizontalAlign="left" padding="default">
-            <Header.Title>search</Header.Title>
-          </Column>
-          <Box padding="default" flex={1}>
-            <TextInput
-              placeholder="type here bud"
-              onChangeText={handleSetQuery}
-              autoCapitalize="none"
-              autoFocus
-            />
-          </Box>
-          <Box padding="default">
-            <Column
-              gap="large"
-              padding="default"
-              backgroundColor="widgetSecondary"
-              borderRadius="large"
-              verticalAlign="top"
-            >
-              {content}
-            </Column>
-          </Box>
-        </ScrollView>
+        <Column horizontalAlign="left" padding="default">
+          <Header.Title>search</Header.Title>
+        </Column>
+        <Box padding="default">
+          <TextInput
+            placeholder="type here bud"
+            onChangeText={handleSetQuery}
+            autoCapitalize="none"
+            autoFocus
+          />
+        </Box>
+        <Box
+          padding="default"
+          backgroundColor="widgetSecondary"
+          marginLeft="default"
+          marginRight="default"
+          borderRadius="default"
+        >
+          {content}
+        </Box>
       </SafeAreaView>
     </DismissKeyboard>
   );
