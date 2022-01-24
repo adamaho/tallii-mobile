@@ -115,11 +115,11 @@ export const UserProfileScreen: React.FunctionComponent = () => {
   return (
     <>
       <SafeAreaView style={{flex: 1}}>
+        <Header.Root>
+          <Header.Back />
+        </Header.Root>
         <Column flex={1} gap="large">
           <Column horizontalAlign="center">
-            <Header.Root>
-              <Header.Back />
-            </Header.Root>
             <Column horizontalAlign="center">
               <Avatar.Root size="large" backgroundColor={userInfo?.avatarBackground}>
                 <Avatar.Emoji>{userInfo?.avatarEmoji}</Avatar.Emoji>

@@ -21,7 +21,7 @@ import {UserProfileScreen} from './screens/UserProfileScreen';
 
 import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
 import {Column, ToastContextProvider} from './design-system';
-import {Logo} from './components';
+import {Logo, ModalThumb} from './components';
 // import { Playground } from './screens/Playground';
 
 /** ----------------------------------------------------------
@@ -32,7 +32,7 @@ const SearchStack = createNativeStackNavigator();
 const SearchNavigator = () => {
   return (
     <SearchStack.Navigator>
-      <SearchStack.Group screenOptions={{headerShown: false}}>
+      <SearchStack.Group screenOptions={{headerTitle: ModalThumb, headerBackVisible: false}}>
         <SearchStack.Screen name="Search" component={SearchScreen} />
         <SearchStack.Screen name="UserProfile" component={UserProfileScreen} />
         <SearchStack.Screen name="ViewScoreboard" component={ViewScoreboard} />

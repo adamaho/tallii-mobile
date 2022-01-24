@@ -10,7 +10,7 @@ import ContentLoader, {Rect} from 'react-content-loader/native';
 
 import {RootStackParamList} from '../types/screens';
 import {UserModel} from '../apiClient';
-import {Header, ModalThumb} from '../components';
+import {Header} from '../components';
 import {search} from '../constants';
 import {
   Avatar,
@@ -33,15 +33,9 @@ import {theme} from '../design-system/theme';
  * -----------------------------------------------------------*/
 interface UserSearchResultProps {
   user: UserModel;
-  isFirstItem: boolean;
-  isLastItem: boolean;
 }
 
-const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({
-  user,
-  isFirstItem,
-  isLastItem,
-}) => {
+const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}) => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -52,11 +46,12 @@ const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({
     >
       <Row
         horizontalAlign="between"
-        marginTop={!isFirstItem ? 'default' : undefined}
-        marginBottom={!isLastItem ? 'default' : undefined}
+        paddingHorizontal="default"
+        marginTop="default"
+        marginBottom="default"
       >
         <Row>
-          <Avatar.Root size="small" backgroundColor={user.avatarBackground}>
+          <Avatar.Root isDisabled size="small" backgroundColor={user.avatarBackground}>
             <Avatar.Emoji>{user.avatarEmoji}</Avatar.Emoji>
           </Avatar.Root>
           <Heading level="4">{user.username}</Heading>
@@ -94,7 +89,7 @@ export const SearchScreen: React.FunctionComponent = () => {
   const content = React.useMemo(() => {
     if (isError) {
       return (
-        <Column gap="small" horizontalAlign="center">
+        <Column gap="small" horizontalAlign="center" paddingVertical="default">
           <Icon.ExclamationTriangle height={40} width={40} color="default" />
           <Text align="center" styledAs="caption">
             something went wrong when we were looking for your m8s
@@ -109,6 +104,7 @@ export const SearchScreen: React.FunctionComponent = () => {
           width={'100%'}
           height={150}
           viewBox="0 0 324 150"
+          style={{paddingVertical: 16}}
           backgroundColor={theme.colors.background.widget.secondary}
           foregroundColor={theme.colors.background.widget.highlight}
         >
@@ -119,7 +115,7 @@ export const SearchScreen: React.FunctionComponent = () => {
 
     if ((results == null && query == null) || query === '') {
       return (
-        <Column horizontalAlign="center" gap="small">
+        <Column horizontalAlign="center" gap="small" paddingVertical="default">
           <Heading align="center">🔎</Heading>
           <Text align="center" styledAs="caption">
             start typing to look for your m8s
@@ -130,7 +126,7 @@ export const SearchScreen: React.FunctionComponent = () => {
 
     if (results && results.users.length === 0) {
       return (
-        <Column horizontalAlign="center" gap="small">
+        <Column horizontalAlign="center" gap="small" paddingVertical="default">
           <Heading level="3" align="center">
             😢
           </Heading>
@@ -150,14 +146,8 @@ export const SearchScreen: React.FunctionComponent = () => {
           data={results.users}
           onScrollBeginDrag={() => Keyboard.dismiss()}
           keyExtractor={item => item.userId.toString()}
-          renderItem={({item, index}) => {
-            return (
-              <UserSearchResult
-                user={item}
-                isFirstItem={index === 0}
-                isLastItem={index === results.users.length - 1}
-              />
-            );
+          renderItem={({item}) => {
+            return <UserSearchResult user={item} />;
           }}
         />
       );
@@ -166,10 +156,6 @@ export const SearchScreen: React.FunctionComponent = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ModalThumb />
-      <Header.Root horizontalAlign="right">
-        <Header.Exit />
-      </Header.Root>
       <Column horizontalAlign="left" padding="default">
         <Header.Title>search</Header.Title>
       </Column>
@@ -181,11 +167,10 @@ export const SearchScreen: React.FunctionComponent = () => {
         />
       </Box>
       <Box
-        padding="default"
         backgroundColor="widgetSecondary"
+        borderRadius="large"
         marginLeft="default"
         marginRight="default"
-        borderRadius="default"
       >
         {content}
       </Box>

@@ -4,7 +4,7 @@ import {Row, Box} from '../design-system';
 
 export const ModalThumb: React.FunctionComponent = () => {
   return (
-    <Row horizontalAlign="center" padding="default">
+    <Row horizontalAlign="center">
       <Box style={{height: 4, width: 60}} borderRadius="round" backgroundColor="widgetTertiary" />
     </Row>
   );
