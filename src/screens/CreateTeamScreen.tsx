@@ -12,8 +12,8 @@ import {RootStackParamList} from '../types/screens';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 
-import {Column} from '../design-system';
-import {DismissKeyboard, Header, TextInputField} from '../components';
+import {Button, Column} from '../design-system';
+import {DismissKeyboard, Header, ModalThumb, TextInputField} from '../components';
 import {useCreateTeamContext} from '../contexts';
 
 const teamSchema = yup.object().shape({
@@ -43,14 +43,22 @@ export const CreateTeamScreen: React.FunctionComponent = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <Header.Root horizontalAlign="between">
-        <Header.Cancel />
-        <Header.Title>create team</Header.Title>
-        <Header.Action onPress={handleSubmit(saveTeamToContext)}>done</Header.Action>
+      <ModalThumb />
+      <Header.Root>
+        <Header.Back />
       </Header.Root>
       <DismissKeyboard>
-        <Column padding="default" flex={1}>
-          <TextInputField name="name" label="name" control={control} />
+        <Column padding="default" verticalAlign="between" flex={1}>
+          <TextInputField
+            placeholder="my team"
+            name="name"
+            label="name"
+            autoCapitalize="none"
+            control={control}
+          />
+          <Button.Root onPress={handleSubmit(saveTeamToContext)}>
+            <Button.Text>create team</Button.Text>
+          </Button.Root>
         </Column>
       </DismissKeyboard>
     </SafeAreaView>

@@ -190,17 +190,29 @@ export const CreateScoreboardScreen: React.FunctionComponent = () => {
       <DismissKeyboard>
         <SafeAreaView style={{height: '100%', flex: 1}}>
           <ModalThumb />
-          <Header.Root>
-            <Header.Title>create scoreboard</Header.Title>
+          <Header.Root horizontalAlign="right">
+            <Header.Exit />
           </Header.Root>
           <Column padding="default" verticalAlign="between" flex={1}>
             <Box>
-              <TextInputField name="name" label="name" control={control} autoCapitalize="none" />
-              <TextInputField name="game" label="game" control={control} autoCapitalize="none" />
+              <TextInputField
+                placeholder="my scoreboard"
+                name="name"
+                label="name"
+                control={control}
+                autoCapitalize="none"
+              />
+              <TextInputField
+                placeholder="euchure"
+                name="game"
+                label="game"
+                control={control}
+                autoCapitalize="none"
+              />
               <Teams control={control} setValue={setValue} />
             </Box>
             <Button.Root onPress={handleSubmit(saveScoreboard)}>
-              <Button.Text>save</Button.Text>
+              <Button.Text>create scoreboard</Button.Text>
             </Button.Root>
           </Column>
         </SafeAreaView>

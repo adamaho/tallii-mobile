@@ -157,9 +157,12 @@ export const ViewSearchScreen: React.FunctionComponent = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ModalThumb />
-      <Column horizontalAlign="left" padding="default">
+      <Header.Root horizontalAlign="right">
+        <Header.Exit />
+      </Header.Root>
+      <Header.Root>
         <Header.Title>search</Header.Title>
-      </Column>
+      </Header.Root>
       <Box padding="default">
         <TextInput
           placeholder="type here bud"
