@@ -6,9 +6,6 @@ import {Column} from './Column';
 import type {ColumnProps} from './Column';
 
 import {Pressable} from './Pressable';
-import type {PressableProps} from './Pressable';
-
-import type {Atoms} from '../atoms';
 
 /** ----------------------------------------------------------
  * AvatarContext

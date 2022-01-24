@@ -49,8 +49,11 @@ export const Scoreboard: React.FunctionComponent<ScoreboardProps> = ({
   return (
     <Pressable
       onPress={() =>
-        navigation.navigate('ViewScoreboard', {
-          scoreboardId,
+        navigation.navigate('ScoreboardStack', {
+          screen: 'ViewScoreboard',
+          params: {
+            scoreboardId,
+          },
         })
       }
     >

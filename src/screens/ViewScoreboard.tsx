@@ -26,7 +26,7 @@ import {
 import {scoreboards} from '../constants';
 import {usePlatformApi} from '../hooks';
 import {formatDate} from '../utils';
-import {Header} from '../components';
+import {Header, ModalThumb} from '../components';
 import {DeleteScoreboardRequest} from '../apiClient';
 import {useAuthContext} from '../contexts';
 
@@ -122,6 +122,7 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
 
   return (
     <>
+      <ModalThumb />
       <Header.Root horizontalAlign="between">
         <Header.Back />
         {isCreator && <Modal.TextTrigger>delete</Modal.TextTrigger>}

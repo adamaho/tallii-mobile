@@ -21,7 +21,7 @@ import {UserProfileScreen} from './screens/UserProfileScreen';
 
 import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
 import {Column, ToastContextProvider} from './design-system';
-import {Logo, ModalThumb} from './components';
+import {Logo} from './components';
 // import { Playground } from './screens/Playground';
 
 /** ----------------------------------------------------------
@@ -32,12 +32,28 @@ const SearchStack = createNativeStackNavigator();
 const SearchNavigator = () => {
   return (
     <SearchStack.Navigator>
-      <SearchStack.Group screenOptions={{headerTitle: ModalThumb, headerBackVisible: false}}>
+      <SearchStack.Group screenOptions={{headerShown: false}}>
         <SearchStack.Screen name="Search" component={SearchScreen} />
         <SearchStack.Screen name="UserProfile" component={UserProfileScreen} />
         <SearchStack.Screen name="ViewScoreboard" component={ViewScoreboard} />
       </SearchStack.Group>
     </SearchStack.Navigator>
+  );
+};
+
+/** ----------------------------------------------------------
+ * Scoreboard Stack
+ * -----------------------------------------------------------*/
+const ScoreboardStack = createNativeStackNavigator();
+
+const ScoreboardNavigator = () => {
+  return (
+    <ScoreboardStack.Navigator>
+      <ScoreboardStack.Group screenOptions={{headerShown: false}}>
+        <ScoreboardStack.Screen name="ViewScoreboard" component={ViewScoreboard} />
+        <ScoreboardStack.Screen name="ViewTeam" component={ViewTeam} />
+      </ScoreboardStack.Group>
+    </ScoreboardStack.Navigator>
   );
 };
 
@@ -100,15 +116,14 @@ const AppNavigation: React.FunctionComponent = () => {
               <Stack.Group screenOptions={{headerShown: false}}>
                 {/* <Stack.Screen name="Playground" component={Playground} /> */}
                 <Stack.Screen name="Scoreboards" component={Scoreboards} />
-                <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
               </Stack.Group>
               <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
+                <Stack.Screen name="ScoreboardStack" component={ScoreboardNavigator} />
                 <Stack.Screen name="SearchStack" component={SearchNavigator} />
                 <Stack.Screen name="MyProfile" component={MyProfileScreen} />
                 <Stack.Screen name="UserProfile" component={UserProfileScreen} />
                 <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
                 <Stack.Screen name="CreateTeam" component={CreateTeam} />
-                <Stack.Screen name="ViewTeam" component={ViewTeam} />
                 <Stack.Screen name="EditAvatar" component={EditAvatar} />
               </Stack.Group>
             </>

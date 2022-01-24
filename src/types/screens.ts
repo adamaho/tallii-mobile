@@ -22,8 +22,13 @@ export type RootStackParamList = {
   UserProfile: {
     userId: number;
   };
-
   SearchStack: undefined;
+  ScoreboardStack: {
+    screen: 'ViewScoreboard';
+    params: {
+      scoreboardId: number;
+    };
+  };
   ViewTeam: {teamId: number; scoreboardId: number};
   EditAvatar: {
     returnTo: 'MyProfile';

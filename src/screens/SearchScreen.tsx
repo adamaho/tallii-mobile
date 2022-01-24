@@ -10,7 +10,7 @@ import ContentLoader, {Rect} from 'react-content-loader/native';
 
 import {RootStackParamList} from '../types/screens';
 import {UserModel} from '../apiClient';
-import {Header} from '../components';
+import {Header, ModalThumb} from '../components';
 import {search} from '../constants';
 import {
   Avatar,
@@ -156,6 +156,7 @@ export const SearchScreen: React.FunctionComponent = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <ModalThumb />
       <Column horizontalAlign="left" padding="default">
         <Header.Title>search</Header.Title>
       </Column>

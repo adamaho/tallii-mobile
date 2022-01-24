@@ -9,7 +9,7 @@ import ContentLoader, {Rect} from 'react-content-loader/native';
 
 import {RootStackParamList} from '../types/screens';
 import {Toaster, Column, Avatar, Heading, Row, Text, Pressable, Icon} from '../design-system';
-import {Header, GradientHeading} from '../components';
+import {Header, GradientHeading, ModalThumb} from '../components';
 import {theme} from '../design-system/theme';
 import {usePlatformApi} from '../hooks';
 import {user, userScoreboards} from '../constants';
@@ -115,13 +115,14 @@ export const UserProfileScreen: React.FunctionComponent = () => {
   return (
     <>
       <SafeAreaView style={{flex: 1}}>
+        <ModalThumb />
         <Header.Root>
           <Header.Back />
         </Header.Root>
         <Column flex={1} gap="large">
           <Column horizontalAlign="center">
             <Column horizontalAlign="center">
-              <Avatar.Root size="large" backgroundColor={userInfo?.avatarBackground}>
+              <Avatar.Root isDisabled size="large" backgroundColor={userInfo?.avatarBackground}>
                 <Avatar.Emoji>{userInfo?.avatarEmoji}</Avatar.Emoji>
               </Avatar.Root>
               <Heading>{userInfo?.username || 'unknown'}</Heading>
