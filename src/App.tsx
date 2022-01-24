@@ -24,6 +24,26 @@ import {Column, ToastContextProvider} from './design-system';
 import {Logo} from './components';
 // import { Playground } from './screens/Playground';
 
+/** ----------------------------------------------------------
+ * Search Stack
+ * -----------------------------------------------------------*/
+const SearchStack = createNativeStackNavigator();
+
+const SearchNavigator = () => {
+  return (
+    <SearchStack.Navigator>
+      <SearchStack.Group screenOptions={{headerShown: false}}>
+        <SearchStack.Screen name="Search" component={SearchScreen} />
+        <SearchStack.Screen name="UserProfile" component={UserProfileScreen} />
+        <SearchStack.Screen name="ViewScoreboard" component={ViewScoreboard} />
+      </SearchStack.Group>
+    </SearchStack.Navigator>
+  );
+};
+
+/** ----------------------------------------------------------
+ * Main App Stack
+ * -----------------------------------------------------------*/
 const Stack = createNativeStackNavigator();
 
 const AppNavigation: React.FunctionComponent = () => {
@@ -80,13 +100,13 @@ const AppNavigation: React.FunctionComponent = () => {
               <Stack.Group screenOptions={{headerShown: false}}>
                 {/* <Stack.Screen name="Playground" component={Playground} /> */}
                 <Stack.Screen name="Scoreboards" component={Scoreboards} />
-                <Stack.Screen name="SearchScreen" component={SearchScreen} />
                 <Stack.Screen name="ViewScoreboard" component={ViewScoreboard} />
+              </Stack.Group>
+              <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
+                <Stack.Screen name="SearchStack" component={SearchNavigator} />
                 <Stack.Screen name="MyProfile" component={MyProfileScreen} />
                 <Stack.Screen name="UserProfile" component={UserProfileScreen} />
                 <Stack.Screen name="CreateScoreboard" component={CreateScoreboard} />
-              </Stack.Group>
-              <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
                 <Stack.Screen name="CreateTeam" component={CreateTeam} />
                 <Stack.Screen name="ViewTeam" component={ViewTeam} />
                 <Stack.Screen name="EditAvatar" component={EditAvatar} />

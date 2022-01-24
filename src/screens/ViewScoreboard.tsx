@@ -132,6 +132,9 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
             <Heading>delete scoreboard</Heading>
             <Text>are you sure you want to delete this scoreboard?</Text>
           </Column>
+          <Button.Root variant="primary" appearance="danger" onPress={handleDelete}>
+            <Button.Text>delete</Button.Text>
+          </Button.Root>
           <Button.Root variant="primary" onPress={() => setIsVisible(false)}>
             <Button.Text>cancel</Button.Text>
           </Button.Root>
