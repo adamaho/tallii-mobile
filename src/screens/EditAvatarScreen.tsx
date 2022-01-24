@@ -6,7 +6,7 @@ import {SafeAreaView, ScrollView} from 'react-native';
 import {useNavigation, RouteProp, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {RootStackParamList} from '../types/screens';
+import {MyProfileStackParamList} from '../types/screens';
 
 import {Avatar, Box, Pressable, Row, Column, Heading, Button, Icon} from '../design-system';
 import {theme} from '../design-system/theme';
@@ -74,7 +74,7 @@ const ColorBubble: React.FunctionComponent<ColorBubbleProps> = ({
 /** ----------------------------------------------------------
  * Edit Avatar Screen
  * -----------------------------------------------------------*/
-export const EditAvatar: React.FunctionComponent = () => {
+export const EditAvatarScreen: React.FunctionComponent = () => {
   // init the current category
   const [currentCategory, setCurrentCategory] = React.useState('Smileys & Emotion');
 
@@ -82,10 +82,10 @@ export const EditAvatar: React.FunctionComponent = () => {
   const scrollRef = React.useRef<ScrollView>(null);
 
   // init route to get the params
-  const route = useRoute<RouteProp<RootStackParamList, 'EditAvatar'>>();
+  const route = useRoute<RouteProp<MyProfileStackParamList, 'EditAvatar'>>();
 
   // init navigation
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MyProfileStackParamList>>();
 
   // init the current backgroundColor
   const [currentBackgroundColor, setCurrentBackgroundColor] = React.useState(
@@ -130,7 +130,7 @@ export const EditAvatar: React.FunctionComponent = () => {
 
   // handle saving the backgroundColor and emoji
   const handleSave = React.useCallback(() => {
-    navigation.navigate('MyProfile', {
+    navigation.navigate('ViewMyProfileScreen', {
       backgroundColor: currentBackgroundColor,
       emoji: currentEmoji,
     });
@@ -138,8 +138,8 @@ export const EditAvatar: React.FunctionComponent = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <Header.Root horizontalAlign="right">
-        <Header.Exit />
+      <Header.Root>
+        <Header.Back />
       </Header.Root>
       <Column padding="default" gap="large">
         <Row horizontalAlign="center">

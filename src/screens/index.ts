@@ -1,6 +1,6 @@
 export * from './CreateScoreboardScreen';
 export * from './CreateTeamScreen';
-export * from './EditAvatar';
+export * from './EditAvatarScreen';
 export * from './ViewLoginScreen';
 export * from './ViewMyProfileScreen';
 export * from './ViewHomeScreen';

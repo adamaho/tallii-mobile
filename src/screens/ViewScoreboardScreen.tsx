@@ -120,11 +120,14 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
     mutate(request);
   }, []);
 
+  // calculate which view stack the scoreboard is a part of
+  const isScoreboardStack = navigation.getState().routes.length <= 2;
+
   return (
     <>
       <ModalThumb />
-      <Header.Root horizontalAlign="between">
-        <Header.Back />
+      <Header.Root horizontalAlign={!isScoreboardStack ? 'between' : 'right'}>
+        {!isScoreboardStack && <Header.Back />}
         {isCreator && <Modal.TextTrigger>delete</Modal.TextTrigger>}
       </Header.Root>
       <Modal.Root>

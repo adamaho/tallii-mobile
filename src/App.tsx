@@ -7,9 +7,9 @@ import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {theme} from './design-system/theme';
-import {EditAvatar} from './screens/EditAvatar';
 
 import {
+  EditAvatarScreen,
   ViewHomeScreen,
   ViewLoginScreen,
   ViewSignupScreen,
@@ -86,7 +86,7 @@ export const MyProfileNavigator = () => {
     <MyProfileStack.Navigator>
       <MyProfileStack.Group screenOptions={{headerShown: false}}>
         <MyProfileStack.Screen name="ViewMyProfileScreen" component={ViewMyProfileScreen} />
-        <MyProfileStack.Screen name="EditAvatar" component={EditAvatar} />
+        <MyProfileStack.Screen name="EditAvatarScreen" component={EditAvatarScreen} />
       </MyProfileStack.Group>
     </MyProfileStack.Navigator>
   );
@@ -157,7 +157,6 @@ const AppNavigation: React.FunctionComponent = () => {
                 <Stack.Screen name="MyProfileStack" component={MyProfileNavigator} />
                 <Stack.Screen name="ScoreboardStack" component={ScoreboardNavigator} />
                 <Stack.Screen name="SearchStack" component={SearchNavigator} />
-                <Stack.Screen name="EditAvatar" component={EditAvatar} />
               </Stack.Group>
             </>
           )}
