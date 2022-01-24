@@ -4,13 +4,13 @@ import debounce from 'lodash.debounce';
 
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {FlatList, SafeAreaView, ScrollView} from 'react-native';
+import {FlatList, SafeAreaView, Keyboard} from 'react-native';
 import {useQuery} from 'react-query';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
 import {RootStackParamList} from '../types/screens';
 import {UserModel} from '../apiClient';
-import {DismissKeyboard, Header} from '../components';
+import {Header, ModalThumb} from '../components';
 import {search} from '../constants';
 import {
   Avatar,
@@ -148,6 +148,7 @@ export const SearchScreen: React.FunctionComponent = () => {
       return (
         <FlatList
           data={results.users}
+          onScrollBeginDrag={() => Keyboard.dismiss()}
           keyExtractor={item => item.userId.toString()}
           renderItem={({item, index}) => {
             return (
@@ -164,32 +165,30 @@ export const SearchScreen: React.FunctionComponent = () => {
   }, [isLoading, isError, results, query]);
 
   return (
-    <DismissKeyboard>
-      <SafeAreaView style={{flex: 1}}>
-        <Header.Root>
-          <Header.Back />
-        </Header.Root>
-        <Column horizontalAlign="left" padding="default">
-          <Header.Title>search</Header.Title>
-        </Column>
-        <Box padding="default">
-          <TextInput
-            placeholder="type here bud"
-            onChangeText={handleSetQuery}
-            autoCapitalize="none"
-            autoFocus
-          />
-        </Box>
-        <Box
-          padding="default"
-          backgroundColor="widgetSecondary"
-          marginLeft="default"
-          marginRight="default"
-          borderRadius="default"
-        >
-          {content}
-        </Box>
-      </SafeAreaView>
-    </DismissKeyboard>
+    <SafeAreaView style={{flex: 1}}>
+      <ModalThumb />
+      <Header.Root horizontalAlign="right">
+        <Header.Exit />
+      </Header.Root>
+      <Column horizontalAlign="left" padding="default">
+        <Header.Title>search</Header.Title>
+      </Column>
+      <Box padding="default">
+        <TextInput
+          placeholder="type here bud"
+          onChangeText={handleSetQuery}
+          autoCapitalize="none"
+        />
+      </Box>
+      <Box
+        padding="default"
+        backgroundColor="widgetSecondary"
+        marginLeft="default"
+        marginRight="default"
+        borderRadius="default"
+      >
+        {content}
+      </Box>
+    </SafeAreaView>
   );
 };

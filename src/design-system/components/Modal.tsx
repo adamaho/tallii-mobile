@@ -51,6 +51,16 @@ const ModalTextTrigger: React.FunctionComponent = ({children}) => {
 };
 
 /** ----------------------------------------------------------
+ * ModalBoxTrigger
+ * -----------------------------------------------------------*/
+const ModalBoxTrigger: React.FunctionComponent = ({children}) => {
+  // init modal state from
+  const {setIsVisible} = useModalContext();
+
+  return <Pressable onPress={() => setIsVisible(true)}>{children}</Pressable>;
+};
+
+/** ----------------------------------------------------------
  * ModalRoot
  * -----------------------------------------------------------*/
 interface ModalProps extends NativeModalProps {}
@@ -81,5 +91,6 @@ const ModalRoot: React.FunctionComponent<ModalProps> = ({children, ...props}) =>
 export const Modal = {
   Context: ModalContextProvider,
   Root: ModalRoot,
+  BoxTrigger: ModalBoxTrigger,
   TextTrigger: ModalTextTrigger,
 };

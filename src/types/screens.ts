@@ -1,4 +1,12 @@
-import type {Atoms} from '../design-system/atoms';
+export type SearchStackParamList = {
+  Search: undefined;
+  UserProfile: {
+    userId: undefined;
+  };
+  Scoreboard: {
+    scoreboardId: number;
+  };
+};
 
 export type RootStackParamList = {
   Login: undefined;
@@ -14,7 +22,8 @@ export type RootStackParamList = {
   UserProfile: {
     userId: number;
   };
-  SearchScreen: undefined;
+
+  SearchStack: undefined;
   ViewTeam: {teamId: number; scoreboardId: number};
   EditAvatar: {
     returnTo: 'MyProfile';
