@@ -42,7 +42,7 @@ const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}
   return (
     <Pressable
       disableHaptics
-      onPress={() => navigation.navigate('UserProfile', {userId: user.userId})}
+      onPress={() => navigation.navigate('ViewUserProfile', {userId: user.userId})}
     >
       <Row
         horizontalAlign="between"
@@ -65,7 +65,7 @@ const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}
 /** ----------------------------------------------------------
  * Search Screen
  * -----------------------------------------------------------*/
-export const SearchScreen: React.FunctionComponent = () => {
+export const ViewSearchScreen: React.FunctionComponent = () => {
   // init state to track in the input text
   const [query, setQuery] = React.useState<string | undefined>();
 

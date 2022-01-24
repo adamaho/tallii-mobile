@@ -43,7 +43,7 @@ interface LoginProps {
   handleLogin: () => void;
 }
 
-export const Login: React.FunctionComponent<LoginProps> = () => {
+export const ViewLoginScreen: React.FunctionComponent<LoginProps> = () => {
   // init auth context
   const auth = useAuthContext();
 
@@ -130,7 +130,7 @@ export const Login: React.FunctionComponent<LoginProps> = () => {
             </Column>
             <Column horizontalAlign="center" paddingBottom="xxlarge" gap="small">
               <Text styledAs="label">don't have an account yet?</Text>
-              <Pressable onPress={() => navigation.navigate('Signup')}>
+              <Pressable onPress={() => navigation.navigate('ViewSignupScreen')}>
                 <Text>create account</Text>
               </Pressable>
             </Column>

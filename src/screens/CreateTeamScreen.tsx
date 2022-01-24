@@ -12,22 +12,21 @@ import {RootStackParamList} from '../types/screens';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 
-import {theme} from '../design-system/theme';
-import {Row, Box, Column, IconButton, Text, Icon} from '../design-system';
+import {Column} from '../design-system';
 import {DismissKeyboard, Header, TextInputField} from '../components';
 import {useCreateTeamContext} from '../contexts';
 
-const scoreboardSchema = yup.object().shape({
-  name: yup.string().required('need a name for the scoreboard bud'),
+const teamSchema = yup.object().shape({
+  name: yup.string().required('need a name for the team bud'),
 });
 
-export const CreateTeam: React.FunctionComponent = () => {
+export const CreateTeamScreen: React.FunctionComponent = () => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   // init the form
   const {control, handleSubmit} = useForm({
-    resolver: yupResolver(scoreboardSchema),
+    resolver: yupResolver(teamSchema),
   });
 
   // init the team context

@@ -145,7 +145,7 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
   );
 };
 
-export const ViewScoreboard: React.FunctionComponent = () => {
+export const ViewScoreboardScreen: React.FunctionComponent = () => {
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
 

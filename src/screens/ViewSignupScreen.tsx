@@ -45,7 +45,7 @@ interface SignupProps {
   handleLogin: () => void;
 }
 
-export const Signup: React.FunctionComponent<SignupProps> = () => {
+export const ViewSignupScreen: React.FunctionComponent<SignupProps> = () => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -133,7 +133,7 @@ export const Signup: React.FunctionComponent<SignupProps> = () => {
               </Column>
               <Column horizontalAlign="center" paddingBottom="xxlarge" gap="small">
                 <Text styledAs="label">already have an account?</Text>
-                <Pressable onPress={() => navigation.navigate('Login')}>
+                <Pressable onPress={() => navigation.navigate('ViewLoginScreen')}>
                   <Text>log in</Text>
                 </Pressable>
               </Column>

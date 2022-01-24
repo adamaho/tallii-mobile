@@ -14,12 +14,12 @@ import {theme} from '../design-system/theme';
 import {usePlatformApi} from '../hooks';
 import {user, userScoreboards} from '../constants';
 
-export const UserProfileScreen: React.FunctionComponent = () => {
+export const ViewUserProfileScreen: React.FunctionComponent = () => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   // init route to get the params
-  const route = useRoute<RouteProp<RootStackParamList, 'UserProfile'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'ViewUserProfileScreen'>>();
 
   // init api
   const api = usePlatformApi();
