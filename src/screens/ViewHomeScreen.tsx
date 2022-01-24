@@ -150,7 +150,9 @@ export const ViewHomeScreen: React.FunctionComponent = () => {
               </IconButton>
               <Avatar.Root
                 size="small"
-                onPress={() => navigation.navigate('MyProfileStack')}
+                onPress={() =>
+                  navigation.navigate('MyProfileStack', {screen: 'ViewMyProfileScreen'})
+                }
                 backgroundColor={user?.avatarBackground}
               >
                 <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>

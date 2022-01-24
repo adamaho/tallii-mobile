@@ -23,10 +23,12 @@ import {
   Icon,
   IconButton,
   Field,
+  Button,
+  Box,
 } from '../design-system';
 
 import {theme} from '../design-system/theme';
-import {DismissKeyboard, Header, TextInputField} from '../components';
+import {DismissKeyboard, Header, ModalThumb, TextInputField} from '../components';
 import {Team, useCreateTeamContext} from '../contexts';
 
 import {CreateScoreboardRequest} from '../apiClient';
@@ -61,8 +63,11 @@ export const Teams: React.FunctionComponent<TeamsProps> = ({control, setValue}) 
     <Column>
       <Row horizontalAlign="between">
         <Text styledAs="label">teams</Text>
-        <IconButton onPress={() => navigation.navigate('CreateTeamScreen')}>
-          <Icon.Plus color={theme.colors.background.widget.default} width={20} height={20} />
+        <IconButton
+          backgroundColor="widgetSecondary"
+          onPress={() => navigation.navigate('CreateTeamScreen')}
+        >
+          <Icon.Plus color={theme.colors.text.default} width={20} height={20} />
         </IconButton>
       </Row>
       {teamContext.teams.length === 0 ? (
@@ -183,20 +188,37 @@ export const CreateScoreboardScreen: React.FunctionComponent = () => {
   return (
     <>
       <DismissKeyboard>
-        <ScrollView style={{flex: 1}}>
-          <SafeAreaView style={{height: '100%', flex: 1}}>
-            <Header.Root horizontalAlign="between">
-              <Header.Cancel />
-              <Header.Title>create scoreboard</Header.Title>
-              <Header.Action onPress={handleSubmit(saveScoreboard)}>save</Header.Action>
-            </Header.Root>
-            <Column padding="default">
-              <TextInputField name="name" label="name" control={control} />
-              <TextInputField name="game" label="game" control={control} />
+        <SafeAreaView style={{height: '100%', flex: 1}}>
+          <ModalThumb />
+          <Header.Root horizontalAlign="right">
+            <Header.Exit />
+          </Header.Root>
+          <Header.Root>
+            <Header.Title>create scoreboard</Header.Title>
+          </Header.Root>
+          <Column padding="default" verticalAlign="between" flex={1}>
+            <Box>
+              <TextInputField
+                placeholder="my scoreboard"
+                name="name"
+                label="name"
+                control={control}
+                autoCapitalize="none"
+              />
+              <TextInputField
+                placeholder="euchure"
+                name="game"
+                label="game"
+                control={control}
+                autoCapitalize="none"
+              />
               <Teams control={control} setValue={setValue} />
-            </Column>
-          </SafeAreaView>
-        </ScrollView>
+            </Box>
+            <Button.Root onPress={handleSubmit(saveScoreboard)}>
+              <Button.Text>create scoreboard</Button.Text>
+            </Button.Root>
+          </Column>
+        </SafeAreaView>
       </DismissKeyboard>
       <Toaster />
     </>
