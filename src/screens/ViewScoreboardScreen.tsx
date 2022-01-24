@@ -8,7 +8,7 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import type {RouteProp} from '@react-navigation/native';
 
-import {RootStackParamList} from '../types/screens';
+import {RootStackParamList, ScoreboardStackParamList} from '../types/screens';
 
 import {
   Modal,
@@ -26,7 +26,7 @@ import {
 import {scoreboards} from '../constants';
 import {usePlatformApi} from '../hooks';
 import {formatDate} from '../utils';
-import {Header} from '../components';
+import {Header, ModalThumb} from '../components';
 import {DeleteScoreboardRequest} from '../apiClient';
 import {useAuthContext} from '../contexts';
 
@@ -49,12 +49,12 @@ export const Team: React.FunctionComponent<TeamProps> = ({
   isCreator,
 }) => {
   // init navigation
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<ScoreboardStackParamList>>();
 
   return (
     <Pressable
       isDisabled={!isCreator}
-      onPress={() => navigation.navigate('ViewTeam', {teamId, scoreboardId})}
+      onPress={() => navigation.navigate('ViewTeamScreen', {teamId, scoreboardId})}
     >
       <Row
         horizontalAlign="between"
@@ -86,10 +86,10 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
   const toastContext = useToastContext();
 
   // init route to get the params
-  const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
+  const route = useRoute<RouteProp<ScoreboardStackParamList, 'ViewScoreboardScreen'>>();
 
   // init navigation
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<ScoreboardStackParamList>>();
 
   // init query client
   const queryClient = useQueryClient();
@@ -120,10 +120,14 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
     mutate(request);
   }, []);
 
+  // calculate which view stack the scoreboard is a part of
+  const isScoreboardStack = navigation.getState().routes.length <= 2;
+
   return (
     <>
-      <Header.Root horizontalAlign="between">
-        <Header.Back />
+      <ModalThumb />
+      <Header.Root horizontalAlign={!isScoreboardStack ? 'between' : 'right'}>
+        {!isScoreboardStack && <Header.Back />}
         {isCreator && <Modal.TextTrigger>delete</Modal.TextTrigger>}
       </Header.Root>
       <Modal.Root>
@@ -144,9 +148,9 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
   );
 };
 
-export const ViewScoreboard: React.FunctionComponent = () => {
+export const ViewScoreboardScreen: React.FunctionComponent = () => {
   // init route to get the params
-  const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
+  const route = useRoute<RouteProp<ScoreboardStackParamList, 'ViewScoreboardScreen'>>();
 
   // init auth context
   const auth = useAuthContext();

@@ -7,19 +7,19 @@ import {RouteProp, useRoute, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
-import {RootStackParamList} from '../types/screens';
+import {RootStackParamList, SearchStackParamList} from '../types/screens';
 import {Toaster, Column, Avatar, Heading, Row, Text, Pressable, Icon} from '../design-system';
-import {Header, GradientHeading} from '../components';
+import {Header, GradientHeading, ModalThumb} from '../components';
 import {theme} from '../design-system/theme';
 import {usePlatformApi} from '../hooks';
 import {user, userScoreboards} from '../constants';
 
-export const UserProfileScreen: React.FunctionComponent = () => {
+export const ViewUserProfileScreen: React.FunctionComponent = () => {
   // init navigation
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<SearchStackParamList>>();
 
   // init route to get the params
-  const route = useRoute<RouteProp<RootStackParamList, 'UserProfile'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'ViewUserProfileScreen'>>();
 
   // init api
   const api = usePlatformApi();
@@ -95,7 +95,9 @@ export const UserProfileScreen: React.FunctionComponent = () => {
             <Pressable
               key={i}
               disableHaptics
-              onPress={() => navigation.navigate('ViewScoreboard', {scoreboardId: s.scoreboardId})}
+              onPress={() =>
+                navigation.navigate('ViewScoreboardScreen', {scoreboardId: s.scoreboardId})
+              }
             >
               <Row backgroundColor="widgetSecondary" borderRadius="default" padding="default">
                 <Column gap="none">
@@ -115,13 +117,14 @@ export const UserProfileScreen: React.FunctionComponent = () => {
   return (
     <>
       <SafeAreaView style={{flex: 1}}>
+        <ModalThumb />
         <Header.Root>
           <Header.Back />
         </Header.Root>
         <Column flex={1} gap="large">
           <Column horizontalAlign="center">
             <Column horizontalAlign="center">
-              <Avatar.Root size="large" backgroundColor={userInfo?.avatarBackground}>
+              <Avatar.Root isDisabled size="large" backgroundColor={userInfo?.avatarBackground}>
                 <Avatar.Emoji>{userInfo?.avatarEmoji}</Avatar.Emoji>
               </Avatar.Root>
               <Heading>{userInfo?.username || 'unknown'}</Heading>

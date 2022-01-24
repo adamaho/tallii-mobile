@@ -6,7 +6,7 @@ import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {RootStackParamList} from '../types/screens';
+import {MyProfileStackParamList} from '../types/screens';
 
 import {
   Column,
@@ -20,12 +20,12 @@ import {
 } from '../design-system';
 import {UpdateMeRequest} from '../apiClient';
 import {theme} from '../design-system/theme';
-import {Header} from '../components';
+import {Header, ModalThumb} from '../components';
 import {useAuthContext} from '../contexts';
 import {usePlatformApi} from '../hooks';
 import {me} from '../constants';
 
-export const MyProfileScreen: React.FunctionComponent = () => {
+export const ViewMyProfileScreen: React.FunctionComponent = () => {
   // init auth context
   const auth = useAuthContext();
 
@@ -33,7 +33,7 @@ export const MyProfileScreen: React.FunctionComponent = () => {
   const toastContext = useToastContext();
 
   // init navigation
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MyProfileStackParamList>>();
 
   // init api
   const api = usePlatformApi();
@@ -56,14 +56,13 @@ export const MyProfileScreen: React.FunctionComponent = () => {
   });
 
   // init route to get the params
-  const route = useRoute<RouteProp<RootStackParamList, 'MyProfile'>>();
+  const route = useRoute<RouteProp<MyProfileStackParamList, 'ViewMyProfileScreen'>>();
 
   // handle editing the avatar
   const handleAvatarPress = React.useCallback(() => {
-    navigation.navigate('EditAvatar', {
+    navigation.navigate('EditAvatarScreen', {
       backgroundColor: user?.avatarBackground ?? theme.colors.background.accent.orange.secondary,
       emoji: user?.avatarEmoji ?? '🍕',
-      returnTo: 'MyProfile',
     });
   }, [user]);
 
@@ -92,10 +91,8 @@ export const MyProfileScreen: React.FunctionComponent = () => {
     <>
       <SafeAreaView style={{flex: 1}}>
         <Column flex={1} verticalAlign="between">
-          <Column horizontalAlign="center">
-            <Header.Root>
-              <Header.Back />
-            </Header.Root>
+          <Column horizontalAlign="center" gap="xxlarge">
+            <ModalThumb />
             <Column horizontalAlign="center">
               <Column horizontalAlign="center" gap="small">
                 <Avatar.Root

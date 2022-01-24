@@ -9,7 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/screens';
 
-import {DismissKeyboard, Header} from '../components';
+import {DismissKeyboard, Header, ModalThumb} from '../components';
 import {
   Row,
   IconButton,
@@ -29,7 +29,7 @@ import {UpdateTeamRequest} from '../apiClient';
 
 import {team, scoreboards} from '../constants';
 
-export const ViewTeam: React.FunctionComponent = () => {
+export const ViewTeamScreen: React.FunctionComponent = () => {
   // init state to get the new score
   const [score, setScore] = React.useState<number>(0);
 
@@ -121,8 +121,9 @@ export const ViewTeam: React.FunctionComponent = () => {
     <>
       <DismissKeyboard>
         <SafeAreaView style={{flex: 1}}>
-          <Header.Root horizontalAlign="right">
-            <Header.Exit />
+          <ModalThumb />
+          <Header.Root>
+            <Header.Back />
           </Header.Root>
           <Column padding="default" gap="xxxlarge">
             <Heading align="center">{currentTeam?.name}</Heading>

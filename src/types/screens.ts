@@ -1,33 +1,61 @@
 export type SearchStackParamList = {
-  Search: undefined;
-  UserProfile: {
-    userId: undefined;
+  ViewScoreboardScreen: {
+    scoreboardId: number;
   };
-  Scoreboard: {
+  ViewSearchScreen: undefined;
+  ViewTeamScreen: {
+    teamId: number;
+  };
+  ViewUserProfileScreen: {
+    userId: number;
+  };
+};
+
+export type ScoreboardStackParamList = {
+  ViewScoreboardScreen: {
+    scoreboardId: number;
+  };
+  ViewTeamScreen: {
+    teamId: number;
     scoreboardId: number;
   };
 };
 
-export type RootStackParamList = {
-  Login: undefined;
-  Signup: undefined;
-  Scoreboards: undefined;
-  CreateScoreboard: undefined;
-  ViewScoreboard: {scoreboardId: number};
-  CreateTeam: undefined;
-  MyProfile: {
-    backgroundColor?: string;
-    emoji?: string;
-  };
-  UserProfile: {
-    userId: number;
-  };
+export type CreateScoreboardStackParamList = {
+  CreateScoreboardScreen: undefined;
+  CreateTeamScreen: undefined;
+};
 
-  SearchStack: undefined;
-  ViewTeam: {teamId: number; scoreboardId: number};
-  EditAvatar: {
-    returnTo: 'MyProfile';
+export type MyProfileStackParamList = {
+  EditAvatarScreen: {
     backgroundColor: string;
     emoji: string;
   };
+  ViewMyProfileScreen: {
+    backgroundColor: string;
+    emoji: string;
+  };
+};
+
+export type RootStackParamList = {
+  CreateScoreboardStack: {
+    screen: keyof CreateScoreboardStackParamList;
+  };
+  ViewHomeScreen: undefined;
+  ViewLoginScreen: undefined;
+  MyProfileStack: {
+    screen: keyof MyProfileStackParamList;
+  };
+  ScoreboardStack: {
+    screen: keyof ScoreboardStackParamList;
+    params: {
+      scoreboardId: number;
+    };
+  };
+  SearchStack: undefined;
+  ViewUserProfileScreen: {
+    userId: number;
+  };
+  ViewSignupScreen: undefined;
+  ViewScoreboards: undefined;
 };

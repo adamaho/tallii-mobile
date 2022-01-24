@@ -18,7 +18,7 @@ import {theme} from '../design-system/theme';
 import {scoreboards, me} from '../constants';
 import {usePlatformApi} from '../hooks';
 
-export const Scoreboards: React.FunctionComponent = () => {
+export const ViewHomeScreen: React.FunctionComponent = () => {
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -139,14 +139,18 @@ export const Scoreboards: React.FunctionComponent = () => {
                 <Icon.Search color="default" width={20} height={20} />
               </IconButton>
               <IconButton
-                onPress={() => navigation.navigate('CreateScoreboard')}
+                onPress={() =>
+                  navigation.navigate('CreateScoreboardStack', {
+                    screen: 'CreateScoreboardScreen',
+                  })
+                }
                 backgroundColor="widgetSecondary"
               >
                 <Icon.Plus color={theme.colors.text.default} width={20} height={20} />
               </IconButton>
               <Avatar.Root
                 size="small"
-                onPress={() => navigation.navigate('MyProfile', {})}
+                onPress={() => navigation.navigate('MyProfileStack')}
                 backgroundColor={user?.avatarBackground}
               >
                 <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>
