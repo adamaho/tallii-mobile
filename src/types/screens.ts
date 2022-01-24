@@ -40,7 +40,7 @@ export type RootStackParamList = {
       scoreboardId: number;
     };
   };
-  ViewSearchStack: undefined;
+  SearchStack: undefined;
   ViewUserProfileScreen: {
     userId: number;
   };

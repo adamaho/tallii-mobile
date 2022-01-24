@@ -8,7 +8,7 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import type {RouteProp} from '@react-navigation/native';
 
-import {RootStackParamList} from '../types/screens';
+import {RootStackParamList, ScoreboardStackParamList} from '../types/screens';
 
 import {
   Modal,
@@ -147,7 +147,7 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
 
 export const ViewScoreboardScreen: React.FunctionComponent = () => {
   // init route to get the params
-  const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
+  const route = useRoute<RouteProp<ScoreboardStackParamList, 'ViewScoreboardScreen'>>();
 
   // init auth context
   const auth = useAuthContext();

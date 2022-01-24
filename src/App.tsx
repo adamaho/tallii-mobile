@@ -9,19 +9,88 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {theme} from './design-system/theme';
 import {EditAvatar} from './screens/EditAvatar';
 
-import {ViewHomeScreen, ViewLoginScreen, ViewSignupScreen} from './screens';
-
 import {
-  SearchNavigator,
-  ScoreboardNavigator,
-  CreateScoreboardNavigator,
-  MyProfileNavigator,
-} from './Stacks';
+  ViewHomeScreen,
+  ViewLoginScreen,
+  ViewSignupScreen,
+  ViewSearchScreen,
+  ViewUserProfileScreen,
+  ViewScoreboardScreen,
+  ViewTeamScreen,
+  CreateScoreboardScreen,
+  CreateTeamScreen,
+  ViewMyProfileScreen,
+} from './screens';
 
 import {AuthContextProvider, useAuthContext, CreateTeamContextProvider} from './contexts';
 import {Column, ToastContextProvider} from './design-system';
 import {Logo} from './components';
 // import { Playground } from './screens/Playground';
+
+/** ----------------------------------------------------------
+ * Search Stack
+ * -----------------------------------------------------------*/
+const SearchStack = createNativeStackNavigator();
+
+export const SearchNavigator = () => {
+  return (
+    <SearchStack.Navigator screenOptions={{headerShown: false}}>
+      <SearchStack.Screen name="ViewSearchSreen" component={ViewSearchScreen} />
+      <SearchStack.Screen name="ViewUserProfileScreen" component={ViewUserProfileScreen} />
+      <SearchStack.Screen name="ViewScoreboardScreen" component={ViewScoreboardScreen} />
+      <SearchStack.Screen name="ViewTeamScreen" component={ViewTeamScreen} />
+    </SearchStack.Navigator>
+  );
+};
+
+/** ----------------------------------------------------------
+ * Scoreboard Stack
+ * -----------------------------------------------------------*/
+export const ScoreboardStack = createNativeStackNavigator();
+
+export const ScoreboardNavigator = () => {
+  return (
+    <ScoreboardStack.Navigator screenOptions={{headerShown: false}}>
+      <ScoreboardStack.Screen name="ViewScoreboardScreen" component={ViewScoreboardScreen} />
+      <ScoreboardStack.Screen name="ViewTeamScreen" component={ViewTeamScreen} />
+    </ScoreboardStack.Navigator>
+  );
+};
+
+/** ----------------------------------------------------------
+ * Create Scoreboard Stack
+ * -----------------------------------------------------------*/
+export const CreateScoreboardStack = createNativeStackNavigator();
+
+export const CreateScoreboardNavigator = () => {
+  return (
+    <CreateScoreboardStack.Navigator>
+      <CreateScoreboardStack.Group screenOptions={{headerShown: false}}>
+        <CreateScoreboardStack.Screen
+          name="CreateScoreboardScreen"
+          component={CreateScoreboardScreen}
+        />
+        <CreateScoreboardStack.Screen name="CreateTeamScreen" component={CreateTeamScreen} />
+      </CreateScoreboardStack.Group>
+    </CreateScoreboardStack.Navigator>
+  );
+};
+
+/** ----------------------------------------------------------
+ * My Profile Stack
+ * -----------------------------------------------------------*/
+const MyProfileStack = createNativeStackNavigator();
+
+export const MyProfileNavigator = () => {
+  return (
+    <MyProfileStack.Navigator>
+      <MyProfileStack.Group screenOptions={{headerShown: false}}>
+        <MyProfileStack.Screen name="ViewMyProfileScreen" component={ViewMyProfileScreen} />
+        <MyProfileStack.Screen name="EditAvatar" component={EditAvatar} />
+      </MyProfileStack.Group>
+    </MyProfileStack.Navigator>
+  );
+};
 
 /** ----------------------------------------------------------
  * Main App Stack
@@ -84,10 +153,10 @@ const AppNavigation: React.FunctionComponent = () => {
                 <Stack.Screen name="ViewHomeScreen" component={ViewHomeScreen} />
               </Stack.Group>
               <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
-                <Stack.Screen name="ScoreboardStack" component={ScoreboardNavigator} />
-                <Stack.Screen name="SearchStack" component={SearchNavigator} />
                 <Stack.Screen name="CreateScoreboardStack" component={CreateScoreboardNavigator} />
                 <Stack.Screen name="MyProfileStack" component={MyProfileNavigator} />
+                <Stack.Screen name="ScoreboardStack" component={ScoreboardNavigator} />
+                <Stack.Screen name="SearchStack" component={SearchNavigator} />
                 <Stack.Screen name="EditAvatar" component={EditAvatar} />
               </Stack.Group>
             </>

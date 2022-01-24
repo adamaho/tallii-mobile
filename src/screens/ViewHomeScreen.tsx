@@ -133,7 +133,7 @@ export const ViewHomeScreen: React.FunctionComponent = () => {
             </Row>
             <Row gap="default">
               <IconButton
-                onPress={() => navigation.navigate('ViewSearchStack')}
+                onPress={() => navigation.navigate('SearchStack')}
                 backgroundColor="widgetSecondary"
               >
                 <Icon.Search color="default" width={20} height={20} />
