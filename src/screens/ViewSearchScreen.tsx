@@ -8,7 +8,7 @@ import {FlatList, SafeAreaView, Keyboard} from 'react-native';
 import {useQuery} from 'react-query';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
-import {RootStackParamList} from '../types/screens';
+import {SearchStackParamList} from '../types/screens';
 import {UserModel} from '../apiClient';
 import {Header, ModalThumb} from '../components';
 import {search} from '../constants';
@@ -37,12 +37,12 @@ interface UserSearchResultProps {
 
 const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}) => {
   // init navigation
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<SearchStackParamList>>();
 
   return (
     <Pressable
       disableHaptics
-      onPress={() => navigation.navigate('ViewUserProfile', {userId: user.userId})}
+      onPress={() => navigation.navigate('ViewUserProfileScreen', {userId: user.userId})}
     >
       <Row
         horizontalAlign="between"

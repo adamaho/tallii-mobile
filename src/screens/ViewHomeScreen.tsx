@@ -139,14 +139,18 @@ export const ViewHomeScreen: React.FunctionComponent = () => {
                 <Icon.Search color="default" width={20} height={20} />
               </IconButton>
               <IconButton
-                onPress={() => navigation.navigate('CreateScoreboard')}
+                onPress={() =>
+                  navigation.navigate('CreateScoreboardStack', {
+                    screen: 'CreateScoreboardScreen',
+                  })
+                }
                 backgroundColor="widgetSecondary"
               >
                 <Icon.Plus color={theme.colors.text.default} width={20} height={20} />
               </IconButton>
               <Avatar.Root
                 size="small"
-                onPress={() => navigation.navigate('ViewMyProfileScreen', {})}
+                onPress={() => navigation.navigate('MyProfileStack')}
                 backgroundColor={user?.avatarBackground}
               >
                 <Avatar.Emoji>{user?.avatarEmoji}</Avatar.Emoji>

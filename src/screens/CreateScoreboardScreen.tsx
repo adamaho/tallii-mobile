@@ -7,7 +7,7 @@ import {SafeAreaView, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {RootStackParamList} from '../types/screens';
+import {RootStackParamList, CreateScoreboardStackParamList} from '../types/screens';
 
 import {Control, UseFormSetValue, useFormState, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -24,6 +24,7 @@ import {
   IconButton,
   Field,
 } from '../design-system';
+
 import {theme} from '../design-system/theme';
 import {DismissKeyboard, Header, TextInputField} from '../components';
 import {Team, useCreateTeamContext} from '../contexts';
@@ -43,7 +44,7 @@ interface TeamsProps {
 
 export const Teams: React.FunctionComponent<TeamsProps> = ({control, setValue}) => {
   // init navigation
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<CreateScoreboardStackParamList>>();
 
   // init the team context
   const teamContext = useCreateTeamContext();
@@ -60,7 +61,7 @@ export const Teams: React.FunctionComponent<TeamsProps> = ({control, setValue}) 
     <Column>
       <Row horizontalAlign="between">
         <Text styledAs="label">teams</Text>
-        <IconButton onPress={() => navigation.navigate('CreateTeam')}>
+        <IconButton onPress={() => navigation.navigate('CreateTeamScreen')}>
           <Icon.Plus color={theme.colors.background.widget.default} width={20} height={20} />
         </IconButton>
       </Row>

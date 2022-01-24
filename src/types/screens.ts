@@ -7,7 +7,7 @@ export type SearchStackParamList = {
     teamId: number;
   };
   ViewUserProfileScreen: {
-    userId: undefined;
+    userId: number;
   };
 };
 
@@ -17,12 +17,19 @@ export type ScoreboardStackParamList = {
   };
   ViewTeamScreen: {
     teamId: number;
+    scoreboardId: number;
   };
 };
 
+export type CreateScoreboardStackParamList = {
+  CreateScoreboardScreen: undefined;
+  CreateTeamScreen: undefined;
+};
+
 export type RootStackParamList = {
-  CreateScoreboard: undefined;
-  CreateTeam: undefined;
+  CreateScoreboardStack: {
+    screen: keyof CreateScoreboardStackParamList;
+  };
   EditAvatar: {
     returnTo: 'MyProfile';
     backgroundColor: string;
@@ -30,10 +37,7 @@ export type RootStackParamList = {
   };
   ViewHomeScreen: undefined;
   ViewLoginScreen: undefined;
-  ViewMyProfileScreen: {
-    backgroundColor?: string;
-    emoji?: string;
-  };
+  MyProfileStack: undefined;
   ScoreboardStack: {
     screen: keyof ScoreboardStackParamList;
     params: {

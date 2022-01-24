@@ -49,12 +49,12 @@ export const Team: React.FunctionComponent<TeamProps> = ({
   isCreator,
 }) => {
   // init navigation
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<ScoreboardStackParamList>>();
 
   return (
     <Pressable
       isDisabled={!isCreator}
-      onPress={() => navigation.navigate('ViewTeam', {teamId, scoreboardId})}
+      onPress={() => navigation.navigate('ViewTeamScreen', {teamId, scoreboardId})}
     >
       <Row
         horizontalAlign="between"
@@ -86,10 +86,10 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
   const toastContext = useToastContext();
 
   // init route to get the params
-  const route = useRoute<RouteProp<RootStackParamList, 'ViewScoreboard'>>();
+  const route = useRoute<RouteProp<ScoreboardStackParamList, 'ViewScoreboardScreen'>>();
 
   // init navigation
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<ScoreboardStackParamList>>();
 
   // init query client
   const queryClient = useQueryClient();

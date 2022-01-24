@@ -7,7 +7,7 @@ import {RouteProp, useRoute, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
-import {RootStackParamList} from '../types/screens';
+import {RootStackParamList, SearchStackParamList} from '../types/screens';
 import {Toaster, Column, Avatar, Heading, Row, Text, Pressable, Icon} from '../design-system';
 import {Header, GradientHeading, ModalThumb} from '../components';
 import {theme} from '../design-system/theme';
@@ -16,7 +16,7 @@ import {user, userScoreboards} from '../constants';
 
 export const ViewUserProfileScreen: React.FunctionComponent = () => {
   // init navigation
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<SearchStackParamList>>();
 
   // init route to get the params
   const route = useRoute<RouteProp<RootStackParamList, 'ViewUserProfileScreen'>>();
@@ -95,7 +95,9 @@ export const ViewUserProfileScreen: React.FunctionComponent = () => {
             <Pressable
               key={i}
               disableHaptics
-              onPress={() => navigation.navigate('ViewScoreboard', {scoreboardId: s.scoreboardId})}
+              onPress={() =>
+                navigation.navigate('ViewScoreboardScreen', {scoreboardId: s.scoreboardId})
+              }
             >
               <Row backgroundColor="widgetSecondary" borderRadius="default" padding="default">
                 <Column gap="none">
