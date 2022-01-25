@@ -92,7 +92,12 @@ export const ViewMyProfileScreen: React.FunctionComponent = () => {
       <SafeAreaView style={{flex: 1}}>
         <Column flex={1} verticalAlign="between">
           <Column horizontalAlign="center" gap="xxlarge">
-            <ModalThumb />
+            <Box>
+              <ModalThumb />
+              <Header.Root horizontalAlign="right">
+                <Header.Exit />
+              </Header.Root>
+            </Box>
             <Column horizontalAlign="center">
               <Column horizontalAlign="center" gap="small">
                 <Avatar.Root
