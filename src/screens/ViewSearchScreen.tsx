@@ -47,8 +47,11 @@ const UserSearchResult: React.FunctionComponent<UserSearchResultProps> = ({user}
       <Row
         horizontalAlign="between"
         paddingHorizontal="default"
-        marginTop="default"
-        marginBottom="default"
+        borderRadius="default"
+        marginTop="xsmall"
+        marginBottom="xsmall"
+        padding="default"
+        backgroundColor="widgetSecondary"
       >
         <Row>
           <Avatar.Root isDisabled size="small" backgroundColor={user.avatarBackground}>
@@ -146,6 +149,7 @@ export const ViewSearchScreen: React.FunctionComponent = () => {
           data={results.users}
           onScrollBeginDrag={() => Keyboard.dismiss()}
           keyExtractor={item => item.userId.toString()}
+          contentInset={{bottom: 100}}
           renderItem={({item}) => {
             return <UserSearchResult user={item} />;
           }}
@@ -170,14 +174,7 @@ export const ViewSearchScreen: React.FunctionComponent = () => {
           autoCapitalize="none"
         />
       </Box>
-      <Box
-        backgroundColor="widgetSecondary"
-        borderRadius="large"
-        marginLeft="default"
-        marginRight="default"
-      >
-        {content}
-      </Box>
+      <Box paddingHorizontal="default">{content}</Box>
     </SafeAreaView>
   );
 };

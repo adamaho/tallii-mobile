@@ -8,7 +8,7 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import type {RouteProp} from '@react-navigation/native';
 
-import {RootStackParamList, ScoreboardStackParamList} from '../types/screens';
+import {ScoreboardStackParamList} from '../types/screens';
 
 import {
   Modal,
@@ -21,6 +21,7 @@ import {
   useToastContext,
   Toaster,
   Pressable,
+  Box,
 } from '../design-system';
 
 import {scoreboards} from '../constants';
@@ -82,11 +83,18 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
   // set is visible
   const {setIsVisible} = useModalContext();
 
-  // init toast context
-  const toastContext = useToastContext();
+  // init api
+  const api = usePlatformApi();
 
+  return <></>;
+};
+
+export const ViewScoreboardScreen: React.FunctionComponent = () => {
   // init route to get the params
   const route = useRoute<RouteProp<ScoreboardStackParamList, 'ViewScoreboardScreen'>>();
+
+  // init toast context
+  const toastContext = useToastContext();
 
   // init navigation
   const navigation = useNavigation<NativeStackNavigationProp<ScoreboardStackParamList>>();
@@ -94,8 +102,18 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
   // init query client
   const queryClient = useQueryClient();
 
+  // init auth context
+  const auth = useAuthContext();
+
   // init api
   const api = usePlatformApi();
+
+  // query for the specific scoreboard based on the scoreboard id
+  const {data: scoreboard} = useQuery(scoreboards(route.params.scoreboardId), () =>
+    api.getScoreboard({
+      scoreboardId: route.params.scoreboardId,
+    }),
+  );
 
   // init mutation to delete the scoreboard
   const {mutate} = useMutation((data: DeleteScoreboardRequest) => api.deleteScoreboard(data), {
@@ -111,64 +129,13 @@ const ViewScoreboardHeader: React.FunctionComponent<ViewScoreboardHeaderProps> =
     },
   });
 
-  // handle the delete press
-  const handleDelete = React.useCallback(() => {
-    const request: DeleteScoreboardRequest = {
-      scoreboardId: route.params.scoreboardId,
-    };
-
-    mutate(request);
-  }, []);
-
-  // calculate which view stack the scoreboard is a part of
-  const isScoreboardStack = navigation.getState().routes.length <= 2;
-
-  return (
-    <>
-      <ModalThumb />
-      <Header.Root horizontalAlign={!isScoreboardStack ? 'between' : 'right'}>
-        {!isScoreboardStack && <Header.Back />}
-        {isCreator && <Modal.TextTrigger>delete</Modal.TextTrigger>}
-      </Header.Root>
-      <Modal.Root>
-        <Column>
-          <Column gap="xsmall">
-            <Heading>delete scoreboard</Heading>
-            <Text>are you sure you want to delete this scoreboard?</Text>
-          </Column>
-          <Button.Root variant="primary" appearance="danger" onPress={handleDelete}>
-            <Button.Text>delete</Button.Text>
-          </Button.Root>
-          <Button.Root variant="primary" onPress={() => setIsVisible(false)}>
-            <Button.Text>cancel</Button.Text>
-          </Button.Root>
-        </Column>
-      </Modal.Root>
-    </>
-  );
-};
-
-export const ViewScoreboardScreen: React.FunctionComponent = () => {
-  // init route to get the params
-  const route = useRoute<RouteProp<ScoreboardStackParamList, 'ViewScoreboardScreen'>>();
-
-  // init auth context
-  const auth = useAuthContext();
-
-  // init api
-  const api = usePlatformApi();
-
-  // query for the specific scoreboard based on the scoreboard id
-  const {data: scoreboard} = useQuery(scoreboards(route.params.scoreboardId), () =>
-    api.getScoreboard({
-      scoreboardId: route.params.scoreboardId,
-    }),
-  );
-
   // determine if the current user made the scoreboard
   const isCreator = React.useMemo(() => {
     return scoreboard?.createdBy.userId === auth.user?.userId;
   }, [scoreboard, auth]);
+
+  // calculate which view stack the scoreboard is a part of
+  const isScoreboardStack = navigation.getState().routes.length <= 2;
 
   // format the date
   const formattedDate = React.useMemo(() => {
@@ -194,25 +161,35 @@ export const ViewScoreboardScreen: React.FunctionComponent = () => {
     return [];
   }, [scoreboard]);
 
+  // handle the delete press
+  const handleDelete = React.useCallback(() => {
+    const request: DeleteScoreboardRequest = {
+      scoreboardId: route.params.scoreboardId,
+    };
+
+    mutate(request);
+  }, []);
+
+  console.log(isCreator);
+
   return (
     <>
       <SafeAreaView style={{flex: 1}}>
-        <Column>
-          <Modal.Context>
-            <ViewScoreboardHeader isCreator={isCreator} />
-          </Modal.Context>
-          <Row padding="default" horizontalAlign="between" verticalAlign="top">
-            <Column gap="xsmall">
-              <Heading numberOfLines={1}>{scoreboard?.name}</Heading>
-              <Text numberOfLines={1}>{scoreboard?.game}</Text>
-              <Text styledAs="caption">{formattedDate}</Text>
-            </Column>
-          </Row>
-        </Column>
+        <ModalThumb />
+        <Header.Root horizontalAlign={!isScoreboardStack ? 'between' : 'right'}>
+          {!isScoreboardStack ? <Header.Back /> : <Header.Exit />}
+        </Header.Root>
+        <Row padding="default" horizontalAlign="between" verticalAlign="top">
+          <Column gap="xsmall">
+            <Heading numberOfLines={1}>{scoreboard?.name}</Heading>
+            <Text numberOfLines={1}>{scoreboard?.game}</Text>
+            <Text styledAs="caption">{formattedDate}</Text>
+          </Column>
+        </Row>
         <ScrollView style={{flex: 1}}>
           {sortedTeams && scoreboard && (
             <Column padding="default">
-              {sortedTeams.map((t, i) => {
+              {sortedTeams.map(t => {
                 return (
                   <Team
                     key={t.teamId}
@@ -227,6 +204,35 @@ export const ViewScoreboardScreen: React.FunctionComponent = () => {
             </Column>
           )}
         </ScrollView>
+        {isCreator && (
+          <Modal.Context>
+            {({setIsVisible}) => {
+              return (
+                <>
+                  <Box paddingHorizontal="default">
+                    <Button.Root variant="secondary" onPress={() => setIsVisible(true)}>
+                      <Button.Text>delete</Button.Text>
+                    </Button.Root>
+                  </Box>
+                  <Modal.Root>
+                    <Column>
+                      <Column gap="xsmall">
+                        <Heading>delete scoreboard</Heading>
+                        <Text>are you sure you want to delete this scoreboard?</Text>
+                      </Column>
+                      <Button.Root variant="primary" appearance="danger" onPress={handleDelete}>
+                        <Button.Text>delete</Button.Text>
+                      </Button.Root>
+                      <Button.Root variant="primary" onPress={() => setIsVisible(false)}>
+                        <Button.Text>cancel</Button.Text>
+                      </Button.Root>
+                    </Column>
+                  </Modal.Root>
+                </>
+              );
+            }}
+          </Modal.Context>
+        )}
       </SafeAreaView>
       <Toaster />
     </>
