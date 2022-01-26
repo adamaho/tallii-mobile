@@ -9,7 +9,7 @@ import {useQuery} from 'react-query';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
 import {SearchStackParamList} from '../types/screens';
-import {UserModel} from '../apiClient';
+import type {UserModel} from '../apiClient';
 import {Header, ModalThumb} from '../components';
 import {search} from '../constants';
 import {
@@ -27,6 +27,13 @@ import {
 import {usePlatformApi} from '../hooks';
 
 import {theme} from '../design-system/theme';
+import type {Atoms} from '../design-system/atoms';
+
+const contentStyles: Partial<Atoms> = {
+  backgroundColor: 'widgetSecondary',
+  borderRadius: 'large',
+  padding: 'default',
+};
 
 /** ----------------------------------------------------------
  * User Search Result
@@ -92,7 +99,7 @@ export const ViewSearchScreen: React.FunctionComponent = () => {
   const content = React.useMemo(() => {
     if (isError) {
       return (
-        <Column gap="small" horizontalAlign="center" paddingVertical="default">
+        <Column gap="small" horizontalAlign="center" {...contentStyles}>
           <Icon.ExclamationTriangle height={40} width={40} color="default" />
           <Text align="center" styledAs="caption">
             something went wrong when we were looking for your m8s
@@ -118,7 +125,7 @@ export const ViewSearchScreen: React.FunctionComponent = () => {
 
     if ((results == null && query == null) || query === '') {
       return (
-        <Column horizontalAlign="center" gap="small" paddingVertical="default">
+        <Column horizontalAlign="center" gap="small" {...contentStyles}>
           <Heading align="center">🔎</Heading>
           <Text align="center" styledAs="caption">
             start typing to look for your m8s
@@ -129,7 +136,7 @@ export const ViewSearchScreen: React.FunctionComponent = () => {
 
     if (results && results.users.length === 0) {
       return (
-        <Column horizontalAlign="center" gap="small" paddingVertical="default">
+        <Column horizontalAlign="center" gap="small" {...contentStyles}>
           <Heading level="3" align="center">
             😢
           </Heading>
@@ -149,7 +156,7 @@ export const ViewSearchScreen: React.FunctionComponent = () => {
           data={results.users}
           onScrollBeginDrag={() => Keyboard.dismiss()}
           keyExtractor={item => item.userId.toString()}
-          contentInset={{bottom: 100}}
+          contentInset={{bottom: 116}}
           renderItem={({item}) => {
             return <UserSearchResult user={item} />;
           }}
