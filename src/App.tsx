@@ -152,7 +152,7 @@ const AppNavigation: React.FunctionComponent = () => {
                 {/* <Stack.Screen name="Playground" component={Playground} /> */}
                 <Stack.Screen name="ViewHomeScreen" component={ViewHomeScreen} />
               </Stack.Group>
-              <Stack.Group screenOptions={{presentation: 'modal', headerShown: false}}>
+              <Stack.Group screenOptions={{presentation: 'containedModal', headerShown: false}}>
                 <Stack.Screen name="CreateScoreboardStack" component={CreateScoreboardNavigator} />
                 <Stack.Screen name="MyProfileStack" component={MyProfileNavigator} />
                 <Stack.Screen name="ScoreboardStack" component={ScoreboardNavigator} />
