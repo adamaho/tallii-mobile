@@ -16,10 +16,6 @@ export const Pressable = React.forwardRef<any, PressableProps>(
     const scale = React.useRef(new Animated.Value(1)).current;
 
     const handlePressIn = React.useCallback(() => {
-      if (isDisabled) {
-        return;
-      }
-
       // scale the button to denote a press
       Animated.timing(scale, {
         toValue: 0.98,
@@ -29,10 +25,6 @@ export const Pressable = React.forwardRef<any, PressableProps>(
     }, [disableHaptics, isDisabled]);
 
     const handlePressOut = React.useCallback(() => {
-      if (isDisabled) {
-        return;
-      }
-
       // provide haptic feedback
       if (!disableHaptics) {
         ReactNativeHapticFeedback.trigger('impactLight', {

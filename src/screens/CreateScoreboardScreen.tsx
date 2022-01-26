@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as yup from 'yup';
 
-import {SafeAreaView, ScrollView} from 'react-native';
+import {SafeAreaView, Keyboard} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -59,14 +59,17 @@ export const Teams: React.FunctionComponent<TeamsProps> = ({control, setValue}) 
     setValue('teams', teamContext.teams);
   }, [teamContext.teams]);
 
+  // handle add team click
+  const handleAddTeamClick = React.useCallback(() => {
+    Keyboard.dismiss();
+    navigation.navigate('CreateTeamScreen');
+  }, []);
+
   return (
     <Column>
       <Row horizontalAlign="between">
         <Text styledAs="label">teams</Text>
-        <IconButton
-          backgroundColor="widgetSecondary"
-          onPress={() => navigation.navigate('CreateTeamScreen')}
-        >
+        <IconButton backgroundColor="widgetSecondary" onPress={handleAddTeamClick}>
           <Icon.Plus color={theme.colors.text.default} width={20} height={20} />
         </IconButton>
       </Row>

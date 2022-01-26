@@ -71,7 +71,7 @@ const AvatarRoot = React.forwardRef<any, AvatarRootProps>(
 
     return (
       <AvatarContext.Provider value={{size}}>
-        <Pressable onPress={onPress} disabled={isDisabled}>
+        <Pressable onPress={onPress} isDisabled={isDisabled}>
           <Column
             {...props}
             verticalAlign="center"
