@@ -5,6 +5,7 @@ import type {ModalProps as NativeModalProps} from 'react-native';
 
 import {Column} from './Column';
 import {Box} from './Box';
+import type {BoxProps} from './Box';
 import {TextButton} from './TextButton';
 
 /** ----------------------------------------------------------
@@ -23,12 +24,18 @@ const ModalContext = React.createContext<ModalContextProps>({
   },
 });
 
-const ModalContextProvider: React.FunctionComponent = ({children}) => {
+interface ModalContextProviderProps {
+  children: (context: ModalContextProps) => React.ReactNode | React.ReactNode;
+}
+
+const ModalContextProvider: React.FunctionComponent<ModalContextProviderProps> = ({children}) => {
   // init modal visiblity
   const [isVisible, setIsVisible] = React.useState(false);
 
   return (
-    <ModalContext.Provider value={{isVisible, setIsVisible}}>{children}</ModalContext.Provider>
+    <ModalContext.Provider value={{isVisible, setIsVisible}}>
+      {typeof children === 'function' ? children({isVisible, setIsVisible}) : children}
+    </ModalContext.Provider>
   );
 };
 
@@ -53,7 +60,7 @@ const ModalTextTrigger: React.FunctionComponent = ({children}) => {
 /** ----------------------------------------------------------
  * ModalBoxTrigger
  * -----------------------------------------------------------*/
-const ModalBoxTrigger: React.FunctionComponent = ({children}) => {
+const ModalBoxTrigger: React.FunctionComponent<BoxProps> = ({children}) => {
   // init modal state from
   const {setIsVisible} = useModalContext();
 
