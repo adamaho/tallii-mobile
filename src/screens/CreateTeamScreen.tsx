@@ -51,7 +51,7 @@ export const CreateTeamScreen: React.FunctionComponent = () => {
         <Header.Title>create team</Header.Title>
       </Header.Root>
       <DismissKeyboard>
-        <Column padding="default" verticalAlign="between" flex={1}>
+        <Column padding="default" flex={1}>
           <TextInputField
             placeholder="my team"
             name="name"

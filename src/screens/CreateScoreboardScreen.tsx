@@ -199,7 +199,7 @@ export const CreateScoreboardScreen: React.FunctionComponent = () => {
           <Header.Root>
             <Header.Title>create scoreboard</Header.Title>
           </Header.Root>
-          <Column padding="default" verticalAlign="between" flex={1}>
+          <Column padding="default" flex={1}>
             <Box>
               <TextInputField
                 placeholder="my scoreboard"

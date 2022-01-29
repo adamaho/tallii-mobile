@@ -11,7 +11,7 @@ export interface PressableProps extends NativePressableProps {
 }
 
 export const Pressable = React.forwardRef<any, PressableProps>(
-  ({children, disableHaptics = false, isDisabled, ...props}, forwardedRef) => {
+  ({children, disableHaptics = true, isDisabled, ...props}, forwardedRef) => {
     // init animation ref
     const scale = React.useRef(new Animated.Value(1)).current;
 

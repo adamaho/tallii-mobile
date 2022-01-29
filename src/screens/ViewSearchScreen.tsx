@@ -113,7 +113,7 @@ export const ViewSearchScreen: React.FunctionComponent = () => {
         <ContentLoader
           width={'100%'}
           height={150}
-          viewBox="0 0 324 150"
+          viewBox="0 0 358 150"
           style={{paddingVertical: 16}}
           backgroundColor={theme.colors.background.widget.secondary}
           foregroundColor={theme.colors.background.widget.highlight}

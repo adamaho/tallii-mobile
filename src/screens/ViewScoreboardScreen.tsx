@@ -170,8 +170,6 @@ export const ViewScoreboardScreen: React.FunctionComponent = () => {
     mutate(request);
   }, []);
 
-  console.log(isCreator);
-
   return (
     <>
       <SafeAreaView style={{flex: 1}}>
