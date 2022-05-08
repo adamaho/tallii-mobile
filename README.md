@@ -4,7 +4,7 @@ Currently only supporting iOS.
 
 ## Development
 
-### Prerequisite
+### Prerequisites
 
 - React Native: [Install](https://reactnative.dev/docs/environment-setup)
 
