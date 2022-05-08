@@ -1,20 +1,32 @@
-# tallii
+# tallii-mobile
 
-an ios and android application for the tallii platform.
+Currently only supporting iOS.
 
-## todo mvp
+## Development
 
-- add privacy policy and terms and conditions
+### Prerequisite
 
-## troubleshooting
+- React Native: [Install](https://reactnative.dev/docs/environment-setup)
+
+### Running the app
+
+1. Install the deps
+```
+yarn install
+```
+2. Start the dev server
+```
+yarn start
+```
+3. Start the simulator
+```
+yarn ios
+```
+
+### Troubleshooting
 
 if you run into errors with hmr, run the following command
 
 ```sh
 watchman watch-del-all && rm -rf node_modules/ && yarn cache clean && yarn install && yarn start -- --reset-cache
 ```
-
-Apple Review Login
-
-email: appreview@tallii.io
-password: apple1
